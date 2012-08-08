@@ -1,0 +1,9 @@
+.thank_you_note
+  .title
+    Thank you for rating this seller
+    = show_rating_for @experience
+  .content
+    The Bib + Tuck experience is made for you and by you and we rely on your participation and enthusiasm to grow.
+    = link_to 'Go back Home', root_path
+- if @experience.item.primary_photo.present?
+  .thank_you_pic{:style => "background: url(#{image_path(@experience.item.primary_photo.path.url(:featured))}) 0 0 repeat-x"}

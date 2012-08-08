@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @notification.user_id
+%p
+  %b Body:
+  = @notification.body
+%p
+  %b Notifiable type:
+  = @notification.notifiable_type
+%p
+  %b Notifiable:
+  = @notification.notifiable_id
+
+= link_to 'Edit', edit_notification_path(@notification)
+\|
+= link_to 'Back', notifications_path

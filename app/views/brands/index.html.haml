@@ -1,0 +1,14 @@
+#brands_list_page
+  #breadcrumbs
+    = link_to 'TUCK', items_path
+    >> TUCK BY BRAND
+  #back= link_to '<< BACK', :back
+  #brands
+    - @columns.each do |column|
+      .column
+        - column.each do |header|
+          .group
+            %h3= header
+            - @brands_with_headers[header].each do |brand|
+              = link_to brand.name, items_path(:brand_id => brand.id)
+    .clear{style: 'clear: left; height: 0;'}

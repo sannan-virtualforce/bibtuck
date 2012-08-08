@@ -1,0 +1,21 @@
+%h1 Listing recommendations
+
+%table
+  %tr
+    %th Item
+    %th Recommended item
+    %th
+    %th
+    %th
+
+  - @recommendations.each do |recommendation|
+    %tr
+      %td= recommendation.item_id
+      %td= recommendation.recommended_item_id
+      %td= link_to 'Show', [:admin, recommendation]
+      %td= link_to 'Edit', edit_admin_recommendation_path(recommendation)
+      %td= link_to 'Destroy', [:admin, recommendation], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Recommendation', new_admin_recommendation_path

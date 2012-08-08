@@ -1,0 +1,7 @@
+- if item.buck_refund
+  - if item.buck_refund.accepted?
+    .line Refund Request Accepted
+  - elsif item.buck_refund.rejected?
+    .line Refund Request Rejected
+  - else
+    .line Refund Requested. #{link_to 'View Details.', [:edit, item, item.buck_refund]}

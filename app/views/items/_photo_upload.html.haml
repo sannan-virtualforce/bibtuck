@@ -1,0 +1,13 @@
+#fileupload
+  = form_for Photo.new, :url => photos_path(:item_id => @item.try(:id), :photo_ids => (@photo_ids || params[:photo_ids])), :html => { :multipart => true } do |f|
+    = f.hidden_field :bib_hash, :value => params[:bib_hash] || current_user.photo_hash, :class => :photo_hash
+    .fileupload-buttonbar
+      %label.fileinput-button= f.file_field :path
+      %button.start{:type => "submit"} Start upload
+      %button.cancel{:type => "reset"} Cancel upload
+      %button.delete{:type => "button"} Delete files
+  .fileupload-content
+    %table.files
+    .fileupload-progressbar
+
+= render 'photo_upload_js_template'

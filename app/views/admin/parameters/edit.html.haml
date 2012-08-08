@@ -1,0 +1,29 @@
+.parameters_edit
+  %h1 Edit #{@parameter.key} parameter
+
+  .menu
+    = link_to 'List', admin_parameters_path
+    = link_to 'Clear', admin_parameter_path(@parameter), :method => :delete
+
+  = form_for @parameter, :url => [:admin, @parameter] do |f|
+    - case @parameter.content_type
+    - when 'string'
+      = f.text_field :value
+    - when 'html', 'text'
+      = f.text_area :value
+    - when 'number'
+      = f.number_field :value
+    .actions
+      = f.submit 'Save'
+
+- if @parameter.content_type == 'html'
+  = content_for :js do
+    :javascript
+      $(function() {
+        new nicEditor({
+          iconsPath: '#{image_path('nicEditorIcons.gif')}',
+          buttonList: ['bold', 'italic', 'underline', 'left', 'center', 'right', 'justify', 'ol', 'ul',
+            'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr',
+            'link', 'unlink', 'forecolor', 'fontSize', 'fontFamily', 'fontFormat']
+          }).panelInstance('parameter_value');
+      });

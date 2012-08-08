@@ -1,0 +1,76 @@
+- is_quick_view ||= false
+.item_name= item.name
+
+.item_actions
+  .price= number_to_bucks item.price, :upper
+
+  - if user_signed_in?
+    - if item.tucked?
+      .tucked.button Tucked
+    - elsif current_user.can_modify?(item) && item.bibbed_at.present? 
+      .edit
+        = link_to 'Edit this item', edit_item_path(item), :class => 'grey_button'
+    - elsif current_user.can_purchase?(item)
+      .tuck
+        = cart_link item, false, is_quick_view 
+        = hidden_cart_link item, is_quick_view
+  = list_action_link item, :class => 'action'
+  - if is_quick_view
+    = link_to 'VIEW FULL DETAILS', item_path(item), :class => 'action'
+
+.item_details
+  %h2 Details
+  %p
+    %span.label Brand:
+    = link_to item.brand.name, items_path(:brand_id => item.brand.id)
+  %p
+    %span.label Category:
+    = item.category_name
+  %p
+    %span.label Size:
+    = item.size
+  %p
+    %span.label Condition:
+    = item.condition
+  %p
+    %span.label Fit:
+    = item.fit
+  - if item.colors.present?
+    .line
+      %span.label Color:
+      = render_colors item
+  %p
+    %span.label Description:
+    = item.description
+  - if item.why_sell.present?
+    %p
+      %span.label I'm letting it go because:
+      = item.why_sell
+  %p
+    %span.label Shipping + Transaction fee:
+    = number_to_currency item.total_fee
+    - unless is_quick_view
+      = link_to CODE_NBSP, page_path('shipping_and_transaction_info'), :rel => 'facebox.info_popup', :class => :qm_button
+  %p.hanky_panky (just about half a hanky panky)
+
+  - unless is_quick_view || viewing_my_item?
+    = report_item item
+
+.item_seller
+  %h2== Seller: #{link_to item.user.display_name, item.user}
+  .photo
+    = link_to(image_tag(item.user.profile_picture.url(:avatar)), item.user)
+  .profile
+    %p
+      \# of followers:
+      = link_to(item.user.followers_count, user_follows_path(item.user))
+    %p
+      - if item.user.experiences.count > 0
+        .user_rating
+          Rating:
+          = show_rating_for item.user
+    = link_to 'View Active Sales', item.user
+    - unless is_quick_view
+      %div= send_message_to(item.user)
+      .following
+        = follow_button item.user, :class => 'grey_button', :following_msg => 'You are already following this member'

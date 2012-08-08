@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%p
+  %b Registration code:
+  = @registration_code.code
+%p
+  %b Times used/Registration limit:
+  #{@registration_code.used_count}/#{@registration_code.registration_limit}
+%p
+  %b Created at:
+  = @registration_code.created_at
+
+= link_to 'Edit', edit_admin_registration_code_path(@registration_code)

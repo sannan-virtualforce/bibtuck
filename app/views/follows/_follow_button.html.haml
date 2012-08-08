@@ -1,0 +1,6 @@
+%div{:class => "follow_button user_#{user.id}"}
+  - follow = current_user.following_follows.new
+  = form_for follow, :remote => true do |f|
+    = hidden_field_tag 'follow[following_id]', user.id
+    = content_tag :button, :type => :submit, :class => opts[:class] do 
+      Follow

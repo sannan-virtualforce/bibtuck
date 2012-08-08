@@ -1,0 +1,7 @@
+// Silly way to try and unify our typeface
+@mixin font-courier() {
+  font-family: Courier New, courier, monospace, georgia, serif;
+}
+@mixin font-orator() {
+  font-family: 'OratorStdMedium', Helvetica, Arial, sans-serif;
+}

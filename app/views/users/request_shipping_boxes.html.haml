@@ -1,0 +1,6 @@
+.user_request_shipping_boxes_popup
+  .line Please select address where you want your shipping boxes delivered.
+  = form_tag post_shipping_boxes_request_user_path(@user) do
+    = select_tag :address_id, options_from_collection_for_select(@user.shipping_addresses, :id, :to_s, @user.primary_shipping_address.try(:id))
+    .actions
+      = content_tag :button, 'Send Request', :type => :submit, :class => :grey_button

@@ -1,0 +1,13 @@
+= @message.errors.full_messages.join(', ')
+
+%h1 Send Message
+
+%p To: #{@user.display_name}
+
+= form_for @message, :url => user_messages_path do |f|
+  %p
+    = f.label :body
+    = f.text_area :body
+
+  %p
+    = f.submit('Send')

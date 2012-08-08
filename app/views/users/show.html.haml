@@ -1,0 +1,83 @@
+#user_page
+  - if @user.deactivated?
+    .account_deactivated
+      Account Deactivated
+  - else
+    .username= @user.display_name
+    .content
+      #sidebar
+        = image_tag @user.profile_picture.url(:big), :alt => "#{@user.display_name}'s picture", :class => 'profile_picture'
+        .actions
+          - if viewing_current_user?
+            .edit_profile= link_to '+ Edit Profile', edit_user_path(current_user)
+          - else
+            .send_message
+              = send_message_to @user, :link => 'Send a message'
+            .follow
+              = follow_button @user, :class => 'grey_button'
+            .clear_right
+        = render :partial => 'follows/follow_stats', :locals => {:user => @user, :extended_stats => true}
+      #main
+        #info
+          .line
+            .content= @user.short_bio
+          .line
+            .label Member Since:
+            .content= bt_timestamp @user.created_at.to_date
+          .line
+            .label # of Items Sold:
+            .content= @user.items.sold.count
+          - if @user.experiences.present?
+            .line
+              .label Rating:
+              .content= show_rating_for @user
+          .line
+            .label Username:
+            .content= @user.username
+          - if @user.about_me.to_s.present?
+            .line
+              .label About:
+              .content= @user.about_me
+          - if @user.facebook_page?
+            .line
+              .label Facebook:
+              .content= link_to @user.facebook_page, "http://facebook.com/#{@user.facebook_page}", :target => '_blank'
+          - if @user.twitter_username?
+            .line
+              .label Twitter:
+              .content= link_to @user.twitter_username, "http://twitter.com/#{@user.twitter_username}", :target => '_blank'
+          - if @user.website_url?
+            .line
+              .label URL:
+              .content= link_to @user.pretty_website_url, @user.website_url, :target => '_blank'
+
+        #user_items
+          - if @items.present?
+            - @columns.each do |column|
+              .item_column
+                - column.each do |item|
+                  .item= render :partial => 'items/item', :object => item, :locals => { :extended_info => true }
+            .clear_left
+          - else
+            - if viewing_current_user?
+              .no_bibbed_items
+                %p
+                  You have not bibbed any items. This is almost as shameful as Juicy sweatpants.
+                  = link_to 'Start bibbing', new_item_path
+            - else
+              .no_bibbed_items #{@user.display_name} has not bibbed any items. Shame on her
+
+  -# resize grey box when no bibbed items so it's alligned with side menu
+  - if viewing_current_user? && !@items.present?
+    = content_for :js do
+      :javascript
+        $(document).ready(function() {
+          var noItemsBox = $('.no_bibbed_items');
+          var sideMenu = $('#sidebar nav');
+          var newBoxHeight = sideMenu.offset().top - noItemsBox.offset().top + sideMenu.outerHeight();
+          var newPadding = (newBoxHeight - noItemsBox.height())/2;
+          noItemsBox.css({
+            paddingTop: newPadding,
+            paddingBottom: newPadding
+          });
+        });

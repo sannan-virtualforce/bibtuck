@@ -1,0 +1,27 @@
+%h1 Subscribers
+%h2= link_to('Download', export_admin_subscribers_path(:format => 'csv'))
+
+%table
+  %tr
+    %th First name
+    %th Last name
+    %th Email
+    %th Url
+    %th Occupation
+    %th Favorite period
+    %th Created at
+    %th
+
+  - @subscribers.each do |subscriber|
+    %tr
+      %td= subscriber.first_name
+      %td= subscriber.last_name
+      %td= subscriber.email
+      %td= subscriber.url
+      %td= subscriber.occupation
+      %td= subscriber.favorite_period
+      %td= subscriber.created_at
+      %td
+        = link_to 'Show', [:admin, subscriber]
+        = link_to 'Edit', edit_admin_subscriber_path(subscriber)
+        = link_to 'Destroy', [:admin, subscriber], :confirm => 'Are you sure?', :method => :delete

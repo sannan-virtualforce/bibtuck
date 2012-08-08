@@ -1,0 +1,34 @@
+%h1 Messages
+
+%table
+  %tr
+    %th Sender
+    %th Sender type
+    %th Subject
+    %th Body
+    %th State
+    %th Hidden at
+    %th Type
+    %th Original message
+    %th Created at
+    %th Spam
+    %th
+
+  - @messages.each do |message|
+    %tr
+      %td= message.sender.username
+      %td= message.sender_type
+      %td= message.subject
+      %td= message.body
+      %td= message.state
+      %td= message.hidden_at
+      %td= message.type
+      %td= message.original_message_id
+      %td= message.created_at
+      %td= message.spam
+      %td
+        = link_to 'Show', [:admin, message]
+        = link_to 'Edit', edit_admin_message_path(message)
+        = link_to('Destroy', [:admin, message],
+                  :confirm => 'Are you sure?',
+                  :method => :delete)

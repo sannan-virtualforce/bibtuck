@@ -1,0 +1,38 @@
+:javascript
+  var fits = #{Item::FITS.to_json}
+  var categories = #{Category.box_type_lookup.to_json};
+  var category_sizes = #{CategorySize::MAPPING.to_json};
+  $(function() {
+    $('#item_category_id').change(function() {;
+      var box_size = categories[$(this).val()];
+      $('#item_shipping_box_size').val(box_size);
+
+      var category = $('#item_category_id option:selected').text();
+      var sizes = category_sizes[category] || category_sizes['default'];
+
+      if (category == 'accessories' || category == 'bags') {
+        $('#item_fit').html('<option value="n/a">n/a</option');
+      } else {
+        $('#item_fit').html('');
+        if (fits.length > 1) {
+          $('#item_fit').append('<option />');
+        }
+        $.each(fits, function() {
+          $('#item_fit').append("<option value='" + this + "'>" + this + "</option>");
+        });
+      }
+
+      $('#item_size').html('');
+
+      if (sizes.length > 1) {
+        $('#item_size').append('<option />');
+      }
+
+      $.each(sizes, function() {
+        $('#item_size').append("<option value='" + this + "'>" + this + "</option>");
+      });
+    });
+
+    // Initialize color picker
+    $('.simple_color').colorPicker();
+  });

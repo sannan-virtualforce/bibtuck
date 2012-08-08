@@ -1,0 +1,16 @@
+#select_payment_option_popup
+  %h2 Enter Payment Details
+  #select_payment
+    - if @wepaycheckout['checkout_id']
+      #wepay_checkout
+      #paypal_checkout
+        OR -
+        = link_to image_tag('buttons/checkout_with_paypal.gif'), express_buck_purchases_path(@return_params)
+        = content_for :js do
+          :javascript
+            $(function() {
+              WePay.iframe_checkout("wepay_checkout", "#{@wepaycheckout['checkout_uri']}");
+            });
+    - else
+      #paypal_checkout
+        = link_to image_tag('buttons/checkout_with_paypal.gif'), express_buck_purchases_path(@return_params)

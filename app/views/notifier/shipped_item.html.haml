@@ -1,0 +1,11 @@
+%p Hi #{@buyer.first_name},
+
+%p
+  Your purchase of #{@item.name} is now on its way to you. It'll be with you soon,
+  but if you want to keep an eye on it you can click #{link_to 'here', @tracking_url} to follow its journey. 
+
+%p Your USPS tracking number is: #{@tracking_number}
+
+%p Happy Tucking!
+
+%p - The B+T Team

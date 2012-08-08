@@ -1,0 +1,16 @@
+= form_for [:admin, @registration_code] do |f|
+  -if @registration_code.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@registration_code.errors.count, "error")} prohibited this registration_code from being saved:"
+      %ul
+        - @registration_code.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :code
+    = f.text_field :code
+  .field
+    = f.label :registration_limit
+    = f.text_field :registration_limit
+  .actions
+    = f.submit 'Save'

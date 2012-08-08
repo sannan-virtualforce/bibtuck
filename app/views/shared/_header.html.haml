@@ -1,0 +1,107 @@
+%header
+  #header_image
+    %a#logo{:href => root_path}
+      %span Bib + Tuck
+    #bib_tuck_nfo= CODE_NBSP
+  - if user_signed_in?
+    %nav#corner
+      %ul
+        %li= link_to "#{current_user.buck_balance} bucks", bucks_user_path(current_user), :class => is_selected_page?(:bucks)
+        %li#my_cart
+          = link_to cart_path(current_user), :class => is_selected_page?(:cart) do
+            My Cart
+            - if current_cart.size > 0
+              %span.count= current_cart.size
+        %li#signout
+          = link_to CODE_NBSP, '', :class => :signout_icon
+          .dropdown_menu#signout_menu
+            = link_to "SETTINGS", account_user_path(current_user), :class => :dropdown_item
+            = link_to "LOGOUT", destroy_user_session_path, :class => :dropdown_item
+          = content_for :js do
+            :javascript
+              initializeDropdownMenu('nav#corner #signout > a', 'nav#corner #signout_menu');
+  #contact
+    = link_to 'Contact us', page_path('contact_us'), :rel => :facebox, :popupwidth => 470
+    .phone= link_to '646.568.5666', 'tel:6465685666'
+  %nav#user
+    %ul
+      - if user_signed_in?
+        %li.search
+          = form_tag :search, :id => :search do
+            = image_tag 'icon_search.png', :alt => 'search'
+            = text_field_tag :query, '', :id => :nav_search
+        %li= link_to content_tag(:span, 'Bib'), [:new, :item], :class => is_selected_page?(:bib)
+        %li#tuck
+          = link_to content_tag(:span, 'Tuck'), items_path(:filter => :editors_picks), :class => is_selected_page?(:tuck)
+          .dropdown_menu#tuck_menu
+            = link_to "What's New", items_path, :class => :dropdown_item
+            = link_to "Editor's Picks", items_path(:filter => :editors_picks), :class => :dropdown_item
+            = link_to "Top Rated Members", items_path(:filter => :top_rated), :class => :dropdown_item
+            = link_to "Closets I'm Following", items_path(:filter => :following), :class => :dropdown_item
+            = link_to "Tuck By Brand", brands_path, :class => :dropdown_item
+            .categories
+              - Category.all.each do |category|
+                = link_to category.name.capitalize, items_path(:category_id => category.id), :class => :dropdown_item
+          = content_for :js do
+            :javascript
+              initializeDropdownMenu('nav#user #tuck > a', 'nav#user #tuck_menu');
+        %li= link_to 'Members', users_path, :class => is_selected_page?(:members)
+        %li#username
+          = link_to current_user.username, current_user, :class => [is_selected_page?(:my_profile), :clipped]
+          .dropdown_menu#user_menu
+            = link_to 'My Profile', current_user, :class => :dropdown_item
+            = link_to 'My Activity', activity_user_path(current_user), :class => :dropdown_item
+            = link_to 'Edit Profile', edit_user_path(current_user), :class => :dropdown_item
+            = link_to 'Account Settings', account_user_path(current_user), :class => :dropdown_item
+            = link_to 'Messages', user_conversations_path(current_user), :class => :dropdown_item
+            = link_to 'Invite Friends', new_user_invitation_path, :class => :dropdown_item
+            = link_to 'My Saved Photos', [:saved_photos, current_user], :class => :dropdown_item
+          = content_for :js do
+            :javascript
+              initializeDropdownMenu('nav#user #username > a', 'nav#user #user_menu');
+        - count = current_user.notifications.unread.count
+        %li#notification-nav
+          - if count.zero?
+            = link_to 'Notifications', notifications_path, :class => is_selected_page?(:notifications)
+          - else
+            = link_to(notifications_path, :class => is_selected_page?(:notifications)) do
+              Notifications
+              %span.count= count
+            #notification-menu.dropdown_menu
+              - current_user.notifications.unread.sorted.limit(5).each do |notification|
+                %div{:id => 'notification-item', :data => notification.id, :class => [:dropdown_item, cycle('odd', 'even')]}
+                  = notification_text(notification)
+              = link_to 'See all', notifications_path, :id => 'notification-item-all', :class => [:dropdown_item, cycle('odd', 'even')]
+            = content_for :js do
+              :javascript
+                initializeDropdownMenu('#notification-nav > a', '#notification-nav #notification-menu', '#{mark_as_read_notifications_path}')
+
+        - if user_admin?
+          %li
+            = link_to 'Admin', admin_path, :class => is_selected_page?(:admin)
+      - else
+        %li
+          = link_to "Login", new_user_session_path
+  %nav#side
+    %ul
+      %li#about
+        = link_to 'About', page_path(:about)
+        .dropdown_menu#about_menu
+          = link_to 'About Us', page_path(:about), :class => :dropdown_item
+          = link_to 'How it Works', page_path(:how_it_works), :class => :dropdown_item
+          = link_to 'Q & A', page_path(:q_and_a), :class => :dropdown_item
+          = link_to 'Legal stuff', page_path(:legal_stuff), :class => :dropdown_item
+          = link_to 'Contact Us', page_path(:contact_us), :class => :dropdown_item, :rel => :facebox, :popupwidth => 470
+        = content_for :js do
+          :javascript
+            initializeDropdownMenu('nav#side #about > a', 'nav#side #about_menu');
+      %li.icon
+        = link_to "http://facebook.com/#{FACEBOOK_HANDLE}", :target => '_blank' do
+          #facebook
+      %li.icon
+        = link_to "http://twitter.com/#{TWITTER_HANDLE}", :target => '_blank' do
+          #twitter
+      %li.icon
+        = link_to "http://pinterest.com/#{PINTEREST_HANDLE}", :target => '_blank' do
+          #pinterest
+      %li= link_to 'Blog', BLOG_LINK, :id => :blog, :target => '_blank'

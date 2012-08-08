@@ -1,0 +1,13 @@
+%h1 Search Results
+
+%table
+  %thead
+    %th Type
+    %th Name
+    %th Actions
+  %tbody
+    - @results.each do |result|
+      %tr
+        %td= result.class.to_s
+        %td= result.name
+        %td= link_to 'View', [:admin, result]

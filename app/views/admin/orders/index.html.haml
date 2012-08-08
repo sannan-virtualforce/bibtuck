@@ -1,0 +1,73 @@
+.menu_bar
+  = link_to 'Export to CSV', export_orders_path(:format => :csv)
+.orders_index
+  %h1 Orders
+
+  %table
+    %thead
+      %tr.order
+        %th.id_col{colspan: 2} Order ID
+        %th.date Date Tucked
+        %th.user Buyer
+        %th.price Total fee<br/>(D. Code)
+        %th{colspan: 2}
+      %tr.item
+        %th.id_col ID
+        %th.item Item
+        %th.date Date Bibbed
+        %th.user Seller
+        %th.price Price
+        %th.shipping Shipping status<br/>Tracking number
+        %th.refund Refund request
+    %tbody
+      - @orders.each do |order|
+        %tr.order
+          %td.id_col{colspan: 2}= link_to "Order #{order.id}", admin_order_path(order)
+          %td.date
+            .label Tucked:
+            = order.created_at.try(:to_s, :bt_date)
+          %td.user
+            .label Buyer:
+            .name= link_to "#{order.user.display_name} (#{order.user.username})", admin_user_path(order.user)
+            .addr= link_to order.to_addr.to_s, edit_address_admin_order_path(order.id, :type => :to), :rel => :facebox
+            .email= mail_to order.user.email
+          %td.price
+            .line
+              = "$#{order.total}"
+              - if order.discount.present?
+                = link_to "(#{order.discount.code})", admin_discount_path(order.discount)
+          %td{colspan: 3}
+        - order.order_items.each do |order_item|
+          %tr.item
+            %td.id_col= order_item.item.id
+            %td.item
+              - if order_item.item.primary_photo.present?
+                = link_to image_tag(order_item.item.primary_photo.path.url(:thumb)), admin_item_path(order_item.item)
+              .item_info
+                .name= link_to order_item.item.name, admin_item_path(order_item.item)
+                .brand Brand: #{order_item.item.brand.name}
+                .category Category: #{order_item.item.category.name}
+            %td.date
+              .label Bibbed:
+              = order_item.item.bibbed_at.try(:to_s, :bt_date)
+            %td.user
+              .label Seller:
+              .name= link_to "#{order_item.seller.display_name} (#{order_item.seller.username})", admin_user_path(order_item.seller)
+              .addr= link_to order_item.from_addr.to_s, edit_address_admin_order_path(order_item.id, :type => :from), :rel => :facebox
+              .email= mail_to order_item.seller.email
+              - if order_item.item.experience.try :rating
+                = show_rating_for order_item.item
+            %td.price= number_to_bucks order_item.item.price
+            %td.shipping
+              .line
+                - if order_item.shipping_label.present?
+                  = link_to "Shipping label: #{order_item.shipping_label}", shipping_label_item_path(order_item.item)
+                  (#{link_to 'New', shipping_label_item_path(order_item.item, :new => true)})
+                - else
+                  = link_to 'Generate Shipping Label', shipping_label_item_path(order_item.item)
+              .line= link_to order_item.shipping_status.titlecase, [:extended_state, order_item.item], :rel => :facebox
+              - if order_item.tracked?
+                .line= link_to order_item.tracking_number, order_item.tracking_url, :target => '_blank'
+            %td.refund
+              - if order_item.item.buck_refund
+                = render 'users/activity_refund', :item => order_item.item

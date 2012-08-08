@@ -1,0 +1,11 @@
+%p Hey #{@follow.following.first_name}!
+
+%p #{link_to @follow.follower.display_name, user_url(@follow.follower)} is now following you on Bib + Tuck.
+
+- if @follow.follower.about_me.present?
+  %p About your admirer: #{@follow.follower.about_me}
+
+%p Check out what she's bibbed #{link_to 'here', user_url(@follow.follower)}.
+
+%p xo,
+%p The B+T Team

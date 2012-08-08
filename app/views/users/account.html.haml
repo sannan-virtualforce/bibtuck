@@ -1,0 +1,51 @@
+#account_settings_page
+  #main
+    %h1 #{link_to @user.display_name, @user}'s Account Settings
+
+
+    %h2 Shipping Address
+    #addresses
+      %p.tip where do you want the items you tuck to be sent?
+
+      - if @user.shipping_addresses.count > 0
+        = link_to '+ Add a new address', new_user_address_path(current_user), :rel => 'facebox'
+        .clear_left
+        = render :partial => 'addresses/address', :collection => @user.shipping_addresses
+      - else
+        .address_form
+          - @address = current_user.shipping_addresses.new
+          = simple_form_for @address, :url => [current_user, @address], :remote => true do |f|
+            = render :partial => 'addresses/form', :locals => {:f => f, :is_inline => true}
+            = content_tag :button, 'Save', :type => :submit, :class => 'grey_button'
+
+    %h2 Shipping Boxes
+    #shipping_boxes
+      Out of shipping boxes? We'll take care of it. Just click #{link_to 'here', request_shipping_boxes_user_path(@user), :rel => 'facebox.user_request_shipping_boxes_popup'}.
+
+    %h2 Edit email and password
+    #update_account
+      .line
+        .label
+          Email:
+          %span= @user.email
+        .action= link_to 'change', edit_email_user_path(@user), :rel => 'facebox.user_edit_field_form'
+      .line
+        .label
+          Password:
+          %span ********
+        .action= link_to 'change', edit_password_user_path(@user), :rel => 'facebox.user_edit_field_form'
+
+    %h2 Social
+    #social
+      .providers
+        - %w(facebook).each do |provider|
+          %div{:class => [:provider, provider]}
+            .logo
+              .icon
+              .label= provider.titlecase
+            - if auth = @user.authentications.find_by_provider(provider)
+              .status
+                Connected as #{link_to auth.name, auth.user}. #{link_to 'Disconnect', auth, :method => :delete}
+            - else
+              .status
+                = link_to 'Connect', "/auth/#{provider}", :class => :grey_button

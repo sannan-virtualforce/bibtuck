@@ -1,0 +1,5 @@
+#user_items
+  - @columns.each do |column|
+    .item_column
+      - column.each do |item|
+        .item= render :partial => 'item', :object => item, :locals => { :extended_info => true }

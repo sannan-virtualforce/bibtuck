@@ -1,0 +1,168 @@
+.user_show
+
+  .menu_bar
+    = link_to '<< List', admin_users_path
+    = link_to 'Edit', edit_admin_user_path(@user)
+    = link_to 'Add Credit', new_admin_credit_path(:user_id => @user.id)
+    - if @user.last_sign_in_at.present?
+      = link_to 'Set as Featured Closet', set_current_admin_featured_closet_path(@user)
+      - unless @user.deactivated?
+        = link_to 'Deactivate Account', deactivate_popup_admin_user_path(@user), :rel => :facebox
+    - else
+      = link_to 'Delete', admin_user_path(@user), :method => :delete
+
+  .information
+    .line
+      .label Profile picture:
+      .value= link_to image_tag(@user.profile_picture.url(:preview)), @user
+    - unless @user.last_sign_in_at.present?
+      .line
+        .label Last time invited:
+        .value= format_date_time(@user.invitation_sent_at)
+      .line
+        .label
+        .value
+          .menu_bar= link_to 'Resend Invite', resend_invite_user_path(@user), :method => :post
+    - if @user.deactivated?
+      .line.important
+        .label Deactivated at:
+        .value= format_date_time(@user.deactivated_at)
+      .line.important
+        .label Reason:
+        .value= @user.deactivation_reason
+      .line
+        .label
+        .value
+          .menu_bar
+            = link_to 'Activate Account', activate_admin_user_path(@user)
+    .line
+      .label First name:
+      .value= @user.first_name
+    .line
+      .label Last name:
+      .value= @user.last_name
+    .line
+      .label Username:
+      .value= @user.username
+    .line
+      .label Email:
+      .value= mail_to @user.email
+    .line
+      .label Birthday:
+      .value
+        = format_date @user.birthday
+        - if @user.birthday
+          (#{@user.age} years old)
+    .line
+      .label Living in:
+      .value= @user.current_city
+    .line
+      .label Occupation:
+      .value= @user.occupation
+    .line
+      .label About me:
+      .value= @user.about_me
+    .line
+      .label Member since:
+      .value= @user.created_at.to_s :bt_date_time
+    .line
+      .label Last login date:
+      .value= @user.last_sign_in_at.try :to_s, :bt_date_time
+    .line
+      .label Is admin:
+      .value= @user.admin
+    .line
+      .label Founding Member at:
+      .value= @user.founding_member_at.try :to_s, :bt_date_time
+    .line
+      .label Top Rated At:
+      .value= @user.top_rated_at.try :to_s, :bt_date_time
+    .line
+      .label Website URL:
+      .value= @user.website_url
+    .line
+      .label Followed by:
+      .value= @user.followers_count
+    .line
+      .label Following:
+      .value= @user.followings_count
+    .line
+      .label Hide age:
+      .value= @user.hide_age
+    .line
+      .label Twitter username:
+      .value= @user.twitter_username
+    .line
+      .label Facebook page:
+      .value= @user.facebook_page
+    .line
+      .label Featured at:
+      .value= @user.featured_at.try :to_s, :bt_date_time
+    .line
+      .label Featured content:
+      .value= raw @user.featured_content
+    .line
+      .label # of items bibbed:
+      .value= @user.items.where('bibbed_at is not null').count
+    .line
+      .label # of items sold:
+      .value= @user.items.sold.count
+    .line
+      .label # of items purchased:
+      .value= @user.tucked_items.count
+    .line
+      .label Buck balance:
+      .value= number_to_bucks @user.buck_balance
+    .line
+      .label Amount of bucks purchased:
+      .value= number_to_bucks @user.buck_purchases.map(&:bucks).sum
+    .line
+      .label Amount spent in fees and shipping:
+      - spent_usd_on_fees = @user.orders.map(&:amount_in_cents).sum / 100.0
+      .value= number_to_currency spent_usd_on_fees
+    .line
+      .label Amount spent in buck purchases:
+      - spent_usd_on_bucks = @user.buck_purchases.map(&:amount_in_cents).sum / 100.0
+      .value= number_to_currency spent_usd_on_bucks
+    .line
+      .label Total user revenue:
+      .value= number_to_currency spent_usd_on_fees + spent_usd_on_bucks
+    .line
+      .label Refund Requests Received:
+      .value
+        #{@user.items.inject(0) {|sum, item| sum + (item.buck_refund ? 1 : 0)}} /
+        accepted: #{@user.items.inject(0) {|sum, item| sum + (item.buck_refund.try(:outcome) == :accepted ? 1 : 0)}} /
+        rejected: #{@user.items.inject(0) {|sum, item| sum + (item.buck_refund.try(:outcome) == :rejected ? 1 : 0)}}
+    .line
+      .label Refund Requests Sent:
+      .value #{@user.buck_refunds.count} / accepted: #{@user.buck_refunds.where(:outcome_cd => 1).count} / rejected: #{@user.buck_refunds.where(:outcome_cd => 0).count}
+    .line
+      .label Reported items:
+      .value= @user.items.inject(0) {|sum, item| sum + (item.flagged_item ? 1 : 0)} 
+    .line
+      .label Average rating:
+      .value= show_rating_for @user
+    .line
+      .label # ratings received:
+      .value= @user.experiences.count
+    .line
+      .label # of saved photos:
+      .value= @user.photos.available.count
+    .line
+      .label # of Editor's Picks:
+      .value= Item.where(:user => @user, :editors_pick => true).count
+    .line
+      .label How did user get to the website?
+      .value 
+        - if @user.registration_code_id
+          registration code: #{link_to @user.registration_code.code, admin_registration_code_path(@user.registration_code)}
+        - elsif @user.invited_by
+          invited by: #{link_to @user.invited_by.display_name, admin_user_path(@user.invited_by)}
+        - else
+          created in db
+    .line
+      .label Number of invitations
+      .value
+        remaining: #{@user.invitation_limit || 'n/a'} /
+        accepted: #{@user.invitees.where('last_sign_in_at is not null').count} /
+        pending: #{@user.invitees.where('last_sign_in_at is null').count}

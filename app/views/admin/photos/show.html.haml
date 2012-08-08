@@ -1,0 +1,15 @@
+%p#notice= notice
+
+- if @photo.user
+  %p
+    %b User
+    = link_to @photo.user.display_name, @photo.user
+%p
+  %b Photo:
+  = image_tag(@photo.path.url(:preview))
+%p
+  %b Created At:
+  = @photo.created_at
+
+= link_to 'Edit', edit_admin_photo_path(@photo)
+= link_to 'Index', :admin_photos

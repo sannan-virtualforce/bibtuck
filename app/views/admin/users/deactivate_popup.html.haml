@@ -1,0 +1,7 @@
+.deactivate_account_popup
+  %h2 Deactivate Account
+  Please enter a reason for deactivating #{@user.display_name}'s Account.
+  = form_tag deactivate_admin_user_path(@user) do
+    = text_area_tag :reason
+    .actions
+      = content_tag :button, 'Deactivate', :type => :submit, :class => :grey_button

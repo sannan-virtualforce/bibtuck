@@ -1,0 +1,55 @@
+.shipping_tips_page
+  %h1 Shipping FAQs
+
+  .notes
+    %p
+      As soon as someone purchases (tucks) one of your items, you will receive an email
+      with a link to print a prepaid mailing label. Pack your piece in the appropriate USPS box
+      (Regional Rate Box A or B), stick on the label, and mail it.
+    %p.small
+      Out of shipping boxes? We'll take care of it. Just click #{link_to 'here', request_shipping_boxes_user_path(current_user), :rel => 'facebox.user_request_shipping_boxes_popup'}.
+    %p.small
+      Want a free package pickup? Schedule it
+      = link_to 'here.', URL_SHIPPING_PICKUP_ORDER
+
+  .Q How Much does shipping cost?
+  .A
+    Shipping costs $6 or $11, depending on whether you use a small box (Box A) or large box (Box B).
+    When you purchase an item, all you pay is a $3 transaction fee + shipping. That's it. No selling fees,
+    no listing fees, no hidden fees. We use PayPal for every transaction.
+  .Q Do I have to pay for shipping when I sell an item?
+  .A
+    No, the person who tucks (purchases) your piece will pay for the shipping.
+  .Q Can I use my own shipping boxes?
+  .A
+    No, the only shipping boxes you can use are USPS Regional Rate Boxes A and B. When you signed up
+    for an account, we ordered 10 of each for you. If you run out of boxes, you can order more
+    = link_to 'here.', request_shipping_boxes_user_path(current_user), :rel => 'facebox.user_request_shipping_boxes_popup'
+  .Q How do I know what box I should use to ship my item?
+  .A
+    All items have a box size pre-selected but you can change the size when listing your item if you think
+    it needs a bigger or smaller box. The mailing label generated will only work on the size you selected.
+    %p
+      Box measurements are as follows:
+      %ol
+        %li A (small): 11 1/16" x 2 1/2" x 13 1/16"
+        %li B (large): 12 1/4" x 10 1/2" x 5 1/2"
+  .Q Why do I have to select the address I will be shipping my item from?
+  .A
+    To keep shipping costs low, we have chosen to use USPS Regional Rate boxes which means postage
+    is calculated based on the zone an item is being shipped to and from. The mailing label generated will
+    only work if you ship from the city you specified when you bibbed (listed) your item.
+  .Q What do I do if I don't have a printer?
+  .A
+    You will need access to a printer, but you may not have considered all your printing options.
+    You can use your office's printer, a friend's, or your local Kinko’s. Time to get creative!
+  .Q How long will it take to receive my item?
+  .A
+    This will depend on when the seller ships it. We recommend sellers ship within 7 days of purchase.
+  .Q What happens if I haven't received my items in the mail?
+  .A
+    If you haven’t received your item check the item status under
+    = link_to 'My Activity', activity_user_path(current_user, :anchor => 'purchased')
+    to see if it has been shipped and track your package. If it has not, contact the seller to find out
+    if there is a reason for the delay. If your issue remains unresolved, you can contact us at
+    = mail_to 'help@bibandtuck.com'

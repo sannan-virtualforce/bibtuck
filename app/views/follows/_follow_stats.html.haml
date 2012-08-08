@@ -1,0 +1,18 @@
+- extended_stats ||= false
+#follow_stats
+  .followers
+    .label Followers: #{link_to user.followers.active.count, user_follows_path(user)}
+    %ul
+      = render :partial => 'users/mini_user', :collection => user.followers.active.limit(5), :as => :user
+  .following
+    .label Following: #{link_to user.followings.active.count, user_follows_path(user)}
+    %ul
+      = render :partial => 'users/mini_user', :collection => user.followings.active.limit(5), :as => :user
+  - if extended_stats && !viewing_current_user?
+    - second_degree_followers = user.second_degree_followers(current_user)
+    - if second_degree_followers.count > 0
+      .also_following
+        .label You follow #{link_to pluralize(second_degree_followers.count, 'closet'), user_follows_path(user)} that #{second_degree_followers.count == 1 ? 'follows' : 'follow'} #{link_to user.display_name, user}:
+        %ul
+          = render :partial => 'users/mini_user', :collection => second_degree_followers.first(5), :as => :user
+

@@ -1,0 +1,10 @@
+#how_it_works_video_popup
+  .title
+    %p Nice to meet you, #{current_user.first_name}!
+    %p Take two minutes to get to know us.
+  %iframe{:src => 'http://player.vimeo.com/video/46072263', :width => 600, :height => 338,
+    :frameborder => 0, :webkitAllowFullScreen => true, :mozallowfullscreen => true, :allowFullScreen => true}
+  .title
+    Now #{link_to 'start bibbing', new_item_path}.
+    - if (first_bib_amount = Parameter[:buck_prize_first_bib].value.to_i) > 0
+      To celebrate our launch, we are giving our first members #{first_bib_amount} bucks when they upload their first item.

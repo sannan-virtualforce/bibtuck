@@ -1,0 +1,11 @@
+development: &development
+  AccountID: 123456
+  RequesterID: adshfladsf
+  PassPhrase: jldkflksjf
+  Test: 'YES'
+
+test:
+  <<: *development
+
+production:
+  <<: *development

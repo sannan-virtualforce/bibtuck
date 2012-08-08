@@ -1,0 +1,5 @@
+.item_quick_view
+  = render :partial => 'item_photos', :locals => {:item => @item, :is_quick_view => true}
+  #item_info
+    = render :partial => 'item_info', :locals => {:item => @item, :is_quick_view => true}
+  .clear_left

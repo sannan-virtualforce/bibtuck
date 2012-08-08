@@ -1,0 +1,34 @@
+%p#notice= notice
+
+%p
+  %b Sender:
+  = @message.sender_id
+%p
+  %b Sender type:
+  = @message.sender_type
+%p
+  %b Subject:
+  = @message.subject
+%p
+  %b Body:
+  = @message.body
+%p
+  %b State:
+  = @message.state
+%p
+  %b Hidden at:
+  = @message.hidden_at
+%p
+  %b Type:
+  = @message.type
+%p
+  %b Original message:
+  = @message.original_message_id
+%p
+  %b Created at:
+  = @message.created_at
+%p
+  %b Spam:
+  = @message.spam
+
+= link_to 'Edit', edit_admin_message_path(@message)

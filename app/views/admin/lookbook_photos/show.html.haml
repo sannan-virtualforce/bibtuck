@@ -1,0 +1,11 @@
+%p#notice= notice
+
+%p
+  = image_tag @lookbook_photo.path_url
+%p
+  = @lookbook_photo.link ? link_to(@lookbook_photo.link, @lookbook_photo.link) : ''
+%p
+  %b Created at:
+  = @lookbook_photo.created_at
+
+= link_to 'Edit', edit_admin_lookbook_photo_path(@lookbook_photo)

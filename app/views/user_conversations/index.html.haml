@@ -1,0 +1,36 @@
+#conversations_inbox_page
+  %h1 Your Messages
+
+  - if @conversations.present?
+    = form_tag bulk_update_conversations_path, :id => :bulk_update_messages do
+      .action_bar
+        .select_options>
+          %p Select
+          = link_to 'All', '', :id => :select_all, 'data-form-selector' => '#bulk_update_messages'
+          = link_to 'None', '', :id => :select_none, 'data-form-selector' => '#bulk_update_messages'
+        .actions
+          = content_tag :button, 'Archive', :type => :submit,
+            :name => 'bulk_action', :value => 'delete', :class => :grey_button
+          = content_tag :button, 'Mark as Read', :type => :submit,
+            :name => 'bulk_action', :value => 'mark_read', :class => :grey_button
+          = content_tag :button, 'Mark as Unread', :type => :submit,
+            :name => 'bulk_action', :value => 'mark_unread', :class => :grey_button
+      .conversations
+        - @conversations.each do |conv|
+          - latest_message = conv.newest_message
+          - other_party = (latest_message.user == current_user ? latest_message.recipient : latest_message.user)
+          .entry{:class => (conv.read? ? 'read' : 'unread')}
+            .cell.action
+              = check_box_tag 'conversation_id[]', conv.id
+              = link_to 'Archive', user_conversation_path(current_user, conv), :method => :delete,
+                :confirm => "Are you sure you want to delete this conversation?"
+            .cell.photo= link_to image_tag(other_party.profile_picture.url(:avatar)), other_party,
+              :alt => "#{other_party.display_name}'s picture", :title => other_party.display_name
+            .cell.msg_info
+              .username= link_to other_party.name, other_party
+              .date= latest_message.created_at.to_s :bt_date_time
+            .cell.msg_type
+              .icon{:class => (latest_message.user == current_user ? 'outgoing' : 'incoming')}
+            .cell.message= link_to truncate(latest_message.body, :length => 120), user_conversation_path(current_user, conv)
+  - else
+    .empty_mailbox You do not have any messages

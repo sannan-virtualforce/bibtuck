@@ -1,0 +1,9 @@
+- if items.any?
+  #recommendations
+    %h3 We Think You'll Also Love...
+    - items.select { |ri| ri.photos.present? }.each do |rec_item|
+      .item_you_might_like
+        = link_to(image_tag(rec_item.primary_photo.path_url(:avatar)), rec_item, :id => :photo)
+        = link_to 'quick view', { :controller => 'items', :action => 'quick_view', :id => rec_item.id },
+          :rel => 'facebox.item_quick_view', :class => 'quick_view_icon'
+

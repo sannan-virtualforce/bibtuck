@@ -1,0 +1,7 @@
+nav#user, nav.user, footer nav  {
+  ul { @include horizontal-list(false); }
+}
+
+nav ul li {
+  @include no-bullets;
+}

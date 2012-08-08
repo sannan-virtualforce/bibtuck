@@ -1,0 +1,17 @@
+Hi #{@resource.invite_name},
+
+%p #{@resource.invited_by.full_name} loves your style and thinks you'd make a great addition to #{link_to 'Bib + Tuck', root_url}. You must have a covetous closet because she only had 3 invites, and you got one.
+
+%p What the Tuck?
+%p Bib + Tuck is a members-only community for stylish people (like you) to trade fashion items. Think of it as an exclusive online garage sale of the most coveted pieces, bringing together the hippest people so that each can find the new in another's old.
+
+%p Click #{link_to 'here', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token)} to register and claim your invitation.
+
+%p Not sold yet? Ok then: #{link_to 'watch us in a video', VIDEO_ABOUT_URL}, read our #{link_to 'manifesto', URL_MANIFESTO}, #{link_to 'meet the founders', page_url('about')}, #{link_to 'likey like', "http://www.facebook.com/#{FACEBOOK_HANDLE}"} us on facebook, #{link_to 'tumble', "http://#{TUMBLR_HANDLE}.tumblr.com"} with us, #{link_to 'tweet', "http://twitter.com/#{TWITTER_HANDLE}"} us, #{link_to 'pin us down', "http://pinterest.com/#{PINTEREST_HANDLE}"}, #{link_to 'read', BLOG_LINK} our blog, or scroll down to see us do some yoga.
+
+%p Namastuck,
+
+%p Sari &amp; Sari
+%p= mail_to 'saris@bibandtuck.com'
+%p
+  = image_tag(root_url + image_path('saris_doing_yoga.jpg'), :alt => 'Saris doing yoga')

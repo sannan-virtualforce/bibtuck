@@ -1,0 +1,99 @@
+#register
+  %h1 Join Bib + Tuck
+  
+  = render_errors resource, 'Some items are missing before you can complete your registration'
+  = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :multipart => true }) do |f|
+    = f.hidden_field :registration_code_id, :value => session[:registration_code_id]
+    = f.hidden_field :invitation_token
+    .grouped
+      = f.input :first_name, :required => true
+      = f.input :last_name, :required => true
+    %div
+      = f.input :username, :required => true
+    %div
+      = f.input :email, :required => true
+    %div
+      = f.input :password, :required => true, :hint => simple_format('must be at least 6 characters and contain letters and numbers.')
+    %div
+      = f.input :password_confirmation, :label => "Confirm password", :required => true
+    .birthday
+      - year = Date.today.year
+      .date_fields
+        = f.input :birthday,
+                  :end_year   => year - 100,
+                  :start_year => year - 13,
+                  :prompt     => { :year => 'Year', :month => 'Month', :day => 'Day' },
+                  :order => [:month, :day,  :year]
+      .hide_age_checkbox
+        = f.check_box :hide_age
+        = f.label :hide_age, "please check off this box if you do not want your age to be displayed."
+    %div.for_textarea
+      = f.input :about_me, :as => :text, :input_html => { :maxlength => User::MAXIMUM_ABOUT_ME_LENGTH }, :placeholder => "witty bio in 160 characters or less"
+      .grouped
+        = f.input :occupation
+        = f.input :current_city
+    .grouped
+      = f.input :website_url, :as => :string, :required => false, :placeholder => "add URL"
+      = image_tag 'icon_twitter_white.png', :class => 'icon'
+      = f.input :twitter_username, :placeholder => "@yourtwitter"
+      = image_tag 'icon_facebook_white.png', :class => 'icon'
+      = f.input :facebook_page, :placeholder => "/yourfacebook"
+  
+    = f.simple_fields_for :primary_shipping_address_attributes do |psa|
+      = psa.input :street_line1, :required => false, :label => "Shipping Address", :hint => "we need your address so you can send and receive clothes"
+      .grouped
+        = psa.input :city, :required => false
+        = psa.input :state, :collection => US_STATES, :required => false
+        = psa.input :zipcode, :required => false
+        = psa.input :phone, :required => false, :placeholder => 'USPS requirement'
+    %div
+      = f.label :profile_picture
+      .profile_picture
+        .file_input.round_button{style: 'display:none'}
+          Choose File
+        .file_input.filename{style: 'display:none'}
+          no file selected
+        = f.file_field :profile_picture
+    .tos_agreement
+      = f.check_box :tos_agreed_at, :required => true
+      %p I agree to Bib and Tuck's #{link_to 'Community Guidelines', page_path(:community_guidelines), :rel => :facebox, :popupwidth => 600}, #{link_to 'Terms of Use and Privacy Policy', page_path(:legal_stuff), :target => '_blank'}
+    = content_tag :button, :type => :submit, :id => 'user_submit', :class => 'splash_button grey' do |btn|
+      = simple_format 'join<br/>your<br/>kind'
+  
+  = content_for :scripts do
+    :javascript
+      function makeButtonRound(element) {
+        console.log(element);
+        button_label = element.html();
+        element.empty();
+        element.append("<div style=\"background:url('#{image_path 'buttons/round_grey_button_edges.png'}') 0 0 no-repeat; float:left; width:10px; height:21px; margin:0;\"/>");
+        element.append("<div style='background-color:#D1D3D4; color:#000; float:left; height:21px; line-height:21px; margin:0;'>" + button_label + "</div>");
+        element.append("<div style=\"background:url('#{image_path 'buttons/round_grey_button_edges.png'}') -10px 0 no-repeat; float:left; width:10px; height:21px; margin:0;\"/>");
+        return element;
+      }
+      function fancifyFileInputField(input_field_id) {
+        var input_field = $(input_field_id);
+        var content_div = input_field.parent();
+        input_field.css({'z-index': 2, 'opacity': 0, 'position': 'absolute', 'top': '12px', 'left': '12px', 'width': '100px'});
+        input_field.change(function() {
+          $('.filename', $(this).parent()).html(this.value.replace(/^.*[\\\/]/, ''));
+        });
+        input_field.mouseover(function() {
+          $('.round_button', this.parentNode).css('opacity', 0.6);
+        });
+        input_field.mouseout(function() {
+          $('.round_button', this.parentNode).css('opacity', 1.0);
+        });
+        makeButtonRound($('.round_button', content_div).show());
+        $('.filename', content_div).show();
+      }
+
+      $(document).ready(function() {
+        $('#user_first_name, #user_last_name').blur(function() {
+          var firstInitial = $('#user_last_name').val()[0];
+          var firstname = $('#user_first_name').val();
+          if (firstInitial && firstname)
+            $('#user_username').val(firstname + ' ' + firstInitial);
+        });
+        fancifyFileInputField('#user_profile_picture');
+      });

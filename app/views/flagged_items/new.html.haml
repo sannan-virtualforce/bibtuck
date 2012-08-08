@@ -1,0 +1,16 @@
+#new_flagged_item
+  %h1 Report this Item
+
+  %h4 #{@item.name}
+  == >> Seller: #{@item.user.display_name}
+
+  %p &gt;&gt; Tell us why you think this item should be removed from our site:
+
+  %p= link_to image_tag(@item.primary_photo.path_url(:thumb)), @item
+
+  = simple_form_for @flagged_item, :url => [:item, :flagged_items], :remote => true do |f|
+    = f.hidden_field :item_id, :value => @item.id
+    = f.text_area :comment
+    = f.submit('Submit')
+    %br
+    = link_to_function 'Cancel', '$.facebox.close()'

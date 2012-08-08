@@ -1,0 +1,6 @@
+.address_form
+  %h2 Edit address
+  = simple_form_for @address, :url => update_address_admin_order_path(@target.id) do |f|
+    = hidden_field_tag :referrer, request.referrer
+    = hidden_field_tag :type, @type
+    = render :partial => 'addresses/form', :locals => {:f => f, :is_create_form => false}

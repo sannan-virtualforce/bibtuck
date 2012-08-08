@@ -1,0 +1,94 @@
+/*NOTE: far from perfect, but will dry up a lot of other styles.*/
+@mixin full-border {
+  padding: 1.067em;
+  @include box-sizing(border-box);
+  border: $border_dash_width dashed $border_dash_color;
+}
+
+@mixin sidebar {
+  & {
+    a + nav { @include margin-leader(1); }
+    nav {
+      @include full-border;
+      ul {
+        @include padding-trailer(1);
+        @include margin-trailer(1);
+        @include trailing-border(2px);
+        &:last-child,
+        &.last {
+          @include padding-trailer(0);
+          @include margin-trailer(0);
+          @include trailing-border(0px);
+        }
+        li { text-transform: uppercase; }
+      }
+    }
+  }
+}
+
+@mixin layout-4-12($left, $right) {
+  ##{$left}  { @include column(4); }
+  ##{$right} { @include column(12, true); }
+}
+
+@mixin layout-6-10($left, $right) {
+  ##{$left}  { @include column(6); }
+  ##{$right} { @include column(10, true); }
+}
+
+@mixin single-column($width) {
+  @include column($width, true);
+}
+
+@mixin layout-16($main) {
+  ##{$main} { @include single-column(16); }
+}
+
+@mixin layout-14($main) {
+  ##{$main} { @include single-column(14); }
+}
+
+@mixin layout-12($main) {
+  ##{$main} { @include single-column(12); }
+}
+
+@mixin wide-table {
+  & {
+    @include full-border;
+    @include margin-trailer(2);
+    width: inherit;
+    th,
+    td {
+      @include box-sizing(border-box);
+      @include column(2);
+      display:        table-cell;
+      float:          none;
+      padding:        0.5em;
+      vertical-align: center;
+    }
+    tbody td { height: line-multiplier(6); }
+  }
+}
+
+/* Used primarily for cart. */
+@mixin minimal-table {
+  & {
+    @include margin-trailer(2);
+    width: inherit;
+    th,
+    td {
+      @include box-sizing(border-box);
+      @include column(3);
+      display:        table-cell;
+      float:          none;
+      padding:        0.5em;
+      vertical-align: center;
+    }
+    tbody td { height: line-multiplier(6); }
+  }
+}
+
+@mixin centered($width) {
+  width: #{60 * $width}px;
+  margin: 0 auto;
+}

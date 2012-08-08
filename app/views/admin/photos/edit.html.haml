@@ -1,0 +1,8 @@
+.photo_edit
+  .menu_bar
+    = link_to 'Delete', admin_photo_path(@photo, :referer => @referer), :method => :delete
+  .photo
+    = image_tag @photo.path.url
+  = render 'form'
+
+

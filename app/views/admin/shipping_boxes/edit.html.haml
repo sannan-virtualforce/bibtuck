@@ -1,0 +1,10 @@
+.line Set total amounts of boxes sent to user:
+.line= @user.display_name
+.shipping_box_form
+  = form_tag set_amounts_admin_shipping_box_path(@user.id) do |f|
+    - @boxes.each do |box|
+      = label_tag "Box size #{box[:size]}"
+      = text_field :box, box[:size]
+      %span.remaining Remaining: #{box[:remaining]}
+    .actions
+      = content_tag :button, 'Save', :type => :submit, :class => :grey_button

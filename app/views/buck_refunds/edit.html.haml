@@ -1,0 +1,18 @@
+%h1 Review Buck Refund Request
+
+%p #{link_to @buck_refund.user.display_name, @buck_refund.user} believes her purchase was misrepresented and would like a buck refund. If you accept this request, the bucks will be refunded to the buyer.
+
+%p ** Please note that a buck refund does not imply that the item will be delivered back to you.
+
+%h2 Item
+
+= render '/carts/list', :items => [@item], :cart_link => false
+
+- if @item.user == current_user
+  = form_for [@item, @buck_refund] do |f|
+    == Comment: #{@buck_refund.comment}
+
+    %br
+    = link_to "Accept", [:accept, @item, @buck_refund], :rel => :facebox
+    %br
+    = link_to "Reject", [:reject, @item, @buck_refund], :rel => :facebox

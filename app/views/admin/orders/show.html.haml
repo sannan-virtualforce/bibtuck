@@ -1,0 +1,91 @@
+.order_show
+  %h1 Order #{@order.id}
+
+  .information
+    .line
+      .label Order ID:
+      .value= @order.id
+    .line
+      .label Date Tucked:
+      .value= @order.created_at.try :to_s, :bt_date_time
+    .line
+      .label Buyer Name:
+      .value= link_to "#{@order.user.display_name} (#{@order.user.username})", admin_user_path(@order.user)
+    .line
+      .label Shipping Address:
+      .value
+        = link_to edit_address_admin_order_path(@order.id, :type => :to), :rel => :facebox do
+          %p #{@order.to_addr_first_name} #{@order.to_addr_last_name}
+          %p= @order.to_addr.street_line1
+          - if @order.to_addr_street_line2.present?
+            %p= @order.to_addr_street_line2
+          %p #{@order.to_addr_city}, #{@order.to_addr_state} #{@order.to_addr_zipcode}
+          %p #{@order.to_addr_phone}
+    .line
+      .label Buyer Email:
+      .value= mail_to @order.user.email
+    .line
+      .label Total fee:
+      .value= "$#{@order.total}"
+    - if @order.discount.present?
+      .line
+        .label Discount code:
+        .value= link_to @order.discount.code, admin_discount_path(@order.discount)
+  - @order.order_items.each do |order_item|
+    .item_info
+      - if order_item.item.primary_photo.present?
+        .photo= link_to image_tag(order_item.item.primary_photo.path.url(:featured)), admin_item_path(order_item.item)
+      .information
+        .line
+          .label Item ID:
+          .value= order_item.item.id
+        .line
+          .label Item name:
+          .value= link_to order_item.item.name, admin_item_path(order_item.item)
+        .line
+          .label Brand:
+          .value= order_item.item.brand.name
+        .line
+          .label Category:
+          .value= order_item.item.category.name
+        .line
+          .label Date Bibbed:
+          .value= order_item.item.bibbed_at.try :to_s, :bt_date_time
+        .line
+          .label Seller Name:
+          .value= link_to "#{order_item.seller.display_name} (#{order_item.seller.username})", admin_user_path(order_item.seller)
+        .line
+          .label Seller Address:
+          .value
+            = link_to edit_address_admin_order_path(order_item.id, :type => :from), :rel => :facebox do
+              %p #{order_item.from_addr_first_name} #{order_item.from_addr_last_name}
+              %p= order_item.from_addr.street_line1
+              - if order_item.from_addr_street_line2.present?
+                %p= order_item.from_addr_street_line2
+              %p #{order_item.from_addr_city}, #{order_item.from_addr_state} #{order_item.from_addr_zipcode}
+              %p #{order_item.from_addr_phone}
+        .line
+          .label Seller Email:
+          .value= mail_to "#{order_item.seller.email}"
+        - if order_item.item.experience.try :rating
+          .line
+            .label Rating:
+            .value= show_rating_for order_item.item
+        .line
+          .label Price:
+          .value= number_to_bucks order_item.item.price, :capital
+        .line
+          .label Shipping Status:
+          .value= order_item.shipping_status.titlecase
+        .line
+          .label Shipping Status Message:
+          .value= order_item.last_shipping_status_message
+        - if order_item.tracked?
+          .line
+            .label Tracking Number:
+            .value= link_to order_item.tracking_number, order_item.tracking_url, :target => '_blank'
+        - if order_item.item.buck_refund
+          .line
+            .label Refuld Status:
+            .value= render 'users/activity_refund', :item => order_item.item
+      .clear_left

@@ -1,0 +1,16 @@
+%p#notice= notice
+
+%p
+  %b Item:
+  = @flagged_item.item_name
+%p
+  %b User:
+  = @flagged_item.username
+%p
+  %b Comment:
+  = @flagged_item.comment
+%p
+  %b Created at:
+  = @flagged_item.created_at
+
+= link_to 'Edit', edit_admin_flagged_item_path(@flagged_item)

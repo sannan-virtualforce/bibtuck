@@ -1,0 +1,8 @@
+%h1 Buck Refund Request
+
+%p You requested a refund for #{@item.name} in the amount of #{@item.price} bucks.
+
+= render '/carts/list', :items => [@item]
+
+%p Comment: #{@buck_refund.comment}
+%p Reason: #{@buck_refund.reason}

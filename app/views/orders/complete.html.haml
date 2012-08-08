@@ -1,0 +1,35 @@
+#order_complete_page
+  .dashed_box
+    .title &gt;&gt; What a great tuck!
+    .note
+      We’ve notified the seller(s) of your purchase and you can track the status of your order and
+      view past orders by clicking on
+      = link_to '>> My Activity', [:activity, current_user]
+    .title &gt;&gt; Now, express your love for your sartorial finding in 140 characters or less.
+    .note
+      %p.tweet Really, the people deserve to know. #{twitter_link(@order)}
+    .note.links
+      HANG OUT WITH US ELSEWHERE
+      = link_to "http://facebook.com/#{FACEBOOK_HANDLE}", :target => '_blank', :class => :icon do
+        #facebook
+      = link_to "http://twitter.com/#{TWITTER_HANDLE}", :target => '_blank', :class => :icon do
+        #twitter
+      = link_to "http://pinterest.com/#{PINTEREST_HANDLE}", :target => '_blank', :class => :icon do
+        #pinterest
+      = link_to 'Blog', BLOG_LINK, :id => :blog, :target => '_blank'
+    .note.home= link_to '>> Go Back Home', root_path
+
+  .tucked_items
+    .images
+      - width_remaining = 860
+      - at_least_one = true
+      - while at_least_one && width_remaining > 0
+        - at_least_one = false
+        - @order.items.each do |item|
+          -if item.primary_photo.present?
+            %img{:src => item.primary_photo.path.url(:featured), :alt => item.name}>
+            - img_width = 250 * item.primary_photo.width/item.primary_photo.height
+            - if img_width > 0
+              - at_least_one = true
+              - width_remaining -= img_width
+              - break if width_remaining < 0

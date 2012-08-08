@@ -1,0 +1,6 @@
+.address_already_used_popup
+  %p This is the specified origin address for some of your items for sale. If you delete this address, we will mark your current default address as the origin address.
+  .actions
+    = link_to 'Ok', user_address_path(current_user, address_id, :replace => true), :method => :delete, :class => :grey_button
+    = link_to 'Cancel', 'javascript:$.facebox.close(); void(0);', :class => :grey_button
+

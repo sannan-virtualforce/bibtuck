@@ -1,0 +1,23 @@
+%h1 Buck Refund Request
+
+%h2 Item
+
+%table
+  %thead
+    %th &nbsp;
+    %th Item
+    %th Description
+    %th Seller
+    %th Bucks
+
+  %tbody
+    %tr
+      %td= thumbnail_for(@item)
+      %td== #{@item.name}, #{@item.brand.try(:name)}
+      %td= @item.user.display_name
+      %td== #{@item.price} bucks
+
+= simple_form_for [@item, @buck_refund] do |f|
+  = f.input :reason, :collection => BuckRefund::REASONS
+  = f.input :comment
+  = f.submit

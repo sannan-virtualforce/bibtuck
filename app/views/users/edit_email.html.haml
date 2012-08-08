@@ -1,0 +1,16 @@
+#user_edit_email_page
+  .error_notice{ :style => 'display:none;' }
+  %h2 Change email:
+  .tip Password must be at least 6 characters
+  = form_for @user, :url => { :action => 'update_field' }, :remote => true do |f|
+    = hidden_field_tag :field, 'email'
+    .line
+      .label New email
+      = f.text_field :email
+    .line
+      .label Enter Password
+      = password_field_tag 'password'
+    .note
+      You will receive a confirmation email shortly.
+    .action
+      = content_tag :button, 'Save', :type => :submit

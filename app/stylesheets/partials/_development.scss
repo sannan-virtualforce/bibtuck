@@ -1,0 +1,6 @@
+// Styles in this partial should only be used during development
+body.development {
+  @include blueprint-utilities;
+  @include blueprint-debug;
+  #container { @include grid-background; }
+}

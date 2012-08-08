@@ -1,0 +1,8 @@
+<% if !@new_items.blank? %>
+        <% @new_items.each do |item| -%>
+	  $('#whats_new_container').append("<div class='item featured'><%=escape_javascript(render 'items/item', :item => item) -%></div>");
+        <% end -%>
+	$('#whats_new_container').attr('last', '<%=@new_items.to_a.last.created_at%>')
+<% else %>
+	$('#infinite-scroll').detach();
+<% end %>

@@ -1,0 +1,40 @@
+#main
+  %h1 Order Summary
+
+  #staying-alive
+    %p== You will be deducted #{number_to_bucks(@order.total_bucks)} for this item, but this isn't real money. Wonder why you're being charged a separate shipping and transaction fee? We wish we didnt' have to, but we need real money to keep Bib + Tuck running.
+
+  #items
+    %h2 Item details
+    - @order.items.each do |item|
+      .item
+        = thumbnail_for(item)
+        .name-details
+          %div
+            %strong Size
+            = item.size
+          %div
+            %strong Brand
+            = item.brand_name
+          %div
+            %strong Condition
+            = item.condition
+          %div
+            %strong Fit
+            = item.fit
+          %div
+            %strong Colors
+            - item.colors.each do |color|
+              %div.color{:style => "background-color: #{color}"} &nbsp;
+
+  #summary
+    %h2 Order Summary
+    %ul
+      %li== Shipping Cost: #{number_to_currency @order.shipping_cost}
+      %li== Transaction Fees: #{number_to_currency @order.transaction_fee}
+      %li== Total: #{number_to_currency @order.total}
+
+  #payment
+    = form_for @order, :url => express_orders_path do |f|
+      = f.hidden_field :shipping_address_id
+      = submit_tag('Checkout')

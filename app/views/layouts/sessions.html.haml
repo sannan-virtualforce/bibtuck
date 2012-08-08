@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title Bib + Tuck
+    = csrf_meta_tag
+    = favicon_link_tag
+    = include_stylesheets :screen,  :media => 'screen, projection'
+    = include_stylesheets :print,   :media => 'print'
+    /[if IE]
+      = include_stylesheets :ie,    :media => 'screen, projection'
+    - if Rails.env.production?
+      = render 'tracking/google_analytics'
+  %body{ :class => "sign-in #{'development' unless Rails.env.production? }"}
+    = image_tag('logo_home.png', :id => 'logo')
+    #sign-in
+      = yield
+      #pass_on
+        Pass on your style
+    = render_popup_notice
+  :javascript
+    window['sign-in'] = true;
+  = include_javascripts :defaults
+  = yield :js
+  = yield :scripts
+  :javascript
+    $(document).ready(function() {
+      $.backstretch('/images/background_home_cropped.jpg');
+    });

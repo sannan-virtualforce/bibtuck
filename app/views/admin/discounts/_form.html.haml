@@ -1,0 +1,22 @@
+= form_for [:admin, @discount] do |f|
+  -if @discount.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@discount.errors.count, "error")} prohibited this discount from being saved:"
+      %ul
+        - @discount.errors.full_discounts.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :code
+    = f.text_field :code
+  .field
+    = f.label :discount_type
+    = f.select :discount_type, Discount::DISCOUNT_TYPES
+  .field
+    = f.label :total_uses
+    = f.number_field :total_uses
+  .field
+    = f.label :min_amount, 'Minimal Purchase Amount'
+    = f.number_field :min_amount
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,16 @@
+@include sticky-footer($footer-height, "#container", "#content_footer", "footer");
+
+@include sticky-footer($footer-height, "#splash", "#splash_footer", "footer");
+
+body {
+  footer {
+    @include container;
+    @include span(16);
+    z-index:      3;
+    font-size: 10px;
+    color: $grey_k38;
+    background-color: #fff;
+    height: 22px;
+    padding-left: 22px;
+  }
+}

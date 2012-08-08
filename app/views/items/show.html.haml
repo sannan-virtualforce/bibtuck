@@ -1,0 +1,34 @@
+= show_promotional_message
+#item_page
+  - if @item.user.deactivated?
+    .item_not_available
+      Item not available.
+  - else
+    - if current_user.can_modify?(@item) && params['preview']
+      #breadcrumbs
+        = link_to 'UPLOAD >>', edit_item_path(@item)
+        = link_to 'PROFILE >>', edit_item_path(@item, :anchor => 'profile')
+        PREVIEW
+    - elsif !@hide_back_button
+      #backlink
+        %p= link_to '<< BACK', 'javascript:history.go(-1);void(0);'
+    %p.note Mouse over image to zoom
+
+    = render :partial => 'item_photos', :locals => {:item => @item}
+    #item_info
+      = render :partial => 'item_info', :locals => {:item => @item}
+
+      - if current_user.can_modify?(@item) && !@item.bibbed_at.present?
+        #bib
+          .hr
+          = simple_form_for [:bib, @item], :method => :put do |f|
+            - if user_signed_in? && current_user.can_modify?(@item) && !@item.tucked?
+              = link_to 'Edit', edit_item_path(@item), :class => 'splash_button orange'
+            = content_tag :button, :type => :submit, :class => 'splash_button orange' do |btn|
+              Bib
+            %p.note.legal
+              By clicking on Bib, you agree to the
+              #{link_to 'Community Guidelines', page_path(:community_guidelines), :rel => :facebox, :popupwidth => 600},
+              #{link_to 'Terms of Use and Privacy Policy', page_path(:legal_stuff)}
+    .clear_left
+    = render 'shared/recommended_items', :items => @item.recommended_items(current_user)

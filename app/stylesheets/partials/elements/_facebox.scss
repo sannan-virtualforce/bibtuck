@@ -1,0 +1,8 @@
+#facebox {
+  a.button {
+    @include button($width: span(3), $type: secondary);
+    @include inline-block;
+    text-align:   center;
+    margin:       0 5px 5px 0;
+  }
+}

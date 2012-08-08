@@ -1,0 +1,16 @@
+= form_for [:admin, @lookbook_photo], :html => { :multipart => true } do |f|
+  -if @lookbook_photo.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@lookbook_photo.errors.count, "error")} prohibited this lookbook_photo from being saved:"
+      %ul
+        - @lookbook_photo.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :file
+    = f.file_field :path
+  .field
+    = f.label :link
+    = f.text_field :link
+  .actions
+    = f.submit 'Save'

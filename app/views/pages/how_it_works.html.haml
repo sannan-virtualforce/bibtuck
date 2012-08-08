@@ -1,0 +1,31 @@
+#how_it_works_page
+  %h2
+    HOW IT WORKS
+    %span IN 4 SIMPLE STEPS
+
+  .video_container
+    %iframe{:src => 'http://player.vimeo.com/video/46072263', :width => 854, :height => 480,
+      :frameborder => 0, :webkitAllowFullScreen => true, :mozallowfullscreen => true, :allowFullScreen => true}
+  .description
+    YOU GET:
+    .bullet 50 BUCKS when you join
+    .bullet 25 BUCKS when you refer a friend
+  .steps
+    .step
+      .title 1. Bib
+      .content
+        List items you're ready to part with and upload cool, styled photos of your garments. Decide what they’re worth and assign a virtual price in bucks (B+T currency).
+        = link_to 'Check out our photo tips', page_path(:photo_tips), :rel => :facebox, :popupwidth => 670
+    .step
+      .title 2. Get Bucks
+      .content
+        Receive bucks (B+T currency) when another member purchases one of your items.
+    .step
+      .title 3. Ship it
+      .content
+        When someone purchases your item, you will receive an email with a prepaid mailing label. Put the item in a USPS box, stick on the label, and mail it.
+        = link_to 'Read our shipping FAQs', page_path('shipping_tips'), :rel => :facebox, :popupwidth => 850
+    .step
+      .title 4. Tuck
+      .content
+        Use your bucks to shop other closets.

@@ -1,0 +1,303 @@
+#header_image {
+  @include position;
+  height:   $header-height;
+  overflow: hidden;
+  #logo {
+    @include position(absolute, 0px 0 0 0px);
+    background: image-url('header_bib_tuck_logo.png') no-repeat;
+    display:  block;
+    width:    638px;
+    height:   101px;
+    &:hover {
+      @include opacity(0.3);
+    }
+    span { visibility: hidden; }
+  }
+  #bib_tuck_nfo {
+    @include position(absolute, 0px 0 0 511px);
+    background: image-url('header_bib_tuck_info.png') no-repeat;
+    width: 126px;
+    height: 101px;
+  }
+}
+
+header {
+  @include position;
+  height: $header-height;
+  nav {
+    font-size: 13px;
+    color: $grey_k87;
+    text-transform: uppercase;
+    height: $navigation-bar-height;
+    li {
+      line-height: $navigation-bar-height;
+    }
+    a {
+      line-height: $navigation-bar-height;
+      &.open, &.selected {
+        background-color: $yellow !important;
+      }
+    }
+    span.count {
+      position: absolute;
+      top: 0px;
+      right: 2px;
+      font-size: 10px;
+      padding: 0 3px;
+      color: #000;
+      line-height: 1.2em;
+      color: $grey_k87;
+      background-color: $menu_hover_color;
+    }
+    .dropdown_menu {
+      position: absolute;
+      top: $navigation-bar-height;
+      display: none;
+      text-transform: none;
+      font-size: 11px;
+      color: $grey_k87;
+      .dropdown_item {
+        padding: 0 13px;
+        background-color: $grey_k30;
+        white-space: normal;
+        line-height: 1.1em;
+        &:hover {
+          background-color: $menu_hover_color;
+        }
+      }
+      &#about_menu {
+        width: 120px;
+        .dropdown_item {
+          line-height: 22px;
+          background-color: $grey_k30;
+          &:hover {
+            background-color: $menu_hover_color;
+          }
+        }
+      }
+      &#signout_menu {
+        right: 0px;
+        width: 90px;
+        .dropdown_item {
+          font-size: 13px;
+          line-height: 24px;
+        }
+      }
+      &#user_menu {
+        width: 140px;
+        .dropdown_item {
+          line-height: 22px;
+          background-color: $grey_k30;
+          &:hover {
+            background-color: $menu_hover_color;
+          }
+        }
+      }
+      &#tuck_menu {
+        width: 180px;
+        background-color: $grey_k30;
+        .dropdown_item {
+          line-height: 22px;
+          background-color: $grey_k30;
+          &:hover {
+            background-color: $menu_hover_color;
+          }
+        }
+        .categories {
+          margin-top: 1em;
+        }
+      }
+    }
+  }
+  nav#corner {
+    @include position(absolute, 0px 0px 0 0);
+    @include navigation-link($grey_k30, $yellow);
+    @include horizontal-list(false);
+    overflow: visible;
+    li {
+      line-height: $navigation-bar-height;
+      &#signout {
+        display: inline-block;
+        position: relative;
+        width: 30px;
+        a.signout_icon {
+          background: image-url('signout_arrow.png') 50% 50% no-repeat;
+          background-color: $grey_k30;
+          &:hover {
+            background-color: $yellow;
+          }
+        }
+      }
+      &#my_cart {
+        position: relative;
+      }
+    }
+    a {
+      padding: 0 13px;
+      line-height: $navigation-bar-height;
+      &:hover {
+        cursor: pointer;
+      }
+      &.selected span.count, &:hover span.count {
+        background-color: $yellow_2;
+      }
+    }
+  }
+  div#contact {
+    @include position(absolute, 82px 12px 0 0);
+    font-size: 10px;
+    color: $grey_k53;
+    .phone {
+      display: inline-block;
+      a {
+        color: $grey_k53;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  nav#user {
+    @include position(absolute, 0 0 0px 0px);
+    @include navigation-link($yellow_2, $yellow);
+    width: 100%;
+    z-index: 10;
+    background: $yellow_2;
+    ul {
+      margin-left: 12px;
+      overflow: visible;
+    }
+    a {
+      line-height: $navigation-bar-height;
+      padding: 0 13px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    #tuck {
+      position: relative;
+    }
+    #username {
+      position: relative;
+      a.clipped {
+        max-width: 90px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    #notification-nav {
+      position: relative;
+      &:hover span.count {
+        background-color: $yellow_2;
+      }
+      #notification-menu {
+        width: 400px;
+        .dropdown_item {
+          background-color: $grey_k20;
+          padding: 8px 13px;
+          a {
+            display: inline;
+            padding: 0;
+            color: $brown;
+            background-color: transparent;
+            line-height: inherit;
+            &:hover {
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+          &:hover {
+            background-color: $menu_hover_color;
+          }
+          &.even {
+            background-color: $grey_k30;
+            &:hover {
+              background-color: $menu_hover_color;
+            }
+          }
+        }
+        #notification-item-all {
+          text-align: right;
+          text-transform: uppercase;
+          padding: 0 13px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    form#search {
+      line-height: $navigation-bar-height;
+      position: relative;
+      top: -1px;
+      margin-right: 20px;
+      img {
+        float: left;
+        line-height: $navigation-bar-height;
+        margin: 6px 6px 0 0;
+      }
+      #nav_search {
+        width: 190px;
+        height: 16px;
+        font-size: 10px;
+        margin: 0;
+        border-color: $grey_k87;
+      }
+    }
+  }
+  nav#side {
+    @include position(absolute, 101px 0px 0 0);
+    @include navigation-link($yellow_2, $yellow);
+    @include horizontal-list(false);
+    overflow: visible;
+    z-index: 20;
+    .icon {
+      div {
+        display: inline-block;
+        height: 13px;
+        position: relative;
+        top: 1px;
+        &#facebook {
+          background: image-url('icon_footer_facebook.png') 0 0 no-repeat;
+          width: 9px;
+        }
+        &#twitter {
+          background: image-url('icon_footer_twitter.png') 0 0 no-repeat;
+          width: 9px;
+        }
+        &#pinterest {
+          background: image-url('icon_footer_pinterest.png') 0 0 no-repeat;
+          width: 11px;
+        }
+        &:hover {
+        }
+      }
+      a {
+        padding: 0 5px;
+        &:hover {
+          background-color: $yellow_2;
+        }
+        &:hover div {
+          background-position: 0px -21px !important;
+        }
+      }
+    }
+    a {
+      line-height: $navigation-bar-height;
+      &#blog {
+        font-size: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    ul {
+      li {
+        &#about {
+          position: relative;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+// Helps keep us in vertical rhythm.
+// Returns a number in pixels.
+@function line-multiplier($lines: 1) {
+  @return $base-line-height * $lines;
+}

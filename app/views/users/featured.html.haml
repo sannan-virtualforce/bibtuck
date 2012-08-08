@@ -1,0 +1,35 @@
+#featured_closet_page
+  %h2 Featured closet
+  .columns
+    .column.left
+      = link_to image_tag(@user.profile_picture.url), @user, :class => 'profile_pic'
+    .column.right
+      .user_name
+        = @user.display_name
+      .user_info
+        = @user.short_bio
+      .content
+        - if @featured_content
+          = raw(nl2br @featured_content)
+  .clear_left
+
+  %hr
+
+  %h2 Featured Items
+  .featured_items
+    - @featured_items.each do |items|
+      .item_column
+        - items.each do |item|
+          .item= render :partial => 'items/item', :object => item, :locals => { :extended_info => true }
+  .clear_left
+
+  %hr
+
+  %h2 Past Featured closets
+  .past_featured_closets
+    - @past_featured_closets.each do |closet_owner|
+      .closet>
+        = link_to image_tag(closet_owner.profile_picture.url(:avatar)), [:featured, closet_owner]
+        %p= closet_owner.name
+        - if closet_owner.occupation
+          %p= closet_owner.occupation

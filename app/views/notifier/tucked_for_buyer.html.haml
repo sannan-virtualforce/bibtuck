@@ -1,0 +1,33 @@
+- single = (@order.items.count == 1)
+%p Hi #{@order.user.first_name},
+
+%p What a great tuck!
+
+%p Here is everything you need to know about your#{single ? '' : ' Bib + Tuck'} purchase:
+
+%p <b>YOUR ORDER NUMBER IS:</b>
+%p= @order.id
+%p <b>YOU PURCHASED:</b>
+- @order.items.each do |item|
+  %p #{link_to item.name, item_url(item)} for #{number_to_bucks item.price}
+%p <b>YOUR #{single ? 'ITEM' : 'ITEMS'} WILL BE DELIVERED TO:</b>
+%p
+  #{@order.to_addr_first_name} #{@order.to_addr_last_name}<br/>
+  #{@order.to_addr_street_line1}<br/>
+  - if @order.to_addr_street_line2.present?
+    #{@order.to_addr_street_line2}<br/>
+  #{@order.to_addr_city}, #{@order.to_addr_state} #{@order.to_addr_zipcode}
+%p <b>AND HERE'S WHAT HAPPENS NEXT:</b>
+%ul
+  - if single
+    - seller = @order.items.first.user
+    %li #{seller.display_name} has received an email with a prepaid mailing label so she can send you the item.
+    %li You can visit #{link_to 'My Activity', activity_user_url(@order.user, :anchor => 'purchased')} to track the status of your purchase at any time. If the item has not been shipped, feel free to message #{link_to seller.display_name, user_url(seller)}.
+  - else
+    %li The sellers have received emails with prepaid mailing labels so that they can send you the items.
+    %li You can visit #{link_to 'My Activity', activity_user_url(@order.user, :anchor => 'purchased')} to track your purchases at any time. If the items have not been shipped, feel free to message the sellers through their profiles.
+
+%p If you have any questions, email us at #{mail_to 'help@bibandtuck.com'} or call us at (646) 568-5666.
+
+%p Happy Tucking!
+%p - The B+T Team

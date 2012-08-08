@@ -1,0 +1,37 @@
+.contact_us_page
+  %h1 Contact us
+
+  .static
+    .arrow-e
+    %p.title Customer Support
+
+    .box
+      %p
+        %span.bullet Call us
+        %span 646 5685666
+      %p.note [we promise you'll speak to a human being]
+
+      %p
+        %span.bullet Email us
+        %span= mail_to 'help@bibandtuck.com'
+      %p.note [some of us aren't fans of the phone]
+
+    .arrow-e
+    %p.title Everything Else
+
+    .box
+      .emails
+        - %w(hello@bibandtuck.com press@bibandtuck.com saris@bibandtuck.com).each do |email|
+          = mail_to email
+
+      %p
+        %span.bullet QUESTIONS?
+        %span Check out our #{link_to 'Q & A', page_path('q_and_a')}
+      %p
+        %span.bullet SUGGESTIONS?
+        %span Send us your #{link_to 'feedback', :new_feedback_message, :rel => 'facebox', :popupwidth => 400}
+
+    .box.last
+      %p
+        %span.bullet Visit our blog
+        %span= link_to 'www.Tucked-in.com', BLOG_LINK, :target => '_blank'

@@ -1,0 +1,74 @@
+#give_rating_page
+  %h1 Rate your experience
+
+  - if @item.primary_photo.present?
+    = image_tag @item.primary_photo.path_url(:preview), :class => 'item_photo'
+  .item_info
+    .line
+      .label Item purchased:
+      .value= link_to @item.name, @item
+    .line
+      .label Seller:
+      .value= link_to @user.display_name, @user
+    .line
+      .label Purchased on:
+      .value= format_date @item.order.created_at
+    .line
+      .label Order #:
+      .value= @item.order.id
+
+    .dashed_box
+      = simple_form_for [@user, @experience] do |f|
+        = f.hidden_field :item_id, :value => @item.id
+        = f.hidden_field :rating
+        .line
+          .label >> Seller Rating:
+          = show_rating_for 0
+        .line
+          .label >> Questions:
+          - Experience::QUESTIONS.each do |field, question_text|
+            .row
+              .question= question_text
+              .options
+                = radio_button :experience, field, 'yes'
+                = label_tag 'yes'
+                = radio_button :experience, field, 'no'
+                = label_tag 'no'
+        .line.comment
+          .label >> Comment on your experience:
+          .note Your input is very important since we rely on our members to constantly improve the Bib + Tuck experience
+        = f.text_area :comment
+        .actions
+          = content_tag :button, 'Submit', :type => :submit, :class => :grey_button
+= content_for :js do
+  :javascript
+    $(function() {
+      var rating = $('div.rating');
+      var ratingField = $('#experience_rating');
+      var ratingTriangles = rating.find('div.rating_triangle');
+      ratingTriangles.mouseover(function() {
+        var selPos = $(this).attr('pos');
+        ratingTriangles.each(function(i, triangle) {
+          var t = $(triangle);
+          if (t.attr('pos') <= selPos) {
+            t.addClass('filled');
+          } else {
+            t.removeClass('filled');
+          }
+        })
+      });
+      ratingTriangles.click(function() {
+        ratingField.val($(this).attr('pos'));
+      });
+      rating.mouseleave(function() {
+        var rated = $('#experience_rating').val() || 0;
+        ratingTriangles.each(function(i, triangle) {
+          var t = $(triangle);
+          if (t.attr('pos') <= rated) {
+            t.addClass('filled');
+          } else {
+            t.removeClass('filled');
+          }
+        });
+      });
+    });

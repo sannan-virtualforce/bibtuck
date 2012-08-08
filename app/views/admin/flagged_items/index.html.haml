@@ -1,0 +1,31 @@
+%h1 Listing flagged items
+
+%table
+  %tr
+    %th Item
+    %th User
+    %th Comment
+    %th Created at
+    %th
+    %th
+    %th
+
+  - @flagged_items.each do |flagged_item|
+    %tr
+      %td
+        - if flagged_item.item.primary_photo.present?
+          = image_tag(flagged_item.item.primary_photo.path_url(:thumb))
+        = link_to flagged_item.item_name, flagged_item.item
+      %td
+        - if flagged_item.user.profile_picture.present?
+          = image_tag(flagged_item.user.profile_picture.url(:mini))
+        = link_to flagged_item.username, flagged_item.user
+      %td= flagged_item.comment
+      %td= flagged_item.created_at
+      %td= link_to 'Show', [:admin, flagged_item]
+      %td= link_to 'Edit', edit_admin_flagged_item_path(flagged_item)
+      %td= link_to 'Destroy', [:admin, flagged_item], :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Flagged item', new_admin_flagged_item_path

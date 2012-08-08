@@ -1,0 +1,16 @@
+#admin_featured_closet_page
+  %h1 Featured Closet: #{@user.display_name}
+  = form_for @user, :url => [:admin, :featured_closet] do |f|
+    = f.text_area :featured_content
+    .buttons
+      = f.submit 'Save'
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      new nicEditor({
+        iconsPath: '#{image_path('nicEditorIcons.gif')}',
+        buttonList: ['bold', 'italic', 'underline', 'left', 'center', 'right', 'justify', 'ol', 'ul',
+          'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr',
+          'link', 'unlink', 'fontSize', 'fontFamily', 'fontFormat']
+      }).panelInstance('user_featured_content');
+    });

@@ -1,0 +1,132 @@
+#activity_page
+  %h2 #{link_to @user.display_name, @user}'s Activity
+  %ul{:id => :activity_sidebar}
+    %li= link_to 'Current Sales', '#current'
+    %li= link_to 'Sold', '#sold'
+    %li= link_to 'Unlisted', '#unlisted'
+    %li= link_to 'Purchased Items', '#purchased'
+
+  #main
+    %a{:name => 'current'}
+    %h3 Current Sales
+    %table
+      %thead
+        %th.thumb Item
+        %th.desc Description
+        %th.price Price
+        %th.date Listed on
+        %th.nfo.views # Of Views
+        %th.stat &nbsp;
+      %tbody
+        - if @current_sales.present?
+          - @current_sales.each do |item|
+            %tr
+              %td.thumb= thumbnail_for item, :size => :thumb
+              %td.desc= link_to item.name, item
+              %td.price= number_to_bucks item.price, :capital
+              %td.date= item.bibbed_at.try :to_s, :bt_date
+              %td.nfo.views= item.impression_count
+              %td.stat
+                .line= list_action_link item
+                .line= link_to 'Edit item', edit_item_path(item)
+        - else
+          %tr
+            %td.empty{:colspan => 6}
+              No items >>
+              = link_to 'Start Bibbing', new_item_path
+
+    %a{:name => 'sold'}
+    %h3 Sold
+    %table
+      %thead
+        %th.thumb Item
+        %th.desc Description
+        %th.price Price
+        %th.date Sold On
+        %th.nfo Buyer
+        %th.stat Status
+      %tbody
+        - if @sold_items.any?
+          - @sold_items.each do |item|
+            %tr
+              %td.thumb= thumbnail_for item
+              %td.desc= link_to item.name, item
+              %td.price= number_to_bucks item.price, :capital
+              %td.date= item.tucked_at.try :to_s, :bt_date
+              %td.nfo
+                .line= link_to item.order.user.display_name, item.order.user
+                .line= send_message_to item.order.user, :link => 'Contact Buyer'
+              %td.stat
+                = tucked_item_state item, :sold
+                - if item.can_ship? current_user
+                  .line= link_to 'Print Shipping Label', shipping_label_item_path(item)
+                - if item.order_item.shipped? && item.order_item.tracked?
+                  .line= link_to 'Track Package', item.order_item.tracking_url
+                - if item.carrier_pickup?
+                  .line Carrier Pickup scheduled for: #{item.carrier_pickup_date}
+                  .line Pickup Location: #{item.carrier_pickup_location}
+        - else
+          %tr
+            %td.empty{:colspan => 6} No items sold
+
+    %a{:name => 'unlisted'}
+    %h3 Unlisted
+    %table
+      %thead
+        %th.thumb Item
+        %th.desc Description
+        %th.price Price
+        %th.date Unlisted On
+        %th.nfo_stat &nbsp;
+      %tbody
+        - if @unlisted_items.any?
+          - @unlisted_items.each do |item|
+            %tr
+              %td.thumb= thumbnail_for item
+              %td.desc= link_to item.name, item
+              %td.price= number_to_bucks item.price, :capital
+              %td.date= item.created_at.try :to_s, :bt_date
+              %td.nfo_stat
+                = list_action_link item
+                = link_to 'Relist/Edit item', edit_item_path(item)
+        - else
+          %tr
+            %td.empty{:colspan => 5} No items
+
+    %a{:name => 'purchased'}
+    %h3 Purchased Items
+    %table
+      %thead
+        %th.thumb Item
+        %th.desc Description
+        %th.price Price
+        %th.date Tucked On
+        %th.nfo Seller
+        %th.stat Status
+      %tbody
+        - if @purchased_items.any?
+          - @purchased_items.each do |item|
+            %tr
+              %td.thumb= thumbnail_for item
+              %td.desc= link_to item.name, item
+              %td.price= number_to_bucks item.price, :capital
+              %td.date= item.tucked_at.try :to_s, :bt_date
+              %td.nfo
+                .line
+                  #{item.user.display_name}
+                  - unless item.rated?
+                    (#{link_to 'rate', new_user_experience_path(item.user, :item_id => item.id)})
+                .line #{send_message_to item.user, :link => 'Contact Seller'}
+              %td.stat
+                .line= tucked_item_state item, :purchased
+                - if item.can_request_refund?
+                  .line= link_to('Request Buck Refund', [:new, item, :buck_refund])
+                - if item.order_item.shipped? && item.order_item.tracked?
+                  .line= link_to 'Track Package', item.order_item.tracking_url, :target => '_blank'
+                - if item.order_item.delivered?
+                  .line= link_to 'Relist', new_item_path(:relist => item)
+        - else
+          %tr
+            %td.empty{:colspan => 6}
+              No Items >>
+              = link_to 'Start tucking', items_path

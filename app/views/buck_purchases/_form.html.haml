@@ -1,0 +1,43 @@
+= hidden_field_tag :ref_page, @ref_page
+%table
+  %thead
+    %th Bucks
+    %th Price
+  %tbody
+    - is_selected = false
+    - BuckPurchase::PRESET_BUCK_PURCHASES.each do |bucks, cents|
+      %tr
+        %td.selection
+          - if !is_selected && (cents/100.0 >= difference)
+            = f.radio_button :bucks, bucks, :checked => true
+            - is_selected = true
+          - else
+            = f.radio_button :bucks, bucks
+          == #{bucks} Bucks
+        %td.amount= number_to_currency(cents.to_f / 100)
+    %tr
+      %td.selection
+        = f.radio_button :bucks, 'Other', :checked => !is_selected
+        Other:
+        - if is_selected
+          = text_field_tag :bucks_other
+        - else
+          = text_field_tag :bucks_other, difference.to_i
+        = link_to "Compute", '', :id => :compute_bucks
+      %td#price.amount= is_selected ? number_to_currency(@buck_purchase.price) : number_to_currency(BuckPurchase.bucks_to_cents(difference)/100.0)
+
+= content_for :js do
+  :javascript
+    $('#compute_bucks').click(function() {
+      $('#buck_purchase_bucks_other', this.parentNode).prop('checked', true);
+      $('#buck_purchase_bucks_final').val($('#bucks_other').val());
+      $.ajax({
+        url:  '/buck_purchases/new.js',
+        type: 'GET',
+        data: { "buck_purchase[bucks]" : $('#bucks_other').val() }
+      });
+      return false;
+    });
+    $('#bucks_other').change(function() {
+      $('#buck_purchase_bucks_other', this.parentNode).prop('checked', true);
+    });

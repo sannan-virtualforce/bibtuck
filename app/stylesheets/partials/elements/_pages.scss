@@ -1,0 +1,256 @@
+#how_it_works_page {
+  color: $grey_k87;
+  margin: 0 auto;
+  width: 4*200px + 3*18px;
+  h2 {
+    font-size: 16px;
+    span {
+      color: $grey_k53;
+    }
+  }
+  .video_container {
+    text-align: center;
+    margin: 40px auto;
+  }
+  .description {
+    margin-bottom: 20px;
+    .bullet {
+      display: inline-block;
+      padding-left: 34px;
+      background: image-url('arrow_right_orange_16px.png') 12px 0 no-repeat;
+    }
+  }
+  .steps {
+    width: 100%;
+    .step {
+      float: left;
+      width: 200px;
+      margin-left: 18px;
+      &:first-child {
+        margin-left: 0px;
+      }
+      .title {
+        margin-bottom: 16px;
+        text-transform: uppercase;
+      }
+      .content {
+        font-size: 14px;
+        a {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.shipping_tips_page {
+  margin: 0 auto;
+  font-size: 14px;
+  padding: 10px;
+  .notes {
+    padding: 12px 20px;
+    border: $border_dash_width dashed $border_dash_color;
+  }
+  p {
+    margin-top: 6px;
+    &.small {
+      font-size: 13px;
+    }
+  }
+  .Q {
+    color: $grey_k62;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    padding-left: 25px;
+    background: image-url('title_arrows.png') 0 2px no-repeat;
+  }
+  .A {
+    color: $grey_k87;
+    margin-left: 25px;
+  }
+  ol {
+    margin-top: 6px;
+    li {
+      line-height: 1.5em;
+      padding-left: 28px;
+    }
+  }
+}
+
+#q_and_a_page {
+  font-size: 14px;
+  color: $grey_k87;
+  line-height: 1.2em;
+  width: 854px;
+  margin: 0 auto;
+  h1 {
+    margin-left: -34px;
+  }
+  .note {
+    margin-top: 20px;
+  }
+  .Q {
+    color: $grey_k62;
+    margin-top: 14px;
+    margin-bottom: 2px;
+    padding-left: 25px;
+    background: image-url('title_arrows.png') 0 2px no-repeat;
+    p {
+      margin-top: 6px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  .A {
+    margin-top: 6px;
+    margin-left: 25px;
+  }
+}
+
+#about_us_page {
+  width: 750px;
+  margin: 0 auto;
+  color: $grey_k87;
+  .title {
+    @include font-orator;
+    margin: 35px 0 25px;
+    padding-left: 25px;
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: 22px;
+    background: image-url('arrow_right_grey_k87_20px.png') 0 0 no-repeat;
+  }
+  .content {
+    margin-left: 25px;
+    font-size: 14px;
+    p {
+      margin-top: 1em;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  .columns {
+    margin-left: 25px;
+    .column {
+      float: left;
+      width: 350px;
+      font-size: 11px;
+      line-height: 1.4em;
+      color: $grey_k62;
+      &:first-child {
+        margin-right: 25px;
+      }
+      .pic {
+        img {
+          display: block;
+        }
+      }
+      .name {
+        @include font-orator;
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 8px;
+        background-color: $orange;
+        text-transform: uppercase;
+        font-size: 16px;
+        color: #fff;
+      }
+    }
+  }
+  #manifesto {
+    margin-left: 25px;
+    width: 725px;
+    height: 480px;
+    background: image-url('manifesto_bg.jpg') 0 0 no-repeat;
+    img {
+      display: block;
+    }
+  }
+}
+
+#community_guidelines_page {
+  padding: 10px 20px;
+  font-size: 13px;
+  color: $grey_k87;
+  .title {
+    margin: 12px 0 6px;
+    color: $grey_k62;
+  }
+  .content {
+    padding: 0 0 0 24px;
+    margin: 0;
+    width: auto;
+  }
+  .sig {
+    margin-top: 20px;
+  }
+}
+
+#photo_tips_page {
+  @include font-orator;
+  padding: 10px;
+  font-size: 18px;
+  .main_title {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  .row {
+    margin-bottom: 10px;
+    .desc {
+      width: 230px;
+      margin-right: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      .title {
+        font-weight: bold;
+      }
+    }
+    .photos {
+      display: inline-block;
+      vertical-align: middle;
+      img {
+        margin-left: 10px;
+        display: inline-block;
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+#legal_stuff_page {
+  width: 920px;
+  margin: 0 auto;
+  font-size: 13px;
+  color: $grey_k87;
+  .main_title {
+    font-size: 18px;
+    margin-bottom: 1em;
+    margin-top: 2em;
+    color: #000;
+  }
+  .title {
+    font-size: 15px;
+    color: $grey_k90;
+    margin: 20px 0 6px;
+    text-transform: uppercase;
+  }
+  .content {
+    p {
+      margin-top: 8px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    ul {
+      list-style-type: none;
+    }
+  }
+  .end {
+    margin-top: 20px;
+  }
+}

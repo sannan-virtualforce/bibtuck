@@ -1,0 +1,376 @@
+body.admin {
+  nav.main_menu {
+    margin: 20px;
+  }
+  div#content {
+    padding: 20px;
+  }
+  table {
+    th, td {
+      border: 1px solid #A8A8A8;
+      padding: 5px 8px;
+    }
+  }
+  select {
+    width: auto;
+    padding: 0px;
+    margin: 0px;
+  }
+  .menu_bar {
+    margin: 12px 0;
+    a {
+      border: 1px solid #999;
+      padding: 2px 8px;
+      background: #FFF0B5;
+      color: #000;
+      &:hover {
+        text-decoration: none;
+        background: #FECC0B;
+      }
+    }
+  }
+  .clear_left {
+    clear: left;
+    display: block;
+    width: 100%;
+    height: 0;
+  }
+  textarea#user_featured_content {
+    width: 90%;
+  }
+  .nfo_label {
+    font-size: 10px;
+    color: #414042;
+  }
+  .information {
+    .line {
+      display: table-row;
+      .label {
+        display: table-cell;
+        padding: 2px 5px;
+        text-align: right;
+        color: #6B6C6F;
+      }
+      .value {
+        display: table-cell;
+        padding: 2px 5px;
+      }
+    }
+  }
+}
+
+.admin_list_table {
+  font-size: 12px;
+  .flag {
+    color: #f00;
+    font-size: 11px;
+  }
+  .label {
+    font-size: 9px;
+    color: #414042;
+  }
+  .label_val {
+    padding-left: 5px;
+  }
+  thead {
+    tr {
+      background-color: #D1D3D4;
+    }
+  }
+  tbody {
+  }
+}
+
+.parameters_index {
+  table {
+    width: 940px;
+    td {
+      .name {
+        a {
+          color: #000;
+        }
+      }
+      .description {
+        color: #999;
+        font-size: 12px;
+      }
+      &.value {
+        a {
+          color: #000;
+        }
+      }
+    }
+  }
+}
+
+.parameters_edit {
+  .menu {
+    margin: 12px 0;
+  }
+  textarea {
+    width: 800px;
+  }
+  input[type="text"] {
+    width: 400px;
+    height: 21px;
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+
+.credit_form {
+  #user_autocomplete {
+    width: 400px;
+    height: 21px;
+  }
+}
+
+.items_index {
+  table {
+    tbody {
+      .photo {
+        float: left;
+        img {
+          display: block;
+          min-width: 70px;
+          max-width: 70px;
+        }
+      }
+      .item_details {
+        width: 220px;
+        float: left;
+        margin-left: 10px;
+      }
+      .details {
+        width: 300px;
+      }
+      .refund {
+        width: 120px;
+      }
+    }
+  }
+}
+
+.item_show {
+  .information {
+    font-size: 13px;
+    .photos {
+      img {
+        max-height: 180px;
+        min-height: 180px;
+      }
+      a {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.item_form {
+  input[type="text"] {
+    width: 250px;
+    height: 21px;
+  }
+  textarea {
+    width: 250px;
+    margin: 0;
+  }
+  label {
+    font-size: 13px;
+    text-transform: uppercase;
+    margin: 6px 0 2px;
+  }
+  select {
+    height: 21px;
+    padding: 1px 1px 1px 4px !important;
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+
+.orders_index {
+  font-size: 12px;
+  table {
+    thead {
+      tr {
+        background-color: #D1D3D4;
+      }
+    }
+    width: 1200px;
+    tbody {
+      tr.order {
+        background-color: #eee;
+        color: #000;
+        td {
+          padding: 10px;
+        }
+      }
+      td {
+        &.item {
+          width: 330px;
+          img {
+            vertical-align: middle;
+            min-width: 65px;
+            max-width: 65px;
+          }
+          .item_info {
+            width: 240px;
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+      }
+    }
+    .label {
+      font-size: 9px;
+      color: #414042;
+    }
+    a.rating {
+      width: 90px;
+    }
+  }
+}
+
+.order_show {
+  width: 940px;
+  font-size: 14px;
+  .item_info {
+    border-top: 1px dashed;
+    margin-top: 20px;
+    padding-top: 20px;
+    .photo {
+      float: left;
+      margin-right: 20px;
+      img {
+        min-width: 174px;
+        max-width: 174px;
+      }
+    }
+    .information {
+      width: 940px;
+      .line {
+        .label {
+          width: 180px;
+        }
+      }
+    }
+  }
+}
+
+.user_show {
+  width: 960px;
+  font-size: 14px;
+  .information {
+    img {
+      vertical-align: middle;
+    }
+    .label {
+      width: 260px;
+    }
+    .value {
+      width: 700px;
+    }
+  }
+}
+
+body.admin {
+  #users_index {
+    width: 960px;
+    font-size: 12px;
+    table {
+      width: 960px;
+      border: 0 none;
+      padding: 0;
+      .id_col {
+        width: 40px;
+        text-align: center;
+      }
+      .name {
+        width: 390px;
+      }
+      .created {
+        width: 30px;
+        text-align: center;
+      }
+      .items {
+        width: 70px;
+      }
+      tbody {
+        .deactivated {
+          background-color: #eee;
+        }
+        td {
+          width: auto;
+          height: auto;
+        }
+        .name {
+          .profile_pic {
+            display: inline-block;
+            vertical-align: middle;
+            img {
+              display: block;
+              min-width: 65px;
+              max-width: 65px;
+            }
+          }
+        }
+        .user_info {
+          width: 320px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+.shipping_boxes_index {
+  table {
+    .size, .count {
+      width: 30px;
+      text-align: center;
+    }
+    .date {
+      text-align: center;
+      width: 60px;
+    }
+  }
+}
+.shipping_box_form {
+  font-size: 12px;
+  form {
+    margin-top: 12px;
+    label {
+      margin-top: 6px;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    input[type="text"] {
+      width: 100px;
+      height: 21px;
+    }
+    .remaining {
+      margin-left: 10px;
+    }
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+
+.deactivate_account_popup {
+  font-size: 13px;
+  h2 {
+    margin-bottom: 6px;
+  }
+  .actions {
+    margin-top: 12px;
+  }
+  form {
+    textarea {
+      width: 370px;
+    }
+  }
+}

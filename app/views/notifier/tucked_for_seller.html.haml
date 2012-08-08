@@ -1,0 +1,20 @@
+%p Hi #{@seller.first_name},
+
+%p We think you have a covetous closet and #{link_to @buyer.display_name, user_url(@buyer)}#{@buyer.short_bio.present? ? ", a #{@buyer.short_bio}" : ''} thinks so too. She just tucked your #{link_to @item.name, item_url(@item)} for #{number_to_bucks @item.price}.
+
+%p What now?
+
+%ul
+  %li <b>PACK YOUR GARMENT.</b> Make sure to use USPS Regional Rate Box #{@item.shipping_box_size.upcase}. Your item won't ship if you use a different box. Out of shipping boxes? Visit your #{link_to 'Account Settings', account_user_url(@seller)} to request more boxes and we'll send them your way.
+  %li <b>PRINT YOUR SHIPPING LABEL</b>#{@item.order_item.shipping_label.present? ? ' (attached)' : ''}. You can also access your label by visiting #{link_to 'My Activity', activity_user_url(@seller, :anchor => 'sold')}.
+  %li <b>SHIP FAST!</b> Then, go find yourself a great #{link_to 'tuck', items_url}.
+
+%p
+  If you'd like to schedule a USPS carrier pickup, #{link_to 'click here', URL_SHIPPING_PICKUP_ORDER}.
+  %br/
+  To find your closest USPS drop-off location, #{link_to 'click here', URL_SHIPPING_DROPOFF_LOCATIONS}.
+
+%p If you need help, feel free to email us at #{mail_to 'help@bibandtuck.com'} or call us at (646) 568-5666.
+
+%p xo,
+%p The B+T Team

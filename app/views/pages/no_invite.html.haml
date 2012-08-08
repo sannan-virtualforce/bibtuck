@@ -1,0 +1,17 @@
+#no_invite
+  .column>
+    %p
+      BIB + TUCK MEMBERSHIP IS BY INVITATION-ONLY, WHICH IS WHAT MAKES THIS COMMUNITY AUTHENTIC.
+      IF YOU KNOW ONE OF OUR MEMBERS, PLEASE ASK THEM TO INVITE YOU.
+    %p Feeling impatient? #{link_to 'Convince us', '#convince_us', :rel => :facebox} that you’re tuck-worthy.
+  .column.blog>
+    BIB + TUCK HAS A BLOG:
+    = link_to 'Tuckedin', BLOG_LINK, :id => :blog
+  .column.icons>
+    HANG OUT WITH US ELSEWHERE:
+    .icons
+      = link_to CODE_NBSP, "http://facebook.com/#{FACEBOOK_HANDLE}", :id => :facebook
+      = link_to CODE_NBSP, "http://twitter.com/#{TWITTER_HANDLE}", :id => :twitter
+      = link_to CODE_NBSP, "http://pinterest.com/#{PINTEREST_HANDLE}", :id => :pinterest
+
+= render '/shared/additional_information'

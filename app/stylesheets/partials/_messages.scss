@@ -1,0 +1,129 @@
+#conversations_inbox_page {
+  width: 950px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: $grey_k87;
+  .action_bar {
+    margin-bottom: 20px;
+    .select_options {
+      display: inline-block;
+      width: 126px;
+      margin-left: 24px;
+      vertical-align: middle;
+      p {
+        display: inline;
+      }
+    }
+    .actions {
+      width: 800px;
+      display: inline-block;
+      vertical-align: middle;
+      text-align: right;
+      button:before {
+        content: ' ';
+      }
+    }
+  }
+  .conversations {
+    margin-left: 16px;
+    .entry {
+      display: table-row;
+      &.unread {
+        background-color: #f6f6f6;
+      }
+      .cell {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0 10px;
+        border-top: 20px solid #fff;
+        &.action {
+          width: 100px;
+          a {
+            padding-left: 8px;
+          }
+        }
+        &.photo {
+          img {
+            max-width: 80px;
+            display: block;
+          }
+        }
+        &.msg_info {
+          width: 130px;
+          .date {
+            font-size: 11px;
+          }
+        }
+        &.msg_type {
+          padding: 0;
+          width: 9px;
+          .icon {
+            position: relative;
+            top: 3px;
+            width: 8px;
+            height: 7px;
+            display: inline-block;
+            &.outgoing {
+              background: image-url('email_outgoing_icon.png') 0 0 no-repeat;
+            }
+          }
+        }
+        &.message {
+          width: 520px;
+        }
+      }
+    }
+  }
+}
+
+#conversations_thread_page {
+  width: 950px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: $grey_k87;
+  .messages {
+    margin-left: 16px;
+    .entry {
+      display: table-row;
+      .cell {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0 10px;
+        border-top: 20px solid #fff;
+        &.photo {
+          img {
+            max-width: 80px;
+            display: block;
+          }
+        }
+        &.msg_info {
+          width: 130px;
+          .date {
+            font-size: 11px;
+          }
+        }
+        &.message {
+          width: 549px;
+        }
+      }
+    }
+  }
+  .reply_form {
+    text-align: right;
+    width: 825px;
+    form {
+      textarea {
+        width: 549px;
+        border-color: $grey_k71;
+      }
+    }
+    .actions {
+      button {
+        margin: 8px 0 0;
+        &:before {
+          content: ' ';
+        }
+      }
+    }
+  }
+}

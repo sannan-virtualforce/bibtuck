@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = link_to @credit.user.display_name, @credit.user
+
+%p
+  %b Amount:
+  = @credit.bucks
+
+
+= link_to 'Edit', edit_admin_credit_path(@credit)

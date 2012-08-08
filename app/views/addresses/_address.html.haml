@@ -1,0 +1,18 @@
+.shipping_address>
+  .address_id{:style => 'display:none;'}= address.id
+  .address_info{:class => address.is_primary? ? "primary" : 'secondary'}
+    %p  #{address.first_name} #{address.last_name}
+    %p= address.street_line1
+    - if address.street_line2.present?
+      %p= address.street_line2
+    %p #{address.city}, #{address.state} #{address.zipcode}
+  .address_actions
+    = link_to 'Edit Address', [:edit, current_user, address], :rel => 'facebox'
+    - unless address.is_primary?
+      = link_to 'Delete Address', [current_user, address], :method => :delete, :confirm => "Are you sure you want to delete this address?"
+  .default_address
+    - if address.is_primary?
+      This is Your Default Address
+    - else
+      = link_to 'Make Default Address', [:set_as_primary, current_user, address]
+

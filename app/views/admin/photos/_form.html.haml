@@ -1,0 +1,11 @@
+.photo_form
+  = form_for [:admin, @photo], :html => {:multipart => true} do |f|
+    = render_errors @photo
+    = hidden_field_tag :referer, @referer
+    - if @item
+      = hidden_field :photo, :item_id, :value => @item.id
+    .field
+      = f.label :path
+      = f.file_field :path
+    .actions
+      = content_tag :button, 'Save', :type => :submit, :class => :grey_button

@@ -1,0 +1,42 @@
+#edit_user_profile_page
+  %h1 Edit Profile
+  .main
+    = simple_form_for @user, :html => {:multipart => true} do |f|
+      .sidebar
+        = image_tag @user.profile_picture.url(:big), :class => 'profile_picture'
+        #fileupload
+          = f.file_field :profile_picture
+          .actions
+            - if @user.profile_picture.present?
+              = link_to '+ Change profile picture', 'javascript:return false;'
+            - else
+              = link_to '+ Add profile picture', 'javascript:return false;'
+      .content
+        = f.input :first_name, :required => true
+        = f.input :last_name, :required => true
+        = f.input :occupation
+        = f.input :current_city, :label => "Living in"
+        = f.label :birthday, 'Birthday'
+        .grouped
+          = f.date_select :birthday,
+            :start_year => Date.today.year - 90,
+            :end_year => Date.today.year - 12,
+            :order => [:month, :day, :year]
+          = f.check_box :hide_age
+          = f.label :hide_age, 'Prefer not to say'
+          .label
+            About Me
+            .note [witty bio in 160 characters or less]
+        = f.text_area :about_me, :maxlength => User::MAXIMUM_ABOUT_ME_LENGTH
+        = f.label :website_url
+        = f.text_field :website_url
+        .grouped
+          = image_tag 'icon_twitter.png', :class => 'icon'
+          = f.text_field :twitter_username, :placeholder => "@yourtwitter"
+          = image_tag 'icon_facebook.png', :class => 'icon'
+          = f.text_field :facebook_page, :placeholder => "/yourfacebook"
+        .main_actions
+          = content_tag :button, :type => :submit, :class => [:splash_button, :orange] do
+            Save<br/>Changes
+          = link_to 'Cancel', @user, :class => [:splash_button, :orange]
+    .clear_left

@@ -1,0 +1,9 @@
+$(document).trigger('close.facebox');
+
+var select = $('select#item_shipping_from_address_id');
+
+if (select.length > 0) {
+  $(select).html('<%= escape_javascript(options_for_select(current_user.shipping_addresses.map { |addr| [addr.to_s, addr.id] })) -%>');
+} else {
+  location.reload(true);
+}

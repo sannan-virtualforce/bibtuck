@@ -1,0 +1,29 @@
+#buck_activity_page
+  #main
+    %h1 Buck Activity
+
+    #bucks
+      %h2== Current available bucks: #{number_to_bucks(@user.buck_balance).upcase} 
+      = link_to 'BUY BUCKS', new_buck_purchase_path(:ref_page => :bucks), :class => 'grey_button', :rel => 'facebox', :popupwidth => 550
+
+    %h2 Positive
+    #transactions.positive
+      %ul
+        - @positive_transactions.each_with_index do |transaction, index|
+          - begin
+            %li.note== #{number_to_bucks(transaction.delta).split.map {|wrd| wrd.capitalize}.join(' ')} on #{bt_timestamp transaction.created_at.to_date} (#{reason_for(transaction)})
+            %li.symbol= index == @positive_transactions.length - 1 ? '=' : '+'
+          - rescue
+        %li.total== #{number_to_bucks(@positive_transactions.map(&:delta).sum).split.map {|wrd| wrd.capitalize}.join(' ')}
+
+    %h2 Negative
+    #transactions.negative
+      %ul
+        - @negative_transactions.each_with_index do |transaction, index|
+          - begin
+            %li.note== #{number_to_bucks(transaction.delta.abs).split.map {|wrd| wrd.capitalize}.join(' ')} on #{bt_timestamp transaction.created_at.to_date} (#{reason_for(transaction)})
+            %li.symbol= index == @negative_transactions.length - 1 ? '=' : '-' 
+          - rescue
+        %li.total== #{number_to_bucks(@negative_transactions.map(&:delta).sum.abs).split.map {|wrd| wrd.capitalize}.join(' ')} 
+
+    %p== TOTAL = #{number_to_bucks(@user.buck_balance).upcase}

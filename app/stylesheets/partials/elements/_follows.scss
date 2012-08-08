@@ -1,0 +1,59 @@
+#follows_page {
+  width: 980px;
+  h2 {
+    margin-left: 5px;
+    margin-bottom: 1em;
+  }
+  #columns {
+    font-size: 14px;
+    color: $grey_k62;
+    .column {
+      width: 235px;
+      padding: 5px;
+      float: left;
+    }
+    h3 {
+      color: $grey_k87;
+      font-size: 15px;
+      &:before {
+        content: '>> ';
+      }
+      .count {
+        display: inline-block;
+        margin-left: 5px;
+        padding: 0 4px;
+        background-color: #fc0;
+      }
+    }
+    .title_note {
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      color: $grey_k87;
+    }
+    .follower_info {
+      margin-bottom: 20px;
+      .picture {
+        float: left;
+        margin-right: 10px;
+        img {
+          max-width: 80px;
+          display: block;
+        }
+      }
+      .details {
+        font-size: 13px;
+        .username {
+          text-transform: uppercase;
+        }
+      }
+      .follow_button {
+        margin-top: 4px;
+        button.grey_button {
+          font-size: 14px;
+          line-height: 24px;
+          padding: 0 8px;
+        }
+      }
+    }
+  }
+}

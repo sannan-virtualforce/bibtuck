@@ -1,0 +1,14 @@
+@mixin navigation-link($off-background-color: white, $on-background-color: $yellow) {
+  a {
+    @include adjust-leading-to(2);
+    @include unstyled-link;
+    background: $off-background-color;
+    display:    block;
+    $padding: $base-line-height * 0.5;
+    padding: {
+      left:   $padding;
+      right:  $padding;
+    }
+    &:hover { background: $on-background-color; }
+  }
+}

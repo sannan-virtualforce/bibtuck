@@ -1,0 +1,43 @@
+#invite_friends_page
+  %h2
+    Invite Friends
+    %span.grey &gt;&gt; #{@user.invitation_limit} #{@user.invitation_limit == 1 ? 'invite' : 'invites'} left
+
+  .message
+    %p Keep your friends close (and their closets closer)
+    %p.small For every friend that signs up, we'll give you 25 bucks. You're welcome.
+
+  - if @user.can_invite?
+    = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :post } do |f|
+      = devise_error_messages!
+      .invites
+        - 1.upto(@user.invitation_limit) do
+          .invite
+            = image_tag 'apply_code.png'
+            = f.text_field :name, :name => 'names[]', :value => '', :placeholder => 'Name'
+            = f.text_field :email, :name => 'emails[]', :value => '', :placeholder => 'Email address'
+            = content_tag :button, :type => :submit do |btn|
+              Send Invite
+  - else
+    .cant_invite You're all out of invitations :/
+
+  #accepted
+    %h2 Invitations Accepted
+    - if @accepted.any?
+      - @accepted.each do |invitee|
+        .invitee>
+          = link_to image_tag(invitee.profile_picture.url(:avatar)), invitee, :class => 'thumb'
+          = link_to "#{invitee.first_name} #{invitee.last_name}", invitee, :class => 'name'
+    - else
+      .none None of your invites have been accepted yet
+
+  #pending
+    %h2 Invitations Pending
+    .invitees
+      - if @pending.any?
+        - @pending.each do |invitee|
+          = mail_to invitee.email, invitee.email, :class => 'email'
+          = link_to 'send reminder', resend_invite_user_path(invitee), :method => :post, :class => 'options'
+      - else
+        .none No invitations pending.
+

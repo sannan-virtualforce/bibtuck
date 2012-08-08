@@ -1,0 +1,31 @@
+#follows_page
+  %h2 #{link_to @user.display_name, @user}'s followers
+  #columns
+    #follows.column
+      %h3
+        Followers
+        .count= @user.followers.active.count
+      = render :partial => 'follower', :collection => @user.followers.active
+
+    #following.column
+      %h3
+        Following
+        .count= @user.followings.active.count
+      = render :partial => 'follower', :collection => @user.followings.active
+
+    - unless viewing_current_user?
+      #connections_both.column
+        %h3
+          Connections
+          .count= @follow_with.count
+        .title_note You and #{link_to @user.display_name, @user} both follow #{pluralize @follow_with.count, 'member'}
+        = render :partial => 'follower', :collection => @follow_with
+
+      #connections_2nd.column
+        %h3
+          Connections
+          .count= @second_degree_followers.count
+        .title_note You follow #{pluralize @second_degree_followers.count, 'member'} that follows #{link_to @user.display_name, @user}
+        = render :partial => 'follower', :collection => @second_degree_followers
+
+    .clear_left

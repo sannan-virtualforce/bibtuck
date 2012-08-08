@@ -1,0 +1,38 @@
+#search_results_page
+  %h1 Results for #{params[:query]}
+
+  %h3 Brands
+  .box
+    - if @brands.present?
+      - @brands.each do |brand|
+        .element_info.brand>
+          .line= link_to brand.name, brand
+    - else
+      .no_results No results shown
+
+  %h3 Members
+  .box
+    - if @users.present?
+      - @users.each do |user|
+        .element_info>
+          = link_to image_tag(user.profile_picture.url(:avatar), :alt => "#{user.display_name}'s picture"), user, :title => user.display_name
+          .details
+            .line.username= link_to user.display_name, user
+            - if user.occupation.present?
+              .line= user.occupation
+            - if user.location.present?
+              .line Living in #{user.location}
+          .clear_left
+    - else
+      .no_results No results shown
+
+  %h3 Items
+  .box
+    - if @items.present?
+      - @items.each do |item|
+        .element_info>
+          - if item.primary_photo.present?
+            = link_to(image_tag(item.primary_photo.path.url(:avatar)), item)
+          .line= link_to item.name, item
+    - else
+      .no_results No results shown

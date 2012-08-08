@@ -1,0 +1,25 @@
+%p#notice= notice
+
+%p
+  %b First name:
+  = @subscriber.first_name
+%p
+  %b Last name:
+  = @subscriber.last_name
+%p
+  %b Email:
+  = @subscriber.email
+%p
+  %b Url:
+  = @subscriber.url
+%p
+  %b Occupation:
+  = @subscriber.occupation
+%p
+  %b Favorite period:
+  = @subscriber.favorite_period
+%p
+  %b Created at:
+  = @subscriber.created_at
+
+= link_to 'Edit', edit_admin_subscriber_path(@subscriber)

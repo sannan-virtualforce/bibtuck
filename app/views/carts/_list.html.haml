@@ -1,0 +1,16 @@
+- cart_link = true if cart_link.nil?
+
+- items.each do |item|
+  %tr
+    - if cart_link
+      %td.col_command= cart_link(item, true)
+    - else
+      %td
+
+    %td.col_item
+      - if item.primary_photo
+        = link_to image_tag(item.primary_photo.path_url(:featured)), item
+    %td.col_desc== #{link_to item.name, item}, #{link_to item.brand.try(:name), items_path(:brand_id => item.brand.id)}
+    %td.col_seller== #{link_to(item.user.display_name, item.user)}
+    %td.col_bucks== #{number_to_bucks(item.price)}
+    %td.col_fee= number_to_currency item.total_fee

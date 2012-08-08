@@ -1,0 +1,16 @@
+!!!
+%html{:style => 'overflow: hidden;'}
+  %head
+    %title Bib + Tuck
+    = include_stylesheets :screen, :media => 'screen, projection'
+  %body{ :class => "splash #{'development' unless Rails.env.production? }", :style => 'background-color: #8D9092;' }
+    #page-404
+      .stripe
+        %p #500
+        %p #just#{link_to 'gohome.', root_path}
+        %p ##{link_to 'OrContactUs', page_path('contact_us'), :rel => :facebox, :popupwidth => 470}
+  = include_javascripts :defaults
+  :javascript
+    $(document).ready(function() {
+      $.backstretch("#{image_path('background_pixelated.jpg')}");
+    });

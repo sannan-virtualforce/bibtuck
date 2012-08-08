@@ -1,0 +1,68 @@
+= show_promotional_message
+#boxes
+  #blog_help
+    = link_to 'tuck', items_path, :class => 'tuck_yourself'
+    = link_to BLOG_LINK, :target => '_blank', :class => 'blog_link' do
+      .visit_blog VISIT OUR BLOG
+    %iframe{:src => 'http://player.vimeo.com/video/43881143', :width => 360, :height => 262,
+      :frameborder => 0, :webkitAllowFullScreen => true, :mozallowfullscreen => true, :allowFullScreen => true}
+
+  #lookbook_photo
+    .slideshow_container
+      .slideshow
+        - LookbookPhoto.for_homepage.each do |photo|
+          - if photo.link
+            = link_to image_tag(photo.path_url), photo.link, :target => (photo.external_link? ? '_blank' : nil)
+          - else
+            = image_tag photo.path_url
+    #slideshow_nav
+
+  - if @featured_closet.present?
+    #featured_closet
+      %h2 Featured closet
+      .user
+        - if @featured_closet.profile_picture?
+          = link_to(image_tag(@featured_closet.profile_picture.preview.to_s),
+            [:featured, @featured_closet], :class => 'profile_picture')
+        .user_info>
+          .content_box
+            .name= link_to @featured_closet.display_name, [:featured, @featured_closet]
+            .bio= @featured_closet.short_bio
+            - if @featured_closet.featured_content.present?
+              .content= strip_tags(@featured_closet.featured_content.gsub(/<br\s*\/?\s*>/, ' '))
+              .see_more ... #{link_to 'see more', [:featured, @featured_closet]}
+  .clear_left
+
+#blocks
+  - if @editors_picks.present?
+    #top_rated_picks
+      %h3
+        Editor's Picks
+        = link_to 'see more', items_path(:filter => 'editors_picks')
+      .row
+        - @editors_picks.each do |item|
+          .item.featured= render :partial => 'items/item', :locals => { :item => item }
+
+  - if @new_items.present?
+    #whats_new
+      %h3
+        What's New to Bib + Tuck
+        = link_to 'see more', :items
+      #whats_new_container{:last => @new_items.last.created_at}
+        - @new_items.each do |item|
+          .item.featured= render :partial => 'items/item', :locals => { :item => item }
+
+  - if @top_rated_users.present?
+    #top_rated_users
+      %h3
+        = link_to 'Top Rated Members', items_path(:filter => :top_rated)
+      - @top_rated_users.each do |user|
+        .user= link_to(image_tag(user.profile_picture.url(:avatar)), user)
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      $('.slideshow').cycle({
+        fx: 'fade',
+        pager: '#slideshow_nav'
+      });
+    });

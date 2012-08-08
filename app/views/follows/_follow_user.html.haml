@@ -1,0 +1,4 @@
+%p= link_to(user.display_name, user)
+%p== #{user.age} years old
+%p== Living in #{user.location}
+%p= follow_button user, :class => 'grey_button'

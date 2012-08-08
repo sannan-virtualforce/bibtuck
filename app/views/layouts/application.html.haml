@@ -1,0 +1,30 @@
+!!!
+%html
+  %head
+    %title Bib + Tuck
+    = csrf_meta_tag
+    = favicon_link_tag
+    = include_stylesheets :screen,  :media => 'screen, projection'
+    = include_stylesheets :print,   :media => 'print'
+    /[if IE]
+      = include_stylesheets :ie,    :media => 'screen, projection'
+    - if Rails.env.production?
+      = render 'tracking/google_analytics'
+    = javascript_include_tag "https://stage.wepay.com/js/iframe.wepay.js"
+  %body{ :class => "#{'development' unless Rails.env.production? }"}
+    #wrapper
+      = render 'shared/header'
+      #container
+        = render 'shared/flashes'
+        #content{ :class => controller.controller_name }
+          = yield
+        #content_footer
+    = render 'shared/footer'
+    = render 'shared/additional_information'
+    = render_popup_notice
+  = include_javascripts :defaults
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  = yield :js
+  :javascript
+    #{yield :jse}
+

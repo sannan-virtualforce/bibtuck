@@ -1,0 +1,70 @@
+@import "buttons/background/*.png";
+@include all-background-sprites;
+
+/* Fix my colorscheme! */
+
+@mixin button($width, $font-size: 16px, $type: primary) {
+  @if $type == primary {
+    @include button-primary($width, $font-size);
+  } @else if $type == secondary {
+    @include button-secondary($width, $font-size);
+  }
+}
+
+@mixin gray-button {
+  @include button($width: span(3), $type: secondary);
+  @include inline-block;
+  text-align:   center;
+  margin:       0 5px 5px 0;
+  line-height: 2em;
+  &:before { content: '>>'; }
+}
+
+@mixin button-primary($width, $font-size) {
+  @include standard-button($width, $font-size);
+  @include background-sprite(normal);
+  color:            $grey_6;
+  background-color: transparent;
+  font-style:       italic;
+  text-transform:   uppercase;
+  min-width:        107px;
+  height:           54px;
+  &:hover { @include background-sprite(hover); }
+}
+
+@mixin button-secondary($width, $font-size) {
+  @include standard-button($width, $font-size);
+  background-color: $grey_0;
+  color:            $grey_6;
+  text-transform:   uppercase;
+  width:            auto;
+  &:before { content: '>> '; }
+  &:hover { background-color: $grey_2; }
+}
+
+@mixin standard-button($width, $font-size) {
+  $padding-left-right: ($font-size / 2);
+  @include adjust-font-size-to($font-size);
+  @include adjust-leading-to(2);
+  @include rhythm;
+  @include unstyled-link;
+  border:           0;
+  padding: {
+    left:   $padding-left-right;
+    right:  $padding-left-right;
+  }
+  &:hover { cursor: pointer; }
+  @if $width { width: $width; }
+}
+
+@mixin input($width: $input-width, $leading: 0.5) {
+  @include padding-leader($leading);
+  @include padding-trailer($leading);
+  @include box-sizing(border-box);
+  padding: {
+    left:   0.5em;
+    right:  0.5em;
+  }
+  border: 1px solid #000;
+  width:  $width;
+}

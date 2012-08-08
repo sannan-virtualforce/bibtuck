@@ -1,0 +1,26 @@
+= form_for @subscriber do |f|
+  -if @subscriber.errors.any?
+    #error_explanation
+      %h3 Please make sure to fill out all the required fields.
+  .field
+    = f.label :first_name, :class => 'required'
+    = f.text_field :first_name
+  .field
+    = f.label :last_name, :class => 'required'
+    = f.text_field :last_name
+  .field
+    = f.label :email, :class => 'required'
+    = f.text_field :email
+  .field
+    = f.label :occupation, "I am a", :class => 'required'
+    = f.text_field :occupation, :placeholder => 'Stylist, Designer, Blogger, etc.'
+  .field
+    = f.label :favorite_period, "My favorite fashion decade (optional)"
+    = f.text_field :favorite_period, :placeholder => "1920's, 80's, 2000's, etc."
+  .field
+    = f.label :url, "URL (optional)"
+    = f.text_field :url
+  .actions
+    = f.submit ''
+  .clear
+.clear

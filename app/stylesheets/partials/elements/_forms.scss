@@ -1,0 +1,110 @@
+form {
+  div {
+    @include adjust-leading-to(1);
+    @include clearfix;
+    @include trailer(0.2);
+    &.for_textarea { @include adjust-leading-to(7); }
+    &.grouped > div {
+      @include column-base;
+      &:last-child { @include last; }
+    }
+    &.explanation {
+      @include adjust-font-size-to(14px);
+      @include leader(2);
+      color: $grey_2;
+      width: span(6);
+      a { @include adjust-font-size-to(20px); }
+    }
+  }
+  label,
+  input,
+  textarea,
+  select {
+    @include font-courier;
+    @include adjust-font-size-to(12px);
+  }
+  //FIXME: labels should not be 100% width just because they are block level
+  label {
+    display:  block;
+    width:    $input-width;
+    abbr { display: none; }
+    &.required:after { content: " <<"; }
+  }
+  input {
+    &[type=checkbox] {
+      @include inline-block;
+      & + label { @include inline-block; }
+    }
+    &[type=email],
+    &[type=password],
+    &[type=url],
+    &[type=tel],
+    &[type=text]    { @include input(150px, 0.1); }
+    &[type=submit]  { @include button(secondary); }
+    &::-webkit-input-placeholder,
+    &:-moz-placeholder { }
+  }
+  select { @include input; }
+  textarea {
+    @include input;
+    margin-top: line-multiplier(1);
+    height:     line-multiplier(6);
+  }
+}
+
+.address_form {
+  h2 {
+    margin-bottom: 12px;
+  }
+  form {
+    hr.dashed {
+      margin: 16px 0 12px;
+      width: 368px;
+    }
+    input[type="text"],
+    input[type="tel"] {
+      border: 1px solid $grey_k53;
+      width: 178px;
+    }
+    div.boolean {
+      margin-top: 8px;
+      input {
+        margin: 0;
+        vertical-align: baseline;
+      }
+      label {
+        text-transform: none;
+        padding-left: 4px;
+      }
+    }
+    label {
+      width: auto;
+      text-transform: uppercase;
+      color: $grey_k87;
+      font-size: 12px;
+      &.required:after {
+        content: ' <<';
+        color: $red;
+      }
+    }
+    button {
+      margin-top: 12px;
+    }
+    .actions {
+      text-align: center;
+    }
+    #address_autocomplete {
+      width: 368px;
+    }
+    #address_street_line1,
+    #address_street_line2 {
+      width: 368px;
+    }
+    #address_state {
+      width: 80px;
+    }
+    #address_zipcode {
+      width: 86px;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+- if defined? popupwidth
+  #popup_notice{ :popupwidth => popupwidth }
+    = yield
+- else
+  #popup_notice
+    = yield
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      jQuery.facebox({div: '#popup_notice'});
+    });

@@ -1,0 +1,14 @@
+#notifications_page
+  = sidebar
+
+  #main
+    %h2 Notifications
+    - @notifications.group_by { |n| bt_text_timestamp n.created_at.to_date }.each do |header, notifications|
+      - if notifications.present?
+        %h2= header
+        .day
+          - notifications.each do |notification|
+            - begin
+              = content_tag_for(:div, notification) do
+                = notification_text(notification)
+            - rescue

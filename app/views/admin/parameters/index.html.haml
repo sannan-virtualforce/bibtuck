@@ -1,0 +1,19 @@
+.parameters_index
+  %h1 Parameters
+
+  %table.parameters
+    %tr
+      %th name/description
+      %th type
+      %th value
+      %th actions
+    - @parameters.each do |parameter|
+      %tr
+        %td
+          .name= link_to parameter.key, edit_admin_parameter_path(parameter)
+          .description= parameter.description
+        %td= parameter.content_type
+        %td.value= link_to raw(parameter.value), edit_admin_parameter_path(parameter)
+        %td
+          = link_to 'Edit', edit_admin_parameter_path(parameter)
+          = link_to 'Clear', admin_parameter_path(parameter), :method => :delete

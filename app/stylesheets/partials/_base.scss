@@ -1,0 +1,29 @@
+// Setup some blueprint stuff
+$blueprint_grid_columns:    16;
+$blueprint_container_size:  980px;
+$blueprint_grid_margin:     12px;
+$base-font-size:            15px;
+$base-line-height:          18px;
+
+$default-rhythm-border-style: dashed;
+
+// Setup our grid for testing.
+$grid-background-total-columns:   $blueprint_grid_columns;
+// Slightly confusing setup for getting our grid columns matched
+// up properly.
+$grid-background-column-width:    ( $blueprint_container_size -
+                                    (($blueprint_grid_columns - 1) *
+                                      $blueprint_grid_margin)) /
+                                      $blueprint_grid_columns;
+$grid-background-baseline-height: $base-line-height;
+$grid-background-gutter-width:    $blueprint_grid_margin;
+
+// Not 100% sure if we still need this in the latest
+// version of Compass.
+$blueprint_grid_width: ($blueprint_container_size +
+                        $blueprint_grid_margin) /
+                        $blueprint_grid_columns -
+                        $blueprint_grid_margin;
+
+$grid-background-column-color: rgba(0, 0, 0, 0);
+$grid-background-gutter-color: rgba(100, 100, 225, 0.1);

@@ -1,0 +1,21 @@
+%h1 Photos
+
+= link_to "Create photo", :new_admin_photo
+
+%table
+  %tr
+    %th Photo
+    %th User
+    %th Actions
+
+  - @photos.each do |photo|
+    %tr
+      %td= image_tag(photo.path.url(:preview))
+      %td= photo.user.try(:display_name)
+      %td= photo.created_at
+      %td
+        = link_to 'Show', [:admin, photo]
+        = link_to 'Edit', edit_admin_photo_path(photo)
+        = link_to('Destroy', [:admin, photo],
+                  :confirm => 'Are you sure?',
+                  :method => :delete)

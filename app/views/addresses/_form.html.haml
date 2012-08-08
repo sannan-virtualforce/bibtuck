@@ -1,0 +1,49 @@
+- is_inline ||= false
+- address_field_prefix ||= 'address'
+.grouped
+  = f.input :first_name, :required => true
+  = f.input :last_name, :required => true
+.grouped
+  = label_tag :address_autocomplete, 'Enter Address Here'
+  = text_field_tag :address_autocomplete, nil, :placeholder => 'Enter your address'
+%hr.dashed
+= f.input :street_line1, :required => true
+= f.input :street_line2, :required => false
+.grouped
+  = f.input :city, :required => true
+  = f.input :state, :required => true
+  = f.input :zipcode, :required => true
+= f.input :phone, :required => true
+- if is_inline || !is_create_form || @is_first
+  = f.hidden_field :is_primary, :value => true
+- else
+  .boolean
+    = f.check_box :is_primary
+    = f.label :is_primary, 'Make default address?'
+- unless is_inline
+  .actions
+    = content_tag :button, 'Save', :type => :submit, :class => 'grey_button'
+= content_for :js do
+  :javascript
+    var shortNameFields = ['street_number', 'administrative_area_level_1', 'postal_code']
+    $(function() {
+      var autocomplete = new google.maps.places.Autocomplete(document.getElementById('address_autocomplete'), {
+        types: ['geocode'],
+        componentRestrictions: {country: 'us'}
+      });
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var place = this.getPlace();
+        var address = {};
+        for (var i = 0; i < place.address_components.length; i++) {
+          var attr_type = (shortNameFields.indexOf(place.address_components[i].types[0]) == -1) ? 'long_name' : 'short_name';
+          address[place.address_components[i].types[0]] = place.address_components[i][attr_type];
+        }
+        var form = $('.address_form');
+        $('##{address_field_prefix}_street_line1', form).val((address['street_number'] ? address['street_number'] + ' ' : '')
+          + (address['route'] ? address['route'] : ''));
+        $('##{address_field_prefix}_street_line2', form).val('');
+        $('##{address_field_prefix}_city', form).val(address['locality'] || '');
+        $('##{address_field_prefix}_state', form).val(address['administrative_area_level_1'] || '');
+        $('##{address_field_prefix}_zipcode', form).val(address['postal_code'] || '');
+      });
+    });

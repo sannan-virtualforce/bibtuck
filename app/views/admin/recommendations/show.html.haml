@@ -1,0 +1,10 @@
+%p#notice= notice
+
+%p
+  %b Item:
+  = @recommendation.item_name
+%p
+  %b Recommended item:
+  = @recommendation.recommended_item_name
+
+= link_to 'Edit', edit_admin_recommendation_path(@recommendation)

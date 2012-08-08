@@ -1,0 +1,10 @@
+%h1 Brands
+%h2= link_to 'Add new Brand', new_admin_brand_path
+
+%table
+  %tr
+    %th Name
+
+  - @brands.each do |brand|
+    %tr
+      %td= link_to brand.name, admin_brand_path(brand)

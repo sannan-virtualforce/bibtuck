@@ -1,0 +1,11 @@
+#photo_uploads {
+  @include column(16, true);
+  margin-top: line-multiplier(2);
+  .photo {
+    @include column(4);
+    height: line-multiplier(18);
+    &.last {
+      @include last;
+    }
+  }
+}

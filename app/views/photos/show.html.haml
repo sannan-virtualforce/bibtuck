@@ -1,0 +1,17 @@
+%p#notice= notice
+
+- if (@photo.user == current_user)
+  .aviary
+    = image_tag(@photo.path.url,
+                :id     => dom_id(@photo),
+                :class  => 'launch_editor')
+
+  = link_to('Edit', edit_photo_path(@photo), :class => 'launch_editor')
+  \|
+  = link_to('Delete',
+            photo_path(@photo),
+            :method   => :delete,
+            :confirm  => 'Are you sure?')
+
+- else
+  = image_tag(@photo.path_url)

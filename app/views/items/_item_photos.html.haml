@@ -1,0 +1,26 @@
+- is_quick_view ||= false
+#photos
+  - unless item.photos.empty?
+    #primary_photo
+      = item_photo_tag(item.primary_photo, :css_class => %w(photo primary zoom))
+
+    - item.photos.each do |photo|
+      = item_photo_tag(photo, :css_class => %w(photo secondary), :photo_size => :avatar)
+
+= content_for :jse do
+  :erb
+    <% photos_sel = is_quick_view ? '.item_quick_view #photos' : '#item_page #photos' %>
+    $(function() {
+      <% unless is_quick_view %>
+      $('<%= photos_sel %> a.zoom').easyZoom({parent: '<%= photos_sel %> #primary_photo'});
+      <% end %>
+      $('<%= photos_sel %> img.photo').click(function() {
+        var currentPrimary = $('<%= photos_sel %> img.primary');
+        currentPrimary.attr('src', $(this).attr('big_url'));
+        currentPrimary.attr('big_url', $(this).attr('big_url'));
+        $('<%= photos_sel %> a.zoom').attr('href', $(this).attr('original_url'));
+        <% unless is_quick_view %>
+        $('<%= photos_sel %> a.zoom').easyZoom({parent: '<%= photos_sel %> #primary_photo'});
+        <% end %>
+      });
+    });

@@ -1,0 +1,262 @@
+#facebox {
+  #buck_transaction_form {
+    border: $border_dash_width dashed $border_dash_color;
+    table {
+      thead {
+        font-size: 16px;
+        text-transform: none;
+        th {
+          height: 30px;
+          vertical-align: top;
+        }
+      }
+      tbody {
+        color: $grey_k71;
+        td {
+          height: 30px;
+          &.selection {
+            padding-right: 20px;
+          }
+          #bucks_other {
+            width: 60px;
+            border: 0 none;
+            border-bottom: 1px solid $grey_k71;
+            text-align: center;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+#buy_bucks_popup {
+  padding: 10px;
+  font-size: 14px;
+  color: $grey_k87;
+  h1 {
+    margin: 0;
+  }
+  .note {
+    color: $grey_k38;
+  }
+  #buck_transaction_form {
+    margin: 30px 70px;
+    padding: 16px;
+  }
+  #buck_actions {
+    text-align: center;
+  }
+}
+
+.not_enough_bucks_popup {
+  .note {
+    margin: 20px;
+  }
+  #buck_transaction_form {
+    margin: 20px 0;
+    padding: 20px;
+  }
+}
+
+#popup_notice {
+  display: none;
+  .buck_purchase_finish {
+    padding: 40px 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: $grey_k87;
+    font-size: 16px;
+  }
+  .address_already_used_popup {
+    padding: 10px;
+    font-size: 13px;
+    p {
+      margin-top: 8px;
+    }
+    .actions {
+      margin: 20px 0 0;
+      text-align: center;
+    }
+  }
+}
+
+.popup_notice_message {
+  padding: 10px;
+}
+
+.new_message_popup {
+  width: 400px !important;
+  #new_message {
+    padding: 40px 0 10px 20px;
+    .title {
+      color: $grey_k87;
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+    .fields {
+      textarea {
+        width: 358px;
+        border-color: $grey_k87;
+      }
+    }
+    .actions {
+      margin-top: 20px;
+    }
+  }
+}
+
+.item_added_to_cart_popup {
+  width: 400px !important;
+  padding: 10px;
+  .note {
+    margin-bottom: 20px;
+    padding: 0 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+  .row {
+    margin: 0 0 10px;
+    text-align: center;
+    img#item_thumb {
+      vertical-align: middle;
+      margin-right: 6px;
+      min-width: 65px;
+      max-width: 65px;
+    }
+  }
+}
+
+.item_removed_from_cart_popup {
+  width: 420px !important;
+  padding: 10px;
+  .note {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 14px;
+  }
+  .row {
+    margin: 0 0 4px;
+    text-align: center;
+  }
+}
+
+.user_request_shipping_boxes_popup {
+  width: 400px !important;
+  font-size: 13px;
+  padding: 10px 0 0;
+  form {
+    select {
+      width: 350px;
+      height: 21px;
+      padding: 1px 1px 1px 4px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+  }
+  .actions {
+    margin-top: 20px;
+  }
+}
+
+.info_popup {
+  width: 400px !important;
+  font-size: 13px;
+  color: $grey_k87;
+  .shipping_and_transaction_info {
+    .line_bulleted {
+      margin-top: 16px;
+      padding-left: 16px;
+      background: image-url('arrow_right_black_10px.png') 0 3px no-repeat;
+    }
+  }
+}
+
+.send_feedback_popup {
+  padding: 20px 40px;
+  h2 {
+    width: auto;
+  }
+  .box {
+    margin: 20px 0 16px;
+    padding: 20px 28px;
+    text-transform: uppercase;
+    border: $border_dash_width dashed $border_dash_color;
+  }
+  form {
+    label {
+      text-transform: uppercase;
+    }
+    #feedback_message_email {
+      width: 320px;
+      height: 21px;
+      padding: 1px 1px 1px 4px;
+    }
+    textarea {
+      width: 320px;
+      height: 120px;
+      margin-top: 20px;
+    }
+    .actions {
+      margin-top: 40px;
+      text-align: center;
+    }
+  }
+}
+
+#feedback_thankyou_popup {
+  padding: 50px 0;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#select_payment_option_popup {
+  #select_payment {
+    margin: 20px 0;
+    #paypal_checkout {
+      display: inline-block;
+      vertical-align: middle;
+      a {
+        position: relative;
+        top: 8px;
+        img {
+          margin-left: 8px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+#how_it_works_video_popup {
+  color: $grey_k87;
+  .title {
+    p {
+      margin-top: 8px;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  iframe {
+    margin: 10px 0;
+  }
+}
+
+#shipping_from_info_popup {
+  h2 {
+    margin-bottom: 1em;
+  }
+}
+
+#shipping_box_info_popup {
+  p {
+    margin-top: 1em;
+  }
+  ul {
+    margin-top: 1em;
+    margin-left: 10px;
+  }
+}

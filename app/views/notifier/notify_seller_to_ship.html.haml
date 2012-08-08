@@ -1,0 +1,8 @@
+%p Hi #{@seller.first_name},
+
+%p #{@item.order.user.display_name} is ever so patiently awaiting the #{link_to @item.name, item_url(@item)}. We know you're busy, but please ship it soon, or #{link_to 'contact her', user_url(@item.order.user)} to let her know what's going on.
+
+%p #{link_to 'Click here', shipping_label_item_url(@item)} to print your shipping label.
+
+%p If you need help, feel free to email us at #{mail_to 'help@bibandtuck.com'} or call us at (646) 568-5666.
+%p - The B+T Team

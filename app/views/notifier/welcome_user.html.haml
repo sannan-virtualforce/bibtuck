@@ -1,0 +1,16 @@
+%p Hi #{@user.first_name},
+
+Welcome to Bib + Tuck! We're jumping off our office chairs excited to peak inside your wardrobe.
+
+%p First, take a second to #{link_to 'complete your profile', edit_user_url(@user)}. Fashion is all about the fashionista. We actually want to get to know you.
+
+%p Get ready to play! There are hundreds of fabulous items for you to #{link_to 'tuck', items_url} (purchase), and we're giving you 50 free bucks just because we love you.
+
+%p But don't just tuck with us. #{link_to 'Bib', new_item_url} (upload/sell) your own items to earn more bucks. Please bib carefully; the items you sell will help set the tone for the whole community. Someone will lovingly tuck them soon.
+
+%p And don't worry, you'll be hip with the lingo in no time.
+
+%p Lastly, spread the word! If you could raid 3 of your friend's closets, who would they be? #{link_to 'Send them an invitation', new_user_invitation_url} and get 25 bucks each time one of them joins us. See, we really do love you.
+
+%p xo,
+%p Sari and Sari

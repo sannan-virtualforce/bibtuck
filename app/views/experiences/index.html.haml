@@ -1,0 +1,55 @@
+#view_rating_page
+  .user_info
+    = link_to image_tag(@user.profile_picture.url(:preview), :alt => "#{@user.display_name}'s picture"), @user,
+      :title => @user.display_name
+    %p.name= @user.display_name
+    - if @user.age
+      %p #{@user.age} years old
+    - if @user.location
+      %p Living in #{@user.location}
+
+  .user_experience
+    %h2== #{link_to @user.display_name, @user}'s Ratings
+
+    - if @user.experiences.present?
+      %ul.experience_summary
+        %li
+          %span.label Rating Average:
+          = show_rating_for @user, false
+        %li
+          %span.label Rating Count (Lifetime):
+          = @user.experiences.count
+        %li
+          %span.label # of items sold:
+          = @user.items.sold.count
+        %li
+          %span.label # of followers:
+          = @user.followers.count
+
+      - @user.experiences.each do |experience|
+        %ul.experience
+          %li
+            %span.label Rating:
+            = show_rating_for experience, false
+          %li
+            %span.label Date:
+            = bt_timestamp experience.created_at.to_date
+          %li
+            %span.label Rated By:
+            = link_to_user experience.rater
+          %li
+            %span.label Item:
+            = link_to experience.item.name, experience.item
+          - if viewing_current_user?
+            - Experience::QUESTIONS.each do |field, question|
+              %li
+                %span.label #{question}
+                = experience.send field
+          - else
+            %li
+              %span.label Would they buy from #{@user.display_name} again?:
+              = experience.response_3
+          - if experience.comment.present?
+            %li
+              %span.label Comment:
+              = experience.comment

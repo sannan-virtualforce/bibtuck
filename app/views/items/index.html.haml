@@ -1,0 +1,102 @@
+= show_promotional_message
+#tuck_page
+  #filters
+    %h2 Tuck by:
+    %nav
+      %ul
+        %li= link_to "What's new", items_path, :class => is_current_filter?(:whats_new)
+        %li= link_to "Editor's picks", items_path(:filter => :editors_picks), :class => is_current_filter?(:editors_picks)
+        %li= link_to "Top rated Members", items_path(:filter => :top_rated), :class => is_current_filter?(:top_rated)
+        %li= link_to "Closets I'm Following", items_path(:filter => :following), :class => is_current_filter?(:following)
+      #categories
+        %p Categories
+        %ul
+          - @categories.each do |category|
+            %li= link_to category.name, items_path(:category_id => category.id), :class => is_current_category?(category.id)
+      #active_brands
+        = link_to "Tuck By Brand", '#', :id => :tuck_by_brand
+        = link_to "[see all]", :brands
+        %ul
+          - Brand.active.each do |brand|
+            %li= link_to brand.name, items_path(:brand_id => brand.id), :class => is_current_brand?(brand.id)
+
+  #sizes
+    = form_tag request.url, :method => :get, :id => 'size_form' do
+      - [:sort, :filter, :category_id, :brand_id].each do |field|
+        = hidden_field_tag field, params[field]
+      - if @category.blank?
+        = select_tag :size, grouped_options_for_select(CategorySize.all_grouped, :selected => params[:size]),
+          :multiple => true
+      - elsif @category.sizes.count > 1
+        = select_tag :size, options_for_select(CategorySize.get(@category), :selected => params[:size]),
+          :multiple => true
+
+  #sort
+    %ul
+      %p Sort By:
+      %li= link_to 'Newest Items', add_param(:sort => :newest), :class => is_current_sort_order?(:newest)
+      %li= link_to 'Bucks: Low to High', add_param(:sort => :bucks_asc), :class => is_current_sort_order?(:bucks_asc)
+      %li= link_to 'Bucks: High to Low', add_param(:sort => :bucks_desc), :class => is_current_sort_order?(:bucks_desc)
+
+  = paginate @items
+  #user_items
+    - if params[:filter] == 'following' && !@items.present?
+      .no_followings_message
+        This is where all of the items from the people you follow will be displayed.
+        Since you're not following anyone right now, there's nothing here, but our members page has
+        some great suggestions to get you started.
+        = link_to 'Have a look>>', users_path 
+    - else
+      - @columns.each do |column|
+        .item_column
+          - column.each do |item|
+            .item= render :partial => 'item', :object => item, :locals => { :extended_info => true }
+      .clear_left
+
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      $('#tuck_by_brand').click(function() {
+        $('#active_brands ul').toggle();
+      });
+      $('#filters').stickySidebar({padding: 20, speed: 0});
+      $('#user_items').infinitescroll({
+          navSelector: 'nav.pagination',
+          nextSelector: 'nav.pagination .next a',
+          itemSelector: '#user_items .item_column',
+          msg: 'Loading new items ...',
+          appendCallback: false
+        },
+        function(newItems) {
+          $('a[rel*=facebox]', newItems).facebox();
+          var no_columns = newItems.length;
+          var columns = $('#user_items .item_column');
+          for(var i = 0; i < no_columns; i++) {
+            columns.eq(i).append($(newItems[i]).children());
+          }
+          $('#filters').stickySidebar({padding: 20, speed: 0});
+        }
+      );
+
+      $('select#size').multiselect({
+        noneSelectedText: 'View all sizes',
+        header: false,
+        minWidth: 100,
+        selectedText: function(numChecked, numTotal, checkedItems) {
+          return numChecked + ' ' + (numChecked == 1 ? 'size' : 'sizes') + ' selected';
+        },
+        open: function() {
+          $(this).data('oldSelection', $(this).val());
+        },
+        close: function() {
+          $(this).val($(this).data('oldSelection')).multiselect('refresh');
+        }
+      });
+      $('.ui-multiselect-menu').append('<div class="multiSelBotHead"><span class="multiSelCancel">cancel</span><span class="multiSelApply">apply</span></div>');
+      $('.ui-multiselect-menu .multiSelCancel').click(function() {
+        $('form#size_form select#size').multiselect('close');
+      });
+      $('.ui-multiselect-menu .multiSelApply').click(function() {
+        $('form#size_form').submit();
+      });
+    });

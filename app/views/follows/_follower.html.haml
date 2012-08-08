@@ -1,0 +1,11 @@
+.follower_info
+  .picture
+    = link_to image_tag(follower.profile_picture.url(:avatar), :alt => "#{follower.display_name}'s picture"), follower, :tittle => follower.display_name
+  .details
+    .line.username= link_to follower.display_name, follower
+    - if follower.occupation.present?
+      .line= follower.occupation
+    - if follower.location.present?
+      .line Living in #{follower.location}
+    = follow_button follower, :class => 'grey_button'
+  .clear_left

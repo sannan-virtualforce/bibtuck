@@ -1,0 +1,63 @@
+.menu_bar
+  = link_to 'Export to CSV', export_users_path(:format => :csv)
+#users_index
+  %table
+    %thead
+      %tr
+        %th.id_col ID
+        %th.status Status
+        %th.name Info
+        %th.created Created
+        %th.items Items
+        %th.bucks Bucks
+        %th.invites Invitations
+    %tbody
+      - @users.each do |user|
+        %tr{ :class => (user.deactivated_at ? :deactivated : nil) }
+          %td.id_col= user.id
+          %td.status
+            - if user.deactivated?
+              .line Deactivated at #{format_date user.deactivated_at}
+            - if user.founding_member
+              .line Founding member
+            - if user.admin
+              .line Admin
+            - if user.featured_at
+              .line Featured at #{format_date user.featured_at}
+            .line= show_rating_for user
+          %td.name
+            = link_to image_tag(user.profile_picture.url(:thumb)), admin_user_path(user), :class => :profile_pic
+            .user_info
+              .line= link_to "#{user.first_name} #{user.last_name} #{user.username ? '(' + user.username + ')' : '' }", admin_user_path(user)
+              .line= mail_to user.email
+              .line= user.short_bio
+              .line
+              - if user.website_url.present?
+                .line web: #{link_to user.pretty_website_url, user.website_url, :target => '_blank'}
+              .line
+                - if user.twitter_username.present?
+                  twitter: #{link_to user.twitter_username, "http://twitter.com/#{user.twitter_username}", :target => '_blank'}
+                - if user.facebook_page.present?
+                  facebook: #{link_to user.facebook_page, "http://facebook.com/#{user.facebook_page}", :target => '_blank'}
+          %td.created= format_date user.created_at
+          %td.items
+            .nfo_label Bibbed:
+            .value= user.items.where('bibbed_at is not null').count
+            .nfo_label Sold: 
+            .value= user.items.sold.count
+            .nfo_label Purhcased:
+            .value= user.tucked_items.count
+            .nfo_label Reported:
+            .value= user.items.inject(0) {|sum, item| sum + (item.flagged_item ? 1 : 0)}
+          %td.bucks
+            .nfo_label Buck balance:
+            .value= number_to_bucks user.buck_balance
+            .nfo_label Total revenue:
+            .value= number_to_currency (user.orders.map(&:amount_in_cents).sum + user.buck_purchases.map(&:amount_in_cents).sum)/100.0
+          %td.invites
+            .nfo_label Remaining:
+            .value= user.invitation_limit
+            .nfo_label Accepted:
+            .value= user.invitees.where('last_sign_in_at is not null').count
+            .nfo_label Pending:
+            .value= user.invitees.where('last_sign_in_at is null').count

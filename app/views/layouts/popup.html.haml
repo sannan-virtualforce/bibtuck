@@ -1,0 +1,8 @@
+= yield
+:javascript
+  $(document).ready(function() {
+    $('a[rel*=facebox]').facebox();
+  });
+  #{yield :jse}
+= yield :js
+

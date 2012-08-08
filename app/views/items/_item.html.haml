@@ -1,0 +1,12 @@
+= link_to(item) do
+  = item.primary_photo ? image_tag(item.primary_photo.path_url(:big), :alt => item.name) : nil
+  - if item.tucked?
+    .details.sold
+      %p TUCKED
+  - else
+    .details
+      %p= item.name
+      %p= number_to_bucks item.price, :upper
+      %p  Size: #{item.size}#{defined?(extended_info) && item.brand ? ' | ' + item.brand.name : nil}
+      = link_to 'quick view', { :controller => 'items', :action => 'quick_view', :id => item.id },
+        :rel => 'facebox.item_quick_view', :class => 'quick_view_icon'

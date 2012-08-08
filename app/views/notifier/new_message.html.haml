@@ -1,0 +1,5 @@
+%p #{@message.user.display_name} says:
+
+%p= @message.body
+
+%p== To reply, go here: #{user_conversation_url(@user, @message.conversation.id)}

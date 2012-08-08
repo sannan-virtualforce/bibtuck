@@ -1,0 +1,29 @@
+.not_enough_bucks_popup
+  %h2 Not enough bucks!
+  .note You currently have #{number_to_bucks current_user.buck_balance} in your account. You need #{number_to_bucks @difference, :none} more to buy these items.
+  = form_for @buck_purchase, :url => select_payment_option_buck_purchases_path, :html => { :method => :get } do |f|
+    - if @item
+      = hidden_field_tag :item_id, @item.id
+    #buck_transaction_form
+      = render :partial => 'form', :locals => { :f => f, :difference => @difference }
+    #buck_actions
+      = content_tag :button, 'Buy Now', :type => :submit, :class => :grey_button
+      -if @item
+        = link_to 'Add to cart and buy later', cart_path(current_user, :item_id => @item.id, :no_popup => true),
+          :method => :put, :rel => 'nofollow', :class => [:add_to_cart_not_enough, :grey_button]
+
+= content_for :js do
+  :javascript
+    $(function() {
+      $('#facebox a.add_to_cart_not_enough').click(function() {
+        $.facebox.close();
+        return true;
+      });
+      var form = $('#facebox form#new_buck_purchase');
+      $('button[type="submit"]').click(function(e) {
+        e.preventDefault();
+        var submitUrl = '#{select_payment_option_buck_purchases_url}' + '?' + form.serialize();
+        $.facebox({ajax: submitUrl, popupwidth: 600});
+        return false;
+      });
+    });

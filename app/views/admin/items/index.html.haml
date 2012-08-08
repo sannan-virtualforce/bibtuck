@@ -1,0 +1,77 @@
+.menu_bar
+  = link_to 'Export to CSV', export_items_path(:format => :csv)
+.items_index
+  %h1 Items
+
+  %table.admin_list_table
+    %thead
+      %tr
+        %th.details
+          .line Name [Brand]
+          .line Category [Size]
+          .line Condition
+          .line Price
+        %th.views # of views
+        %th.status
+          .line Status
+          .line Uploaded at
+          .line Tucked at
+        %th
+          .line Seller
+          .line Buyer
+        %th
+          .line Editors pick
+          .line Flagged
+          .line Rating
+          .line Refund
+    %tbody
+      - @items.each do |item|
+        %tr
+          %td.details
+            - if photo = item.primary_photo || item.photos.first
+              .photo= link_to image_tag(photo.path.url(:thumb)), admin_item_path(item)
+            .item_details
+              .line
+                = link_to item.name, admin_item_path(item)
+                = link_to "[#{item.brand_name}]", admin_brand_path(item.brand)
+              .line #{item.category_name.titlecase} [#{item.size}]
+              .line= item.condition
+              .line= number_to_bucks item.price
+            .clear_left
+          %td.views
+            .label Total/Quick:
+            .label_val #{item.view_count_total}/#{item.view_count_total_qv}
+            .label Session:
+            .label_val #{item.view_count_session}/#{item.view_count_session_qv}
+            .label Users:
+            .label_val= item.view_count_distinct_user
+          %td.status
+            .line
+              .label Status:
+              .label_val
+                = get_item_status(item)
+                - if item.order_item && item.order_item.shipped? && item.order_item.tracked?
+                  = link_to '(track package)', item.order_item.tracking_url, :target => '_blank'
+              - if item.bibbed_at
+                .label Uploaded at:
+                .label_val= format_date item.bibbed_at
+              - if item.tucked_at
+                .label Tucked at:
+                .label_val= format_date item.tucked_at
+          %td
+            .label Seller:
+            .label_val= link_to item.user.display_name, admin_user_path(item.user)
+            - if item.shipping_from_address
+              .label_val= item.shipping_from_address.to_s
+            - if item.order.present?
+              .label Buyer:
+              .label_val= link_to item.order_item.buyer.display_name, admin_user_path(item.order_item.buyer)
+          %td
+            - if item.editors_pick
+              .line Editors pick
+            - if item.flagged?
+              .line Flagged
+            - if item.experience.try :rating
+              .line= show_rating_for item
+            - if item.buck_refund
+              .line= render 'users/activity_refund', :item => item

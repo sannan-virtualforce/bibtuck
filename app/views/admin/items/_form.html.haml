@@ -1,0 +1,47 @@
+.item_form
+  = form_for [:admin, @item] do |f|
+    = render_errors @item
+    .field
+      = f.label :name
+      = f.text_field :name
+    .field
+      = f.label :brand_id
+      = f.select :brand_id, bib_brand_select_options, :include_blank => true
+    .field
+      = f.label :category_id
+      = f.select :category_id, Category.all.map { |c| [c.name, c.id] }
+    .field
+      = f.label :size
+      = f.select :size, CategorySize::MAPPING[@item.category.try(:name)] || [@item.size]
+    .field
+      = f.label :fit
+      = f.select :fit, Item::FITS
+    .field
+      = f.label :condition
+      = f.select :condition, Item::CONDITIONS
+    .field
+      = f.label :color_1, 'Color'
+      - 1.upto(5) do |i|
+        = f.text_field "color_#{i}", :class => :simple_color
+    .field
+      = f.label :description
+      = f.text_area :description
+    .field
+      = f.label :why_sell
+      = f.text_area :why_sell
+    .field
+      = f.label :price
+      = f.text_field :price
+    .field
+      = f.label :editors_pick
+      = f.check_box :editors_pick
+    .field
+      = f.label :shipping_box_size
+      = f.select :shipping_box_size, shipping_box_collection
+    .field
+      = f.label :shipping_from_address_id
+      = f.select :shipping_from_address_id, @item.user.shipping_addresses.map { |addr| [addr.to_s, addr.id] }, :include_blank => true
+    .actions
+      = content_tag :button, 'Save', :type => :submit, :class => :grey_button
+= content_for :js do
+  = render :partial => 'items/initialize_form_js'

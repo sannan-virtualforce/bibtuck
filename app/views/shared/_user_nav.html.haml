@@ -1,0 +1,29 @@
+%nav
+  %ul
+    %li= link_to('view my activity', activity_user_path(current_user), :id => 'my_activity')
+    - if @show_expanded_activity
+      %ul
+        %li= link_to 'Current Sales', activity_user_path(current_user, :anchor => 'current')
+        %li= link_to 'Sold', activity_user_path(current_user, :anchor => 'sold')
+        %li= link_to 'Unlisted', activity_user_path(current_user, :anchor => 'unlisted')
+        %li= link_to 'Purchased Items', activity_user_path(current_user, :anchor => 'purchased')
+  %ul
+    %li= link_to 'view my ratings', [current_user, :experiences]
+  %ul
+    %li= link_to('edit profile', edit_user_path(current_user))
+    %li= link_to('account settings', account_user_path(current_user))
+  %ul
+    %li= messages_link
+    %li= invites_link
+    %li= link_to 'my saved photos', [:saved_photos, current_user]
+  %ul
+    %li= link_to "buck balance: #{current_user.buck_balance} bucks", bucks_user_path(current_user)
+    %li= link_to 'get more bucks', new_buck_purchase_path(:ref_page => :my_profile), :rel => 'facebox', :popupwidth => 550
+  %ul.last
+    %li Resources
+    %ul
+      %li= link_to('Photography tips', page_path(:photo_tips), :rel => :facebox, :popupwidth => 670)
+      %li= link_to('Shipping FAQs', page_path('shipping_tips'), :rel => :facebox, :popupwidth => 850)
+      %li= link_to('Concierge Service', '#concierge', :rel => 'facebox')
+  = render(:partial => 'shared/additional_information')
+

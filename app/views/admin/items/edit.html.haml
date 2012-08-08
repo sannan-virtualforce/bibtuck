@@ -1,0 +1,6 @@
+.item_edit
+  .menu_bar
+    = link_to '<< List', admin_items_path
+    = link_to 'Show', admin_item_path(@item)
+
+  = render 'form'

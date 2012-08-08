@@ -1,0 +1,9 @@
+%div{:class => "follow_button user_#{user.id}"}
+  - follow = current_user.follows(user)
+  - if opts[:following_msg]
+    = opts[:following_msg]
+    = link_to 'Unfollow', follow_path(follow), :method => :delete, :remote => true
+  - else
+    = form_for follow, :html => { :method => :delete }, :remote => true do |f|
+      = content_tag :button, :type => :submit, :class => opts[:class] do
+        Unfollow

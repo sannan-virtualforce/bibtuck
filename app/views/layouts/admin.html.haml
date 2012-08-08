@@ -1,0 +1,52 @@
+!!!
+%html
+  %head
+    %title Bib + Tuck | Admin
+    = csrf_meta_tag
+    = favicon_link_tag
+    = include_stylesheets :admin,       :media => 'screen, projection'
+    = include_stylesheets :admin_print, :media => 'print'
+    = javascript_include_tag raw "http://maps.google.com/maps/api/js?sensor=false&libraries=places"
+    /[if IE]
+      = include_stylesheets :ie,    :media => 'screen, projection'
+    - if Rails.env.production?
+      = render 'tracking/google_analytics'
+    :css
+      body #container, body.development #container {
+        overflow: visible;
+      }
+  %body.admin{ :class => "#{'development' unless Rails.env.production? }"}
+    #wrapper
+      = render 'shared/header'
+      #container
+        = render 'shared/flashes'
+        %nav.main_menu
+          %ul
+            %li= link_to('Users',               admin_users_path)
+            %li= link_to('Items',               admin_items_path)
+            %li= link_to('Subscribers',         admin_subscribers_path)
+            %li= link_to('Credits',             admin_credits_path)
+            %li= link_to('Registration Codes',  admin_registration_codes_path)
+            %li= link_to('Brands',              admin_brands_path)
+            %li= link_to('Messages',            admin_messages_path)
+            %li= link_to('Flagged Items',       admin_flagged_items_path)
+            %li= link_to('Discounts',           admin_discounts_path)
+            %li= link_to('Saved Photos',        admin_photos_path)
+            %li= link_to('Lookbook Photos',     admin_lookbook_photos_path)
+            %li= link_to('Featured Closets',    admin_featured_closets_path)
+            %li= link_to('Parameters',          admin_parameters_path)
+            %li= link_to('Orders',              admin_orders_path)
+            %li= link_to('Shipping Boxes',      admin_shipping_boxes_path)
+
+          = form_tag [:admin, :search] do
+            = label_tag "Search:"
+            = text_field_tag :query
+            = submit_tag ('search')
+
+        #content{ :class => controller.controller_name }
+          = yield
+        .clear_left
+        #content_footer
+      = render 'shared/footer'
+    = include_javascripts :admin
+    = yield :js

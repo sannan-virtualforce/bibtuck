@@ -1,0 +1,10 @@
+#new_message
+  .title Send a message to #{@to_user.display_name}
+  = form_for @conversation do |f|
+    .fields
+      = f.hidden_field :to, :value => @to_user.id
+      = f.fields_for :conversation do |c|
+        = c.fields_for :messages, Message.new do |m|
+          = m.text_area :body, :placeholder => 'Write your message here'
+    .actions
+      = content_tag :button, 'Send', :type => :submit, :class => [:splash_button, :orange]

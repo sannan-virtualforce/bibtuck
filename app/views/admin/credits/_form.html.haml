@@ -1,0 +1,36 @@
+.credit_form
+  = form_for [:admin, @credit] do |f|
+    - if @credit.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@credit.errors.count, "error")} prohibited this credit from being saved:"
+        %ul
+          - @credit.errors.full_messages.each do |msg|
+            %li= msg
+    .field
+      = f.label :user
+      = f.hidden_field :user_id
+      = text_field_tag :user_autocomplete,
+        (@credit.user ? "[#{@credit.user.username}] #{@credit.user.first_name} #{@credit.user.last_name} (#{@credit.user.email})" : nil),
+        :placeholder => 'User search string'
+    .field
+      = f.label :bucks
+      = f.number_field :bucks
+    .actions
+      = f.submit 'Save'
+= content_for :js do
+  :javascript
+    $(function() {
+      $('#user_autocomplete').autocomplete('#{autocomplete_field_results_user_path(current_user)}', {
+        selectFirst: true,
+        mustMatch: true,
+        maxCacheLength: 10,
+        onItemSelect: function(item) {
+          $('#credit_user_id').val(item.data[0]);
+        },
+        onFinish: function() {
+          if ($('#user_autocomplete').val() == '') {
+            $('#credit_user_id').val('');
+          }
+        }
+      });
+    });

@@ -1,0 +1,6 @@
+.note This item has been added to your cart and will be reserved for #{Cart::CLEANUP_TIMEOUT_MIN} minutes.
+.row
+  = image_tag @item.primary_photo.path_url(:thumb), :id => :item_thumb
+  - if current_cart.filled?
+    = link_to 'Tuck now', cart_path(current_user), :class => 'grey_button'
+  = continue_shopping_link :class => 'grey_button'

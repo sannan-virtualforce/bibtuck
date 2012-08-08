@@ -1,0 +1,7 @@
+- if @item
+  %h1 Add photo to item: #{@item.name}
+- else
+  %h1 New Photo
+  %p Uploading here will show the photo under the user's saved photos.
+
+= render 'form'

@@ -1,0 +1,25 @@
+%h1 Discounts
+
+%table
+  %tr
+    %th Code
+    %th Type
+    %th Uses/Limit
+    %th Min. Amount
+    %th Created at
+    %th Actions
+
+  - @discounts.each do |discount|
+    %tr
+      %td= discount.code
+      %td= discount.discount_type
+      %td  #{discount.used_count}/#{discount.total_uses || '--'}
+      %td= discount.min_amount
+      %td= discount.created_at
+      %td
+        = link_to 'Show', [:admin, discount]
+        = link_to 'Edit', edit_admin_discount_path(discount)
+        - if discount.used_count == 0
+          = link_to('Destroy', [:admin, discount], :confirm => 'Are you sure?', :method => :delete)
+
+= link_to "Create Discount", :new_admin_discount

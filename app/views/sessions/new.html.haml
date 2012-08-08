@@ -1,0 +1,34 @@
+#login
+  #members
+    %h2 Already a member?
+    = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+      %div
+        = f.input :email, :placeholder => "you@example.com"
+      %div
+        = f.input :password, :label_html => { :class => 'required' }
+      .options
+        - if devise_mapping.rememberable?
+          .remember_me
+            = f.check_box :remember_me
+            = f.label :remember_me
+        - if devise_mapping.recoverable? && controller_name != 'passwords'
+          = link_to "forgot your password?", new_password_path(resource_name), :id => :forgot_password
+      .buttons
+        = content_tag :button, 'Sign in', :type => :submit, :class => [:splash_button, :grey]
+        %span -OR-
+        = link_to 'Login with Facebook', '/auth/facebook', :class => :facebook
+  
+  #non_members
+    %h2 Not a member yet?
+    = simple_form_for @signup do |f|
+      = f.label :code, 'invitation code', :class => 'required'
+      = f.input_field :code
+      .no_code
+        = link_to "don't have an invitation code?", page_path('no_invite')
+      .buttons
+        = content_tag :button, 'Register', :type => :submit, :class => [:splash_button, :grey]
+#contact_us
+  = link_to 'Contact us', page_path(:contact_us), :rel => :facebox, :popupwidth => 470
+  = link_to '646.568.5666', 'tel:6465685666', :class => :telephone
+#about
+  = link_to 'ABOUT B + T', page_path(:about)

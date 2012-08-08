@@ -1,0 +1,7 @@
+%p By clicking Accept Buck Refund I agree to refund the full amount of bucks for this item.
+
+= simple_form_for [@item, @buck_refund] do |f|
+  = f.input :seller_comment, :required => true, :label => "Message #{@buck_refund.user.display_name} >>"
+  = f.hidden_field :outcome
+  = f.submit('Accept Buck Refund Request')
+

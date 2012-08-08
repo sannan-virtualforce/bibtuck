@@ -1,0 +1,26 @@
+#main
+  %h1 Messages
+  = link_to 'Inbox', [current_user, :messages]
+  = link_to 'Sent', sent_user_messages_path(current_user)
+
+  = form_tag bulk_update_user_messages_path, :id => :bulk_update_messages do
+    %p Select:
+    = link_to 'All', '', :id => :select_all, 'data-form-selector' => '#bulk_update_messages'
+    = link_to 'None', '', :id => :select_none, 'data-form-selector' => '#bulk_update_messages'
+    = submit_tag('Mark as Read')
+    = submit_tag('Mark as Unread')
+    = submit_tag('Delete')
+
+    %table
+      %tbody
+        - last_sender = nil
+        - @message_recipients.each do |mr|
+          - next if last_sender == mr.message.sender
+          - last_sender = mr.message.sender
+          %tr{:class => mr.state}
+            %td
+              = check_box_tag 'message_recipient_ids[]', mr.id
+              = link_to 'Delete', user_message_path(current_user, mr), :method => :delete, :confirm => "Are you sure you want to delete this message?"
+            %td= bt_timestamp(mr.created_at)
+            %td= link_to mr.receiver.display_name, mr.receiver
+            %td= link_to truncate(mr.body, :length => 15), user_message_path(@user, mr.message.original_message || mr.message)

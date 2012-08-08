@@ -1,0 +1,39 @@
+#members_page
+  #sidebar_menu
+    = link_to 'find friends', users_path(:filter => :instagram), :class => [:icon_link, :instagram, (@filter == 'instagram' ? :active : nil)]
+    = link_to 'find friends', users_path(:filter => :facebook), :class => [:icon_link, :facebook, (@filter == 'facebook' ? :active : nil)]
+    = link_to 'find friends', users_path(:filter => :twitter), :class => [:icon_link, :twitter, (@filter == 'twitter' ? :active : nil)]
+    = link_to 'Suggested Members', users_path, :class => (@filter == 'suggested' ? :active : nil)
+  %h2 Find Bib + Tuckers
+  - if @not_implemented
+    #grey_notice #{@filter} integration coming soon!
+  - elsif @filter == 'facebook' && @users.count == 0
+    #grey_notice As of today, none of your friends are on Bib and Tuck.<br/>You can invite your friends #{link_to 'here', new_user_invitation_path}.
+  - else
+    #members
+      - @users.each do |user|
+        .user_info>
+          .picture
+            = link_to image_tag(user.profile_picture.url(:avatar), :alt => "#{user.display_name}'s picture"), user, :title => user.display_name
+            - unless user == current_user
+              .send_message= send_message_to user, :link => 'Send a message'
+          .details
+            %p.username= link_to user.display_name, user
+            - if user.occupation.present?
+              %p= user.occupation
+            - if user.location.present?
+              %p Living in #{user.location}
+            %p  Active sales: #{link_to (user.items.present? ? user.items.for_sale.count : 0), user_path(user)}
+            %p  Followers: #{link_to user.followers_count, user_follows_path(user)}
+            %p= follow_button user, :class => :grey_button, :following_msg => ''
+          .clear_left
+    = paginate @users
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      $('#members').infinitescroll({
+        navSelector: 'nav.pagination',
+        nextSelector: 'nav.pagination .next a',
+        itemSelector: '#members .user_info'
+      });
+    });

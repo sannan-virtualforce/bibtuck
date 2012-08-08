@@ -1,0 +1,98 @@
+.item_show
+  .menu_bar
+    = link_to '<< List', admin_items_path
+    = link_to 'Edit', edit_admin_item_path(@item)
+    - if @item.open? || @item.listed?
+      = link_to 'Delete', admin_item_path(@item), :method => :delete
+
+  .information
+    .line.photos
+      .label Photos:
+      .value
+        - @item.photos.each do |photo|
+          = link_to image_tag(photo.path.url(:featured)), edit_admin_photo_path(photo)
+        = link_to '+ Add Photo', new_admin_photo_path(:item_id => @item.id)
+    .line
+      .label Item ID:
+      .value= @item.id
+    .line
+      .label Name:
+      .value= link_to @item.name, @item
+    .line
+      .label Category:
+      .value= @item.category.name.titlecase
+    .line
+      .label Brand:
+      .value= link_to @item.brand_name, admin_brand_path(@item.brand)
+    .line
+      .label Condition:
+      .value= @item.condition
+    .line
+      .label Size:
+      .value= @item.size
+    .line
+      .label Fit:
+      .value= @item.fit
+    .line
+      .label Seller:
+      .value= link_to @item.user.display_name, admin_user_path(@item.user)
+    .line
+      .label Color:
+      .value= render_colors @item
+    .line
+      .label Description:
+      .value= @item.description
+    .line
+      .label Why sell:
+      .value= @item.why_sell
+    .line
+      .label Price:
+      .value= number_to_bucks @item.price
+    .line
+      .label Editor's pick:
+      .value= (@item.editors_pick ? 'Yes' : 'No')
+    .line
+      .label Shipping box size:
+      .value= shipping_box_size_label(@item.shipping_box_size)
+    .line
+      .label Shipping from address:
+      .value= @item.shipping_from_address.to_s
+    .line
+      .label # of views (total/quick view):
+      .value #{@item.view_count_total} / #{@item.view_count_total_qv}
+    .line
+      .label # of views per session (total/quick view):
+      .value #{@item.view_count_session} / #{@item.view_count_session_qv}
+    .line
+      .label # of views per user:
+      .value= @item.view_count_distinct_user
+    .line
+      .label Uploaded on:
+      .value= format_date_time @item.bibbed_at
+    .line
+      .label Tucked at:
+      .value= format_date_time @item.tucked_at
+    .line
+      .label Status:
+      .value= get_item_status(@item)
+    .line
+      .label
+      .menu_bar= render_state_change_actions(@item)
+    - if @item.order.present?
+      .line
+        .label Order:
+        .value= link_to "Order #{@item.order.id}", admin_order_path(@item.order)
+      .line
+        .label Buyer:
+        .value= link_to @item.order_item.buyer.display_name, admin_user_path(@item.order_item.buyer)
+      .line
+        .label Tracking number:
+        .value= @item.tracking_number
+      - if @item.experience.try :rating
+        .line
+          .label Rating:
+          .value= show_rating_for @item
+      - if @item.buck_refund
+        .line
+          .label Refund:
+          .value= render 'users/activity_refund', :item => @item

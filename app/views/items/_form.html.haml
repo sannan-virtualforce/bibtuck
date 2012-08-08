@@ -1,0 +1,178 @@
+#items-form
+  %h2 First, upload photos of your item
+  .indented-content
+    %p.note You can upload up to 4 photos per item. Check out our guide to good photos #{link_to 'here', page_path(:photo_tips), :rel => :facebox, :popupwidth => 670}.
+    .dashed_box.fileupload
+      .drag_drop Drag and drop images here
+      .options.or - OR -
+      .options
+        .option + #{link_to 'Upload from my computer', 'javascript:void(0);', :id => :upload_from_computer}
+        .option + #{link_to 'Upload from Instagram', "javascript:alert('Coming soon!'); void(0);"}
+      = render 'photo_upload'
+  %a{:name => 'profile'}
+  %h2 Next, profile your item
+  = simple_form_for(@item, :html => { :class => :item_form, :multipart => true }) do |f|
+    .dashed_box.profile
+      = render_errors @item
+      = hidden_field_tag :primary_photo_id, (@primary_photo_id || @item.primary_photo.try(:id))
+      .grouped
+        = f.input :name, :label => 'Name your piece', :required => true
+        = f.input :category_id, :collection => Category.all.map { |c| [c.name, c.id] }, :required => true
+      .grouped
+        = f.input :size, :collection => CategorySize::MAPPING[@item.category.try(:name)] || [@item.size], :required => true
+        = f.input :fit, :collection => Item::FITS, :required => true
+        = f.input :condition, :collection => Item::CONDITIONS, :required => true
+      .grouped
+        .input.select.required
+          = f.label :brand, :required => true
+          = f.select :brand_id, bib_brand_select_options, :include_blank => true, :required => true
+        = f.input :new_brand, :label => 'Add brand'
+        .explanation.brand
+          If we don't have your item's brand, please include it here and we will add it to our brand index.
+      .grouped
+        .colors
+          = f.label :color_1, 'Color'
+          - 1.upto(5) do |i|
+            = f.input "color_#{i}", :label => false, :input_html => { :class => 'simple_color' }
+        .explanation.colors Choose up to 5 colors that are visible in your item.
+      .grouped
+        %div
+          = f.label :description, :required => true
+          = f.text_area :description, :size => '80x20'
+        .explanation.description
+          what's the material? does it run true to size? does it need to be dry-cleaned? is there a story behind it?
+          if it's anything short of excellent condition, list any 'flaws'. Tell us as much as you'd wanna know.
+      .grouped
+        %div
+          = f.input :why_sell, :label => "I'm letting this one go because..."
+        .explanation.why_sell be honest, is there something we need to know?
+      .grouped
+        %div
+          = f.input :price, :as => :string
+        .explanation.price bucks are based on monetary value, so imagine how many dollars you would bib/tuck it for in its current condition
+      .grouped
+        %div
+          = f.input :shipping_box_size, :collection => shipping_box_collection, :include_blank => false, :input_html => { :style => 'width: 260px;' }
+        = link_to CODE_NBSP, page_path(:shipping_box_info), :rel => 'facebox', :class => 'qm_button'
+        .explanation.shipping_box_size your item category defaults to this box size for shipping. Make sure to change the size if you think it won't fit.
+      .grouped
+        = f.input :shipping_from_address_id, :collection => current_user.shipping_addresses, :label => "I'll be shipping from", :required => true
+        = link_to CODE_NBSP, page_path(:shipping_from_info), :rel => 'facebox', :class => 'qm_button'
+        .explanation.shipping_from_address we need this information to calculate shipping costs
+        = link_to '+ Add a new address', new_user_address_path(current_user), :rel => :facebox, :class => 'address-add'
+    .actions
+      = content_tag :button, :type => :submit, :id => 'item_submit', :class => 'splash_button orange' do |btn|
+        = simple_format 'Preview<br/>your item'
+  = render(:partial => 'shared/additional_information')
+  
+= content_for :js do
+  %script{:type => 'text/javascript', :src => "http://feather.aviary.com/js/feather.js"}
+  = render 'initialize_form_js'
+  :javascript
+    // Initialize Aviary
+    var featherLoaded = false
+    var featherEditor = new Aviary.Feather({
+      apiKey: '7afb1dfb0',
+      apiVersion: 2,
+      tools: 'all',
+      cropPresets: ['320x240', '640x480', '800x600', '1280x1024'],
+      onSave: function(imageID, newURL) {
+        var img = document.getElementById(imageID);
+        img.src = newURL;
+      },
+      onLoad: function() {
+        featherLoaded = true;
+      }
+    });
+    function launchEditor(id) {
+      if (featherLoaded) {
+        $img = $('img#' + id);
+        featherEditor.launch({
+          image: id,
+          url: $img.attr('data-full-url'),
+          postUrl: $img.attr('data-post-url')
+        });
+      }
+      return false;
+    }
+
+    $(function() {
+      $('#fileupload input#photo_path').hover(
+        function() {
+          $('a#upload_from_computer').css('textDecoration', 'underline');
+          console.log('mouse over');
+        },
+        function() {
+          $('a#upload_from_computer').css('textDecoration', 'none');
+          console.log('mouse out');
+        }
+      );
+
+      // Initialize the jQuery File Upload widget:
+      $('#fileupload').fileupload({
+        autoUpload: true,
+      });
+      //
+      // Load existing files:
+      $.getJSON($('#fileupload form').prop('action'), function (files) {
+          var fu = $('#fileupload').data('fileupload');
+          fu._adjustMaxNumberOfFiles(-files.length);
+          fu._renderDownload(files)
+              .appendTo($('#fileupload .files'))
+              .fadeIn(function () {
+                  // Fix for IE7 and lower:
+                  $(this).show();
+              });
+      });
+
+      var canSubmit = false;
+
+      // Open download dialogs via iframes,
+      // to prevent aborting current uploads:
+      $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
+          e.preventDefault();
+          $('<iframe style="display:none;"></iframe>')
+              .prop('src', this.href)
+              .appendTo('body');
+      });
+
+      $('.item_form').submit(function() {
+        var form = $(this);
+        $('a.photo').each(function() {
+          var photo_id = $(this).data('photo-id');
+
+          if (photo_id) {
+            canSubmit = true;
+          }
+
+          form.append(
+            $('<input/>')
+                .attr('type', 'hidden')
+                .attr('name', 'photo_ids[]')
+                .val(photo_id)
+          );
+        });
+
+        if (!canSubmit) {
+          alert("Please scroll up to upload your photos first.");
+          return false;
+        }
+      });
+
+      // Primary photo selection
+      $('#fileupload .files td.primary a').live('click', function(e) {
+        e.preventDefault();
+        $target = $(e.target);
+        var photoId = $target.parent().attr('data');
+        var primaryPhotoField = $('#primary_photo_id');
+        primaryPhotoField.val(photoId);
+        $target.closest('table.files').find('td.primary').each(function(index, file) {
+          $file = $(file);
+          if ($file.attr('data') == photoId) {
+            $file.html('This is your Cover Photo');
+          } else {
+            $file.html('<a href="">Make Cover Photo</a>');
+          }
+        });
+      });
+    });

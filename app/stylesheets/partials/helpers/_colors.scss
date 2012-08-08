@@ -1,0 +1,6 @@
+// Return one of our greys
+// default to the lightest
+// NOTE: Not working right now.
+@function grey-level($degree: 0) {
+  @return $grey_#{$degree};
+}

@@ -1,0 +1,23 @@
+%h1 Listing Lookbook photos
+
+%table
+  %tr
+    %th Photo
+    %th Link
+    %th Created at
+    %th
+
+  - @lookbook_photos.each do |lookbook_photo|
+    %tr
+      %td= image_tag lookbook_photo.path_url, :height => '200', :width => '200'
+      %td= lookbook_photo.link ? link_to(lookbook_photo.link, lookbook_photo.link) : ''
+      %td= lookbook_photo.created_at
+      %td
+        = link_to 'Show', [:admin, lookbook_photo]
+        = link_to 'Edit', edit_admin_lookbook_photo_path(lookbook_photo)
+        = link_to 'Destroy', [:admin, lookbook_photo], :confirm => 'Are you sure?', :method => :delete
+    %hr
+
+%br
+
+= link_to 'New Lookbook Photo', new_admin_lookbook_photo_path

@@ -1,0 +1,44 @@
+body {
+
+  a {
+    @include hover-link;
+    color: $brown;
+    &:visited,
+    &:active  { font-style: italic; }
+  }
+
+  h1 {
+    @include adjust-font-size-to(20px);
+    @include unstyled-link;
+    margin-bottom:  line-multiplier(1);
+    text-transform: uppercase;
+    &:before { content: ">> "; }
+  }
+
+  h2 {
+    @include adjust-font-size-to(15px);
+    @include unstyled-link;
+    text-transform: uppercase;
+    &:before { content: ">> "; }
+    &.attached-to-next { margin-bottom: 0; }
+  }
+
+  h3 {
+    @include adjust-font-size-to(14px);
+    @include unstyled-link;
+    margin-bottom: line-multiplier(1);
+    text-transform: uppercase;
+    &.attached-to-next { margin-bottom: 0; }
+  }
+
+  ul, ol { list-style-position: inside; }
+
+  em {
+    &:before { content: '>>'; }
+  }
+
+  p {
+    &.prepend { margin-top: line-multiplier(1); }
+  }
+
+}

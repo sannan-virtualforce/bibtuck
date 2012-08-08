@@ -1,0 +1,32 @@
+%h4= bt_timestamp @message.created_at
+
+#main
+  = link_to 'Inbox', [current_user, :messages]
+  = link_to 'Sent', sent_user_messages_path(current_user)
+
+  %table
+    %tbody
+      - last_sender = nil
+      - @stream.each do |message|
+        %tr
+          - if last_sender != message.sender
+            %td= link_to(image_tag(message.sender.profile_picture.url(:thumb)), message.sender)
+          - else
+            %td &nbsp;
+          %td
+            = message.sender.display_name
+            == #{bt_timestamp(message.created_at.to_date)} #{bt_timestamp(message.created_at)}
+          %td= message.body
+
+          - last_sender = message.sender
+
+  %p Reply
+  = form_for Message.new, :url => user_messages_path do |f|
+    = f.hidden_field :receiver_id, :value => @message.sender.id
+
+    %p
+      = f.label :body
+      = f.text_area :body, :value => ''
+
+    %p
+      = f.submit('Send')

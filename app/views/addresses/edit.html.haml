@@ -1,0 +1,5 @@
+.address_form
+  %h2 Edit your address
+  = simple_form_for @address, :url => [current_user, @address] do |f|
+    = hidden_field_tag :referrer, request.referrer
+    = render :partial => 'form', :locals => {:f => f, :is_create_form => false}

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+.menu_bar
+  = link_to '<< List', admin_brands_path
+  = link_to 'Edit', edit_admin_brand_path(@brand)
+  - if @item_count == 0
+    = link_to 'Delete', admin_brand_path(@brand), :method => :delete
+
+.information
+  .line
+    .label Name:
+    .value= @brand.name
+  .line
+    .label # of items with this brand:
+    .value= @item_count

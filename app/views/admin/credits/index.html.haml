@@ -1,0 +1,19 @@
+%h1 Credits
+%h2= link_to 'Add new Credit', new_admin_credit_path
+
+%table
+  %tr
+    %th User
+    %th Amount
+    %th Timestamp
+    %th
+
+  - @credits.each do |credit|
+    %tr
+      %td= link_to "#{credit.user.first_name} #{credit.user.last_name} (#{credit.user.email})", credit.user
+      %td= credit.bucks
+      %td= credit.created_at
+      %td
+        = link_to 'Show', [:admin, credit]
+        = link_to 'Edit', edit_admin_credit_path(credit)
+        = link_to 'Destroy', [:admin, credit], :confirm => 'Are you sure?', :method => :delete

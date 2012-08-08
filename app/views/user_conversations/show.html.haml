@@ -1,0 +1,22 @@
+#conversations_thread_page
+  %h1
+    = link_to 'Your Messages', [current_user, :conversations]
+    >> #{@recipient.display_name}
+  .messages
+    - @messages.each do |msg|
+      .entry
+        .cell.photo= link_to image_tag(msg.user.profile_picture.url(:avatar)), msg.user,
+          :alt => "#{msg.user.display_name}'s picture", :title => msg.user.display_name
+        .cell.msg_info
+          .username= link_to msg.user.name, msg.user
+          .date= msg.created_at.to_s :bt_date_time
+        .cell.message= msg.body
+  .reply_form
+    = form_for @conversation do |f|
+      = text_area_tag :body, nil, :placeholder => 'Write a reply'
+      .actions= content_tag :button, 'Reply', :type => :submit, :class => :grey_button
+= content_for :js do
+  :javascript
+    $(function() {
+      window.scrollTo(0, document.body.scrollHeight + 1000);
+    });

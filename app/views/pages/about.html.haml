@@ -1,0 +1,54 @@
+#about_us_page
+  .title About Us
+  .content
+    Bib + Tuck is a members-only online community for women to trade fashion items. We bring together the hippest people so that each can find the "new" in another's "old".
+
+  .title Meet the mother tuckers
+  .columns
+    .column
+      .pic= link_to image_tag('about_page_sari_a.gif'), user_path(USER_SARIA_ID)
+      .name Sari Azout
+      .description
+        I graduated from Brown University and took a job in finance because, frankly, someone had to pay
+        the bills. By the bills, I mean the entire Spring 2012 Phillip Lim collection, of course. After two
+        years on the trading floor, I decided I would rather trade clothes than 30-yr bonds. So I finally
+        ditched the whole lunch-on-the-desk scene and got down to business on Bib + Tuck, a labor of love.
+        Other things you should know about me: I drink a lot of tea, I recently mastered the headstand,
+        and I'm seriously addicted to Tate's cookies. If you really want to get to know me,
+        #{link_to 'visit my closet', user_path(USER_SARIA_ID)}.
+    .column
+      .pic= link_to image_tag('about_page_sari_b.gif'), user_path(USER_SARIB_ID)
+      .name Sari Bibliowicz
+      .description
+        I am a traveler, fashion addict, Francophile, and culture vulture. The perfect wardrobe is one
+        that is always changing, because let's face it - times change and so does style. I left the Gilt
+        Groupe's Jetsetter to set myself on a mission to do more with less. When not raving about creative
+        reuse, I am often found eating pasta, lounging around in upward dog, dancing in the shower, or
+        drinking red wine while practicing my fake French accent. I own about 120 rings, and can usually
+        be found wearing 4 at a time. Some of my best pieces can be found #{link_to 'here', user_path(USER_SARIB_ID)}.
+    .clear_left
+
+  .title A Tale of two Sari's
+  .content
+    %p
+      Sari A and Sari B met in preschool, where they bonded over their identical bell-bottom jeans
+      and petit bateau undershirts. From the beginning, their love story was defined by a closeness of
+      closets.
+    %p
+      20+ years later, fate found Sari &amp; Sari as college graduates living in the same building in
+      NYC. As the economy took a nosedive, they began sharing clothes as a way to save time, space,
+      and money. With small budgets, and even smaller spaces, access to each other's closets multiplied
+      their fashion selections.
+    %p
+      More importantly, it meant that if one of them tired of an old favorite, the other would get a
+      fabulous new item. When Sari A's boyfriend proposed, he did so under the condition that
+      she part with her beloved MC Hammer pants. Wah Wah. Sari A complied, but only because she
+      knew Sari B would give them a caring home.
+    %p
+      One day it dawned on them: what if there were a thousand more Sari's? A whole city's worth of closets to share?
+    %p
+      400 cups of coffee, 200 packs of Post-Its, and 100 sleepless nights later, Bib + Tuck was born.
+
+  .title Our Manifesto
+  #manifesto
+    = image_tag('manifesto_fg.png');

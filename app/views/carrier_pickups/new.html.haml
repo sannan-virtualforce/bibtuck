@@ -1,0 +1,11 @@
+%h1 Schedule a carrier pickup!
+
+%strong== Item: #{@item.name}
+
+%hr
+
+%p This will schedule a pickup with USPS to come get your package. You will be assigned the next available date. Simply fill out the form below specifying where the package can be picked up.
+
+= form_for @item, :url => item_carrier_pickups_path(@item), :html => { :method => :post } do |f|
+  %p= f.select :carrier_pickup_location, Item::CARRIER_PICKUP_LOCATIONS.keys
+  %p= f.submit('Schedule')

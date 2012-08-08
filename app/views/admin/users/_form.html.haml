@@ -1,0 +1,74 @@
+= form_for [:admin, @user] do |f|
+  -if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :first_name
+    = f.text_field :first_name
+  .field
+    = f.label :last_name
+    = f.text_field :last_name
+  .field
+    = f.label :username
+    = f.text_field :username
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :founding_member
+    = f.check_box :founding_member
+  .field
+    = f.label :top_rated
+    = f.check_box :top_rated
+  .field
+    = f.label :birthday
+    = f.date_select :birthday, :include_blank => true
+  .field
+    = f.label :occupation
+    = f.text_field :occupation
+  .field
+    = f.label :about_me
+    = f.text_area :about_me
+  .field
+    = f.label :website_url
+    = f.text_field :website_url
+  .field
+    = f.label :profile_picture
+    = f.text_field :profile_picture
+  .field
+    = f.label :followers_count
+    = f.text_field :followers_count
+  .field
+    = f.label :followings_count
+    = f.text_field :followings_count
+  .field
+    = f.label :hide_age
+    = f.check_box :hide_age
+  .field
+    = f.label :twitter_username
+    = f.text_field :twitter_username
+  .field
+    = f.label :facebook_page
+    = f.text_field :facebook_page
+  .field
+    = f.label :invitation_limit
+    = f.text_field :invitation_limit
+  .field
+    = f.label :featured_content
+    = f.text_area :featured_content
+  .actions
+    = f.submit 'Save'
+= content_for :js do
+  :javascript
+    $(document).ready(function() {
+      new nicEditor({
+        iconsPath: '#{image_path('nicEditorIcons.gif')}',
+        buttonList: ['bold', 'italic', 'underline', 'left', 'center', 'right', 'justify', 'ol', 'ul',
+          'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr',
+          'link', 'unlink', 'fontSize', 'fontFamily', 'fontFormat']
+      }).panelInstance('user_featured_content');
+    });

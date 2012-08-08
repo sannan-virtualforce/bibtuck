@@ -1,0 +1,155 @@
+// view rating page
+#content.experiences {
+  #view_rating_page {
+    width: 848px;
+    margin: 0 auto;
+  }
+  .user_info {
+    float: left;
+    margin-right: 12px;
+    text-align: right;
+    font-size: 14px;
+    color: $grey_k62;
+    .name {
+      color: $grey_k87;
+      text-transform: uppercase;
+      &:before {
+        content: '>> ';
+      }
+    }
+  }
+
+  .user_experience {
+    width: 600px;
+    float: left;
+    color: $grey_k87;
+    h2 {
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style-type: none;
+      margin-bottom: 20px;
+      padding: 16px;
+      border: $border_dash_width dashed $border_dash_color;
+      &.experience_summary {
+        width: 250px;
+      }
+      span.label {
+        color: $grey_k53;
+      }
+    }
+  }
+}
+
+// rating submission page
+#content.experiences {
+  #give_rating_page {
+    width: 960px;
+    margin: 0 auto;
+    .item_photo {
+      display: inline-block;
+      margin: 0 20px;
+      vertical-align: top;
+    }
+    .item_info {
+      div {
+        overflow: visible;
+      }
+      display: inline-block;
+      width: 600px;
+      text-transform: uppercase;
+      .rating {
+        vertical-align: top;
+        position: relative;
+        top: 2px;
+        cursor: pointer;
+      }
+      .line {
+        margin-bottom: 8px;
+      }
+      .label {
+        display: inline-block;
+        color: $grey_k62;
+      }
+      .value {
+        display: inline-block;
+        color: $grey_k87;
+      }
+      .dashed_box {
+        border: $border_dash_width dashed $border_dash_color;
+        margin-top: 20px;
+        padding: 20px 20px 10px 40px;
+        text-transform: none;
+        font-size: 14px;
+        .line {
+          color: $grey_k53;
+          margin-bottom: 20px;
+          .label {
+            text-indent: -22px;
+          }
+        }
+        .row {
+          display: table-row;
+          color: $grey_k71;
+          height: 24px;
+          vertical-align: middle;
+          .question {
+            display: table-cell;
+            width: 438px;
+          }
+          .options {
+            display: table-cell;
+            width: 100px;
+            label {
+              display: inline;
+              margin-left: -4px;
+            }
+          }
+        }
+        .note {
+          width: 400px;
+          margin-top: -4px;
+          font-size: 12px;
+          color: $grey_k38;
+        }
+        textarea {
+          width: 515px;
+          height: 180px;
+          margin: 0;
+          border-color: $grey_k53;
+        }
+        .actions {
+          width: 519px;
+          margin-top: 20px;
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+// rating thank you page
+#content.experiences {
+  .thank_you_note {
+    width: 650px;
+    margin: 60px auto 0;
+    padding: 40px 16px;
+    border: $border_dash_width dashed $border_dash_color;
+    text-transform: uppercase;
+    .title {
+      margin-bottom: 12px;
+    }
+    .rating {
+      display: inline-block;
+      margin-left: 20px;
+    }
+    .title:before, .content a:before {
+      content: '>> ';
+    }
+  }
+  .thank_you_pic {
+    width: 684px;
+    height: 323px;
+    margin: 20px auto 10px;
+  }
+}

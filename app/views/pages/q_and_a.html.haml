@@ -1,0 +1,112 @@
+#q_and_a_page
+  %h1 Q&amp;A
+
+  .note Please read this whole page. Seriously, it’s important.
+
+  .Q What the Tuck?
+  .A
+    Someone has invited you to be a part of Bib + Tuck, a members-only online fashion community for fashion
+    insiders and stylish citizens to exchange wardrobe pieces.
+  .Q So why exchange clothes?
+  .A
+    As we like to say, your “too tights” are another’s “just rights”. Bib + Tuck offers a platform where you
+    can post the pieces you’ve lightly loved, impulse-purchased, or just changed your mind about, and have
+    them fund your next find. It’s barter people, welcome to the sharing economy. Don't be surprised if you
+    get totally addicted.
+  .Q I have to be invited?
+  .A
+    Yes, the idea is that members will open the door only to their most fashion forward friends, so that
+    everything on the site is worth perusing, and perhaps tucking! So if you’re viewing this screen, someone
+    has a style crush on you.
+  .Q Can I invite my style crushes?
+  .A
+    Yes, every member receives 3 invitations. Invite friends
+    = link_to 'here.', new_user_invitation_path
+  .Q What does it mean to “Bib” and “Tuck”?
+  .A
+    To “bib” an item means to list it, or put it up for sale. To “tuck” means to purchase someone else’s
+    item. It’s our haute couture spin on “give and take,” if you will.
+  .Q Where do the terms come from?
+  .A
+    The name “Bib and Tuck” actually comes from an old custom of the English aristocracy where women were
+    told to “wear their best bib and tucker”- meaning to wear their finest outfit.
+  .Q How does it work?
+  .A
+    List (#{link_to 'BIB', new_item_path}) the pieces you’re ready to part with, sell them to other members
+    for a virtual currency called “bucks” and use those bucks to purchase (#{link_to 'TUCK', items_path})
+    anything you want on the site. Read our #{link_to 'How it Works', page_path('how_it_works')} page
+    for more details.
+  .Q What are “bucks”?
+  .A
+    “Bucks” are the virtual currency used to trade items on Bib + Tuck. If you don’t have enough “bucks”,
+    you can get more by selling your items or by purchasing them
+    = link_to 'here', new_buck_purchase_path(:ref_page => :q_and_a), :rel => 'facebox', :popupwidth => 550
+    for $1 each.
+  .Q How do I get started?
+  .A
+    We give you 50 “bucks” when you join so you can start tucking right away. We also give you 25 “bucks”
+    every time you bring a member to our community. You’re welcome.
+  .Q Do you only take designer clothes?
+  .A
+    No. At Bib + Tuck, Chloe lives very happily right alongside Zara. Just like in a real closet.
+  .Q How much does it cost?
+  .A
+    Every time you purchase an item, you pay a joint shipping + transaction fee of $9 or $14, depending
+    on the size of the item. Unfortunately, USPS doesn’t take B+T bucks as a form of payment, so we’re
+    talking real money. But that's it. No selling fees, no listing fees, no hidden fees.
+  .Q How do I price my item?
+  .A
+    "Bucks" are B+T's virtual currency and are equivalent to US dollars. Just price your item with as many
+    bucks as you would hope to receive in dollars. You will quickly find out if the item is too highly
+    priced as it won't sell!
+  .Q Can I trade my bucks for real dollars?
+  .A
+    Although you only receive bucks in exchange for your items, we promise there will be plenty to spend them on.
+  .Q How does shipping work?
+  .A
+    When someone purchases your item, you will receive an email with a prepaid mailing label. Put the item in the
+    appropriate USPS box, stick on the label, and mail it. You can also schedule a carrier pickup
+    = link_to 'here', URL_SHIPPING_PICKUP_ORDER
+    \- make sure to select Priority Mail on the form. For more details, read our Shipping FAQs
+    = link_to 'here.', page_path('shipping_tips'), :rel => :facebox, :popupwidth => 850
+  .Q Do I have to be in the US?
+  .A
+    Yes, we are a US-based community for now.
+  .Q What is your return policy?
+  .A
+    All items are final sale so we encourage you to contact the seller with any questions you have before
+    tucking the item. That said, if the item doesn’t work for you, you can Relist it and sell it to another
+    member. Just go to #{link_to 'My Activity', activity_user_path(current_user, :anchor => 'purchased')}
+    and click on the “Relist” link next to the item you want to return.
+  .Q What if the item I receive was not as described?
+  .A
+    If the seller misrepresents an item, you can request a buck refund. Just go to
+    = link_to 'My Activity', activity_user_path(current_user, :anchor => 'purchased')
+    and click on the “Request a Buck Refund” link next to the item you want to dispute. If the seller does
+    not agree to reimburse you, email us at #{mail_to 'help@bibandtuck.com'} and we will help you sort things out.
+    We are not happy until you are.
+  .Q I have paid for shipping but have not received my item in the mail?
+  .A
+    If you haven’t received your item check the item status under
+    = link_to 'My Activity', activity_user_path(current_user, :anchor => 'purchased')
+    to see if it has been shipped and track your package. If it has not, message the seller to find out if there
+    is a reason for the delay. If your issue remains unresolved, you can contact us at #{mail_to 'help@bibandtuck.com'}.
+  .Q How do I know my item is not counterfeit?
+  .A
+    At Bib + Tuck, we have a zero tolerance policy for counterfeit items. We support the wonderfully talented
+    fashion designers and we ask you to respect this policy and not list any counterfeit items. If you receive an
+    item that you think is a replica, please report the item and request a refund.
+  .Q How do I photograph my stuff?
+  .A
+    %p We think that if it’s worth selling, it’s worth styling.
+    %p Check out our photography tips #{link_to 'here', page_path(:photo_tips), :rel => :facebox, :popupwidth => 670}.
+  .Q What if I have no time to take photos?
+  .A
+    Don’t worry, email us at #{mail_to 'concierge@bibandtuck.com'} and we can arrange to photograph, bib,
+    and ship items for you.
+  .Q Who made this?
+  .A
+    We’re just two NYC girls who’ve made an executive decision to keep shopping, stop hoarding and start sharing.
+    = link_to 'Meet the founding mother tuckers', page_path('about')
+
+  .note Got more questions? #{mail_to 'saris@bibandtuck.com', 'Shoot us a note'}. We’d love to hear from you.

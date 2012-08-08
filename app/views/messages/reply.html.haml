@@ -1,0 +1,15 @@
+= @message.errors.full_messages.join(', ')
+
+%h1 Reply to Message:
+
+= replies_for(@message)
+
+= form_for @message, :url => user_messages_path do |f|
+  = f.hidden_field :original_message_id, :value => @message.original_message_id
+
+  %p
+    = f.label :body
+    = f.text_area :body, :value => ''
+
+  %p
+    = f.submit('Send')

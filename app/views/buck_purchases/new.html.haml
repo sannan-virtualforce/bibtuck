@@ -1,0 +1,19 @@
+#buy_bucks_popup
+  %h1 Buy Bucks
+  .note Not enough Bucks to purchase an item? Buy some here.
+  = form_for @buck_purchase, :url => select_payment_option_buck_purchases_path, :html => { :method => :get } do |f|
+    #buck_transaction_form
+      = render :partial => 'form', :locals => {:f => f}
+    #buck_actions
+      = content_tag :button, 'Buy Bucks', :type => :submit, :class => :grey_button
+= content_for :js do
+  :javascript
+    $(function() {
+      var form = $('#facebox form#new_buck_purchase');
+      $('button[type="submit"]').click(function(e) {
+        e.preventDefault();
+        var submitUrl = '#{select_payment_option_buck_purchases_url}' + '?' + form.serialize();
+        $.facebox({ajax: submitUrl, popupwidth: 600});
+        return false;
+      });
+    });

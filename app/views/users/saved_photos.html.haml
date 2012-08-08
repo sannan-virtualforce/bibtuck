@@ -1,0 +1,88 @@
+#saved_photos_page
+  %h2 Saved Photos
+
+  %p Email your photos to post@bibandtuck.com to save them here and bib them when you’re ready.
+
+  %p The email address you use to send the photos must match the email address you used to sign up for Bib + Tuck in order for your images to show up here.
+
+  = form_tag :new_item, :method => :get do
+    .photos
+      - @photos.each do |bib_hash, photos|
+        - photos.each do |photo|
+          %div{:class => :photo, :id => "photo_#{photo.id}"}>
+            = check_box_tag 'photo_ids[]', photo.id
+            .photo_holder
+              .checked_icon
+              = image_tag photo.path_url(:preview)
+    .actions
+      = content_tag :button, 'Bib This Item', :type => :submit, :class => [:splash_button, :orange], :id => :bib
+      = content_tag :button, 'Remove photos', :class => [:splash_button, :orange], :id => :remove_photos
+
+= content_for :js do
+  :javascript
+    $(function() {
+
+      // mark checked photos
+      $('.photos .photo').each(function() {
+        var photo = $(this);
+        var checkbox = $('input', photo);
+        if (checkbox.attr('checked')) {
+          photo.addClass('selected');
+          $('.checked_icon', photo).css({ opacity: 1.0 });
+        }
+      });
+
+      $('.photos .photo .photo_holder').click(function(e) {
+        $this = $(this).parent();
+        var checkbox = $('input', $this);
+        var icon = $('.checked_icon', $this);
+        if (checkbox.attr('checked')) {
+          checkbox.attr('checked', false);
+          $this.removeClass('selected');
+          icon.fadeTo(200, 0.0);
+        } else {
+          checkbox.attr('checked', true);
+          $this.addClass('selected');
+          icon.fadeTo(200, 1.0);
+        }
+      });
+      $('.photos .photo .photo_holder').hover(
+        function() {
+          var checkbox = $('input', $(this).parent());
+          if (!checkbox.attr('checked')) {
+            $('.checked_icon', $(this).parent()).fadeTo(600, 0.5);
+          }
+        },
+        function() {
+          var checkbox = $('input', $(this).parent());
+          if (!checkbox.attr('checked')) {
+            $('.checked_icon', $(this).parent()).fadeOut(100);
+          }
+        }
+      );
+
+      // initialize buttons
+      $('#bib').click(function(e) {
+        if ($('.photos .photo input:checked').length > 4) {
+          e.preventDefault();
+          alert('You can only upload 4 photos per item');
+        }
+      });
+
+      $('#remove_photos').click(function(e) {
+        e.preventDefault();
+        var photos = $('.photos .photo input:checked').map(function() {
+          return $(this).val();
+        });
+        jQuery.post('#{destroy_saved_photos_users_path}', {
+            'photo_ids[]': jQuery.makeArray(photos)
+          },
+          function(data) {
+            $(data.destroyed).each(function(i, photo_id) {
+              $('.photos #photo_' + photo_id).hide(200);
+            });
+          }
+        );
+      });
+
+    });

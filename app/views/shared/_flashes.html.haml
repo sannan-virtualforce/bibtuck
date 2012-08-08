@@ -1,0 +1,12 @@
+- if notice.present?
+  %p.notice
+    %span= notice
+- if flash[:success].present?
+  %p.success
+    = flash[:success]
+- if flash[:error].present?
+  %p.error
+    = flash[:error]
+- if alert.present?
+  %p.alert
+    = alert

@@ -1,0 +1,15 @@
+%h1 Featured Closets
+
+%table
+  %tr
+    %th User
+    %td Featured at
+    %td Actions
+
+  - @featured_closets.each do |user|
+    %tr
+      %td= link_to user.display_name, admin_user_path(user)
+      %td= user.featured_at
+      %td
+        = link_to 'Edit', edit_admin_featured_closet_path(user)
+        = link_to 'Remove', admin_featured_closet_path(user), :method => :delete

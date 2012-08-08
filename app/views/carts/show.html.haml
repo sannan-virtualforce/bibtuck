@@ -1,0 +1,39 @@
+= show_promotional_message
+#cart_page
+  #main
+    - if !current_cart.filled?
+      .cart_empty
+        %p Your shopping cart is empty.
+        %p >> Go on, #{link_to 'start tucking', items_path}.
+    - else
+      %h2 My Cart
+      %table
+        %thead
+          %th.col_command
+          %th.col_item ITEM
+          %th.col_desc DESCRIPTION
+          %th.col_seller SELLER
+          %th.col_bucks
+            BUCKS
+            .note [B+T currency]
+          %th.col_fee
+            TRANSACTION FEE + SHIPPING
+            = link_to CODE_NBSP, page_path('shipping_and_transaction_info'), :rel => 'facebox.info_popup', :class => :qm_button
+            .note [actual $]
+        %tbody
+          = render 'list', :items => @cart.items
+          %tr.total
+            %td{ :colspan => '3' }
+            %td.total TOTAL:
+            %td.col_bucks= number_to_bucks(@cart.total_bucks)
+            %td.col_fee= number_to_currency @cart.items.map(&:total_fee).sum
+          %tr.continue
+            %td{ :colspan => '6' }
+              = continue_shopping_link :class => 'grey_button'
+              = checkout_link :class => 'grey_button'
+          - if current_cart.total_bucks > current_user.buck_balance
+            %tr.not_enough_bucks
+              %td{ :colspan => '6' } You're only #{number_to_bucks current_cart.amount_needed(current_user)} short! #{not_enough_bucks(nil, :link_text => "+ Buy More Bucks", :css_class => '')}
+
+    %hr.dashed
+    = render 'shared/recommended_items', :items => @recommended_items

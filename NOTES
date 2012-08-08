@@ -1,0 +1,21 @@
+- messaging
+  - someone should own this (you or me)
+  - existing gem?
+
+- email photos
+  - what is the point of this feature? i suggest we don't implement?
+  - we can use the ruby-gmail gem and a cron job to check for emails with an attachment.
+
+- checkout
+  - existing gem? they want a very vanilla process
+  - was thinking we could propose a single-item checkout, since single-cart multi-vendor is a bitch. 
+  - who manages shipping and transaction fees? if fixed, this makes life a lot easier.
+
+- managing bucks
+  - have a 'transactions' table with a delta/bucks field
+  - sum of bucks field group by user_id is the balance
+  - transactions have a reason code (purchase, refund, etc.)
+
+- managing payments 
+  - a 'payments' table with the payment_type, which is either shipping or transaction
+  - do this with paypal express or paypal standard website?

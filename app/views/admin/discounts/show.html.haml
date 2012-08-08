@@ -1,0 +1,20 @@
+%p#notice= notice
+
+%p
+  %b Code:
+  = @discount.code
+%p
+  %b Type:
+  = @discount.discount_type
+%p
+  %b Uses/Limit:
+  #{@discount.used_count}/#{@discount.total_uses || '--'}
+%p
+  %b Min. Purchase Amount:
+  = @discount.min_amount
+%p
+  %b Created At:
+  = @discount.created_at
+
+= link_to 'Edit', edit_admin_discount_path(@discount)
+= link_to 'Index', :admin_discounts

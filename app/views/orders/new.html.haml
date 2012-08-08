@@ -1,0 +1,138 @@
+= show_promotional_message
+#checkout_page
+  %h2.checkout #{link_to 'My Cart', cart_path(current_user)} &gt;&gt; Checkout
+
+  #main
+
+    #co-items
+      %h2.no_arrows You're purchasing this...
+      - current_cart.items.each do |item, qty|
+        .item
+          - if item.primary_photo
+            = link_to image_tag(item.primary_photo.path_url(:featured)), item, :class => :thumb
+          .name-details
+            %p
+              %span.label Size
+              = item.size
+            %p
+              %span.label Brand
+              = link_to item.brand_name, items_path(:brand_id => item.brand.id)
+
+            %p
+              %span.label Condition
+              = item.condition
+            %p
+              %span.label Fit
+              = item.fit
+            %p
+              %span.label Price
+              #{number_to_bucks(item.price)}
+    #co-details
+      .total
+        %h2
+          Total [B+T Currency]:
+          %em #{number_to_bucks(current_cart.total_bucks)}
+      .deduction
+        This amount will be deducted from your account.
+
+      .summary
+        %h2 $
+        %p
+          #{number_to_currency @order.shipping_cost + @order.transaction_fee} Shipping and Transaction Fee
+          = link_to CODE_NBSP, page_path('shipping_and_transaction_info'), :rel => 'facebox.info_popup', :class => :qm_button
+
+      %h2 Promo Code
+      .promo
+        - if @order.discount.blank?
+          = form_for @order, :url => :new_order, :html => { :method => :get } do |f|
+            = text_field_tag :discount_code
+            = content_tag :button, 'Apply', :type => :submit, :class => :grey_button
+        - else
+          .discount_message Discount Applied: #{@order.discount.discount_type.titlecase}!
+      %h2
+        Shipping Address
+        - if current_user.shipping_addresses.present?
+          = link_to '+ new address', new_user_address_path(@user, :order_id => @order.id), :rel => :facebox
+    #shipping-addr.address_form
+      = simple_form_for @order, :url => :new_order, :html => { :method => :get } do |f|
+        - if @order.to_addr_id
+          = hidden_field_tag :shipping_address_id, @order.to_addr_id
+          .address-select
+            - @user.shipping_addresses.each do |address|
+              .address-frame>
+                .address_id{:style => 'display: none;'}= address.id
+                .address
+                  %p #{address.first_name} #{address.last_name}
+                  %p= address.street_line1
+                  - if address.street_line2.present?
+                    %p= address.street_line2
+                  %p #{address.city}, #{address.state} #{address.zipcode}
+                = link_to 'Select this Address', 'javascript:void(0);'
+        - else
+          = simple_fields_for :new_address do |adrf|
+            = render :partial => 'addresses/form', :locals => {:f => adrf, :is_inline => true, :address_field_prefix => 'new_address'}
+            = content_tag :button, 'Save', :type => :submit, :class => :grey_button
+    - if @order.to_addr_id
+      - if @order.amount_in_cents > 0
+        #payment_details
+          - if @wepaycheckout['checkout_id']
+            %h2 Enter Payment Details
+            #wepay_checkout
+            #paypal_checkout
+              \- OR - 
+              = link_to image_tag('buttons/checkout_with_paypal.gif'), express_order_path(@order)
+            = content_for :js do
+              :javascript
+                $(function() {
+                  WePay.iframe_checkout("wepay_checkout", "#{@wepaycheckout['checkout_uri']}");
+                });
+          - else
+            #paypal_checkout
+              = link_to image_tag('buttons/checkout_with_paypal.gif'), express_order_path(@order)
+      - else
+        .actions
+          = link_to 'Complete Order', complete_order_path(@order), :class => [:splash_button, :orange]
+= content_for :js do
+  :javascript
+
+    function markAddressSelected(addressId) {
+      var addresses = $('#shipping-addr .address-frame');
+      var selection = addresses.has('.address_id:contains(' + addressId + ')')
+      $('.address', addresses).stop().animate({backgroundColor: '#fff'}, 100);
+      $('a', addresses).css({visibility: 'visible'});
+      $('.address', selection).animate({backgroundColor: '#EDC9A4'}, 500);
+      $('a', selection).css({visibility: 'hidden'});
+    }
+
+    $(function() {
+      var shippingAddressDiv = $('#shipping-addr');
+      var addressSelectionField = $('#shipping_address_id', shippingAddressDiv);
+      var currentAddressSelection = addressSelectionField.val();
+      $('.address-select', shippingAddressDiv).attr({style: 'display: block'});
+      if (currentAddressSelection) {
+        var selected = $('.address-frame', shippingAddressDiv).has('.address_id:contains(' + currentAddressSelection + ')')
+        $('.address', selected).css({backgroundColor: '#EDC9A4'});
+        $('a', selected).css({visibility: 'hidden'});
+      }
+      $('.address-frame', shippingAddressDiv).click(function() {
+        var jt = $(this);
+        var selected_addr = $('.address_id', this).text();
+        if (addressSelectionField.val() != selected_addr) {
+          addressSelectionField.val(selected_addr);
+          markAddressSelected(selected_addr);
+          jQuery.ajax({
+            url: '#{setaddress_order_path(@order)}',
+            type: 'GET',
+            data: { 'address_id' : selected_addr },
+            success: function() {
+              currentAddressSelection = selected_addr;
+            },
+            error: function() {
+              addressSelectionField.val(currentAddressSelection);
+              markAddressSelected(currentAddressSelection);
+              alert('There was an error selecting address.');
+            }
+          });
+        }
+      });
+    });

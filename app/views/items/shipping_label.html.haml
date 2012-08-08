@@ -1,0 +1,7 @@
+#shipping_label_error_page
+  .errors_notice
+    There was a problem processing your shipping label. Please #{link_to 'contact us', page_path('contact_us'), :rel => :facebox, :popupwidth => 470} for details.
+    - if current_user.admin?
+      .line
+        = raw @item.order_item.last_shipping_status_message
+    - else
