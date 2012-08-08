@@ -24,7 +24,6 @@ Bibtuck::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   Rails.application.routes.default_url_options[:host]= 'localhost:3000'
-  config.action_mailer.default_url_options           = { :host => 'localhost:3000' }
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
